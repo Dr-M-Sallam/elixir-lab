@@ -843,6 +843,7 @@ function about(){setHeader("About",true);navOn("");
  <b>How to use:</b><br>• <b>Reagents</b> tab: how to prepare each reagent. Scale with ×¼ … ×5 or type a volume in mL.<br>• <b>Results</b> tab: record +/– results for several samples and copy the table.<br>• <b>Tests</b> tab: full procedures with sample, steps, positive/negative results, controls and precautions. “Prepare first” links take you to the reagents needed.<br>• Tap steps to tick them off at the bench.<br>• ${ico("star")} saves a reagent or test.<br>• Copy → paste into WhatsApp, notes or a lab sheet.</div>
  <div class="card safety"><h3>${ico("warn")} Safety first</h3>Wear a lab coat, gloves and goggles. Use a fume hood for concentrated acids, ammonia, chloroform, pyridine, bromine and spray reagents. Always add acid to water. Collect mercury, lead, bismuth and platinum waste separately.</div>
  ${contentCard()}
+ ${/github\.io$/.test(location.hostname)?`<p class="disc"><a href="privacy.html" style="color:var(--pri)">Privacy policy</a></p>`:""}
  <p class="disc">Formulations and procedures follow standard pharmacognosy practical texts and pharmacopoeial practice; minor variations exist between references. Verify against your department's manual or the current pharmacopoeia before official/quantitative use. ${R.length} reagents · ${T.length} test procedures.</p>`}
 
 /* ============ RESULTS SHEETS ============ */

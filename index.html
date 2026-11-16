@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#3a3937">
+<title>Elixir Lab – Pharmacognosy Reagents &amp; Tests</title>
+<link rel="icon" href="data:image/jpeg;base64,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">
+<style>
+:root{
+  --bg:#f5f5f2;--card:#fff;--ink:#2b2a28;--muted:#6b6a66;--line:#e5e4df;
+  --pri:#008a4f;--pri2:#e2f4ea;--gold:#fdc10b;--char:#3a3937;--warn:#b42318;--warnbg:#fdecea;--amber:#8a5a00;--amberbg:#fff4dc;
+  --r:14px;--sh:0 1px 2px rgba(0,0,0,.05),0 2px 8px rgba(0,0,0,.04);
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0f1412;--card:#18201c;--ink:#e8efeb;--muted:#9aa9a1;--line:#26302b;
+  --pri:#00ac62;--pri2:#123826;--gold:#fdc10b;--char:#2a2927;--warn:#ff8a7a;--warnbg:#3a1714;--amber:#f5c46b;--amberbg:#3a2c10;
+  --sh:none}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{position:sticky;top:0;z-index:5;background:var(--char);border-bottom:3px solid var(--gold);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px}
+#logo{width:34px;height:34px;border-radius:50%;background:#fff;object-fit:cover;flex:none}
+.tile .ic{width:40px;height:40px;border-radius:12px;background:var(--pri2);display:flex;align-items:center;justify-content:center;font-size:22px}
+nav button.on{position:relative}nav button.on::after{content:"";position:absolute;top:-6px;left:25%;right:25%;height:3px;border-radius:0 0 3px 3px;background:var(--gold)}
+.brandlogo{display:block;width:120px;height:120px;border-radius:50%;margin:4px auto 10px;background:#fff}
+header h1{font-size:18px;margin:0;font-weight:650;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.back{background:none;border:0;color:#fff;font-size:22px;padding:2px 8px 2px 0;cursor:pointer;display:none}
+main{padding:14px 14px 96px;max-width:720px;margin:0 auto}
+.search{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:16px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:var(--card);border-radius:var(--r);padding:14px;box-shadow:var(--sh);border:1px solid var(--line);cursor:pointer;min-height:104px;display:flex;flex-direction:column;gap:4px}
+.tile b{font-size:15px;line-height:1.25}
+.tile small{color:var(--muted);font-size:12.5px}
+.list{display:flex;flex-direction:column;gap:8px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;box-shadow:var(--sh)}
+.item b{display:block;font-size:15.5px}
+.item span{color:var(--muted);font-size:13.5px}
+.sechead{margin:4px 0 12px}
+.sechead p{color:var(--muted);margin:4px 0 0;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin-bottom:12px;box-shadow:var(--sh)}
+.card h3{margin:0 0 8px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--pri)}
+.title{font-size:22px;margin:2px 0 4px;line-height:1.25}
+.aka{color:var(--muted);font-size:14px;margin:0 0 10px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+.tag{font-size:12px;font-weight:600;padding:3px 9px;border-radius:99px;background:var(--warnbg);color:var(--warn)}
+.tag.ok{background:var(--pri2);color:var(--pri)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:99px;padding:7px 13px;font-size:14px;cursor:pointer}
+.chip.on{background:var(--pri);border-color:var(--pri);color:#fff}
+@media (prefers-color-scheme:dark){.chip.on{color:#0f1412}}
+.chips input{width:74px;padding:7px 9px;border-radius:99px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+td{padding:8px 0;border-bottom:1px solid var(--line);vertical-align:top}
+td.q{text-align:right;white-space:nowrap;font-weight:650;padding-left:10px;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+.part{font-weight:650;margin:10px 0 2px;font-size:14px;color:var(--muted)}
+.part:first-child{margin-top:0}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s}
+ol.steps li{counter-increment:s;position:relative;padding:8px 0 8px 38px;border-bottom:1px solid var(--line);cursor:pointer}
+ol.steps li:last-child{border-bottom:0}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:8px;width:26px;height:26px;border-radius:50%;background:var(--pri2);color:var(--pri);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+ol.steps li.done{color:var(--muted);text-decoration:line-through}
+ol.steps li.done::before{content:"✓";background:var(--pri);color:#fff}
+.res{background:var(--pri2);border-radius:10px;padding:10px 12px;margin-top:8px}
+.safety{background:var(--warnbg);color:var(--ink);border:1px solid transparent}
+.safety h3{color:var(--warn)}
+.note{background:var(--amberbg)}
+.note h3{color:var(--amber)}
+.yield{color:var(--muted);font-size:13.5px;margin-top:8px}
+.btnrow{display:flex;gap:8px;margin:4px 0 12px}
+.btn{flex:1;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:11px;font-size:14.5px;font-weight:600;cursor:pointer}
+.btn.pri{background:var(--pri);color:#fff;border-color:var(--pri)}
+@media (prefers-color-scheme:dark){.btn.pri{color:#0f1412}}
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:6px 0 calc(6px + env(safe-area-inset-bottom));z-index:6}
+nav button{background:none;border:0;color:var(--muted);font-size:11.5px;display:flex;flex-direction:column;align-items:center;gap:1px;padding:4px 12px;cursor:pointer}
+nav button i{font-style:normal;font-size:21px}
+nav button.on{color:var(--pri);font-weight:650}
+label.f{display:block;font-size:13.5px;color:var(--muted);margin:10px 0 4px}
+.inp{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px}
+.out{margin-top:12px;padding:12px;border-radius:10px;background:var(--pri2);font-size:15px}
+.out b{color:var(--pri)}
+.empty{color:var(--muted);text-align:center;padding:30px 10px}
+.toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:#16211c;color:#fff;padding:9px 16px;border-radius:99px;font-size:14px;opacity:0;transition:.25s;pointer-events:none;z-index:9}
+.toast.show{opacity:1}
+.star{background:none;border:0;color:#fff;font-size:22px;cursor:pointer;display:none}
+.item.test{border-left:4px solid var(--pri)}
+.lbl{font-size:12.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:14px 2px 8px}
+.chip.lnk{text-align:left;background:var(--pri2);color:var(--pri);border-color:transparent;font-weight:600}
+.mats{margin-top:10px;font-size:14.5px;color:var(--ink)}
+.res.pos{background:var(--pri2)}
+.res.neg{background:var(--bg);border:1px solid var(--line)}
+ul.pc{margin:0;padding-left:20px}ul.pc li{margin:5px 0}
+nav button{padding:4px 6px}
+.wide{width:100%;flex:none;margin-bottom:14px;padding:13px}
+.btn.danger{color:var(--warn);border-color:var(--warn)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheetbox{background:var(--card);color:var(--ink);width:100%;max-width:720px;max-height:88vh;overflow:auto;border-radius:18px 18px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+.mh{margin:0 0 6px;font-size:18px}
+.pick{max-height:38vh;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:6px 10px;margin-top:10px}
+label.ck{display:flex;gap:10px;align-items:center;padding:7px 0;font-size:14.5px;border-bottom:1px solid var(--line)}
+label.ck input{width:20px;height:20px;accent-color:var(--pri)}
+.srow{display:flex;gap:6px;margin-bottom:6px}.xbtn{border:1px solid var(--line);background:var(--bg);color:var(--warn);border-radius:10px;width:44px;font-size:16px}
+.tblwrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px}
+table.rs{font-size:14px;min-width:100%}
+table.rs th{position:sticky;top:0;background:var(--pri2);color:var(--pri);font-size:12.5px;padding:8px 6px;text-align:left}
+table.rs th.sc{text-align:center;min-width:64px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+table.rs td{padding:8px 6px}
+table.rs td.tn{cursor:pointer;min-width:140px}table.rs td.tn small{display:block;color:var(--muted);font-size:12px}
+table.rs tr.gh td{background:var(--bg);font-weight:700;font-size:12.5px;color:var(--muted);padding:6px}
+td.cell{text-align:center;font-weight:800;font-size:16px;cursor:pointer;border-left:1px solid var(--line);user-select:none}
+.cp{color:#0f7a3d}.cn{color:var(--muted)}.cd{color:var(--amber)}
+td.cell.cp{background:rgba(15,122,61,.10)}td.cell.cd{background:var(--amberbg)}
+@media (prefers-color-scheme:dark){.cp{color:#5fd99a}td.cell.cp{background:rgba(95,217,154,.12)}}
+.legend{font-size:13px;color:var(--muted);margin:0 2px 12px;display:flex;flex-wrap:wrap;gap:4px 10px}.legend span{font-weight:700}
+.sumrow{padding:6px 0;border-bottom:1px solid var(--line);font-size:14.5px}.sumrow:last-child{border:0}.muted{color:var(--muted)}
+.disc{font-size:13px;color:var(--muted);margin-top:16px;line-height:1.45}
+</style>
+</head>
+<body>
+<header>
+  <button class="back" id="back" aria-label="Back">‹</button>
+  <img src="data:image/jpeg;base64,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" alt="Elixir" id="logo"><h1 id="hdr">Elixir Lab</h1>
+  <button class="star" id="star" aria-label="Save">☆</button>
+  <button class="star" id="srch" aria-label="Search" style="display:block;font-size:18px">🔍</button>
+  <button class="star" id="info" aria-label="About" style="display:block;font-size:19px">ⓘ</button>
+</header>
+<main id="app"></main>
+<nav id="nav">
+  <button data-go="" class="on"><i>⚗️</i>Reagents</button>
+  <button data-go="tests"><i>📋</i>Tests</button>
+  <button data-go="results"><i>📊</i>Results</button>
+  <button data-go="saved"><i>⭐</i>Saved</button>
+  <button data-go="tools"><i>🧮</i>Calculators</button>
+</nav>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ DATA ============
+ Each reagent: id, s (section), n (name), a (also known as), u (use), y (approx. yield, mL),
+ p: parts [{t:title, i:[[name, qty, unit, "to"?]]}], m: method steps, t: test procedure,
+ r: positive result, st: storage, h: hazard tags, sf: safety text, nt: notes
+*/
+const SECTIONS=[
+ {id:"mount",ic:"🔬",n:"Microscopy – Clearing & Mountants",d:"Clearing agents, mounting media, macerating fluids"},
+ {id:"stain",ic:"🎨",n:"Microscopy – Stains & Microchemical tests",d:"Lignin, starch, cellulose, fats, mucilage, crystals"},
+ {id:"alk",ic:"🧪",n:"Alkaloids",d:"Precipitating & specific colour tests"},
+ {id:"carb",ic:"🍬",n:"Carbohydrates",d:"Molisch, Fehling, Benedict, Barfoed, Seliwanoff…"},
+ {id:"gly",ic:"💊",n:"Glycosides & Saponins",d:"Cardiac, anthraquinone, cyanogenic, saponin"},
+ {id:"phen",ic:"🍃",n:"Phenolics, Flavonoids & Tannins",d:"FeCl₃, gelatin-salt, Shinoda, AlCl₃"},
+ {id:"terp",ic:"🌿",n:"Steroids, Terpenoids & Volatile oils",d:"Liebermann–Burchard, Salkowski"},
+ {id:"prot",ic:"🥚",n:"Proteins & Amino acids",d:"Ninhydrin, Biuret, Xanthoproteic"},
+ {id:"tlc",ic:"🧫",n:"TLC Spray reagents",d:"Detection reagents for chromatograms"},
+ {id:"gen",ic:"⚗️",n:"General bench solutions",d:"Dilute acids, alkalis, ethanol dilutions"}
+];
+const W="Distilled water";
+const R=[
+/* ---------- MOUNTANTS / CLEARING ---------- */
+{id:"chloral",s:"mount",n:"Chloral hydrate solution",a:"Clearing reagent",u:"Clears sections and powders by dissolving starch, proteins, chlorophyll and resins, so crystals, trichomes, stomata and lignified tissue are seen clearly.",y:55,
+ p:[{i:[["Chloral hydrate",50,"g"],[W,20,"mL"]]}],
+ m:["Weigh 50 g chloral hydrate into a beaker.","Add 20 mL distilled water.","Warm gently on a water bath with stirring until completely dissolved.","Cool and transfer to a well-closed amber bottle."],
+ t:"Place the powder or section on a slide, add 2–3 drops, warm gently over a small flame (do not boil dry), add more reagent if needed, then cover with a cover slip.",
+ r:"Clear, transparent tissue; calcium oxalate crystals, hairs, stomata and vessels become distinct.",
+ st:"Well-closed amber bottle, room temperature.",h:["Toxic","Irritant"],
+ sf:"Harmful if swallowed; irritant to skin and eyes. Chloral hydrate is a controlled substance in some countries – keep it locked and logged.",
+ nt:"Starch grains are destroyed – to examine starch, mount in water or dilute glycerol instead. If crystals form on the slide after cooling, add 1 drop of dilute glycerol. Ph. Eur. uses a stronger version (80 g in 20 mL water)."},
+{id:"glyc50",s:"mount",n:"Dilute glycerol (50%)",a:"Glycerol–water mountant",u:"General temporary mountant; prevents the preparation drying out. Ideal for starch grains and cell contents.",y:100,
+ p:[{i:[["Glycerol",50,"mL"],[W,50,"mL"]]}],
+ m:["Measure 50 mL glycerol (it is viscous – pour slowly).","Add 50 mL distilled water.","Mix well and bottle."],
+ t:"Add 1–2 drops to the specimen on the slide and apply a cover slip.",r:"—",
+ st:"Closed bottle; add a small crystal of thymol to prevent mould for long storage.",h:[],sf:"Low hazard.",nt:"Good for observing starch, which chloral hydrate would destroy."},
+{id:"glyjelly",s:"mount",n:"Glycerin jelly (Kaiser's)",a:"Glycerol–gelatin",u:"Semi-permanent mounting medium for sections and powders.",y:100,
+ p:[{i:[["Gelatin",7,"g"],[W,42,"mL"],["Glycerol",50,"g"],["Phenol (preservative)",0.5,"g"]]}],
+ m:["Soak the gelatin in the water for about 2 hours until swollen.","Add the glycerol and phenol.","Warm on a water bath (60–70 °C) for 10–15 min, stirring gently, until clear.","Filter while hot through glass wool.","Pour into small jars; it sets on cooling."],
+ t:"Melt a small piece on the slide (warm gently), place the specimen in it, cover with a cover slip. Seal the edges with nail varnish for long-term slides.",r:"—",
+ st:"Closed jars; re-melt on a warm water bath before use.",h:["Toxic","Corrosive"],
+ sf:"Phenol is toxic and burns skin – wear gloves; wash immediately with plenty of water if splashed.",nt:"Avoid bubbles: warm slowly, do not stir vigorously."},
+{id:"lacto",s:"mount",n:"Lactophenol (Amann's)",a:"Lactophenol mountant",u:"Clearing and mounting medium, especially for fungal material (e.g. ergot) and delicate tissues.",y:85,
+ p:[{i:[["Phenol (crystals)",20,"g"],["Lactic acid",20,"g"],["Glycerol",40,"g"],[W,20,"mL"]]}],
+ m:["Dissolve the phenol in the water (warm gently if needed).","Add lactic acid and glycerol.","Mix well and store in an amber bottle."],
+ t:"Mount specimen in 1–2 drops; warm gently for faster clearing.",r:"Cleared tissue with good preservation of structures.",
+ st:"Amber bottle, room temperature.",h:["Toxic","Corrosive"],
+ sf:"Contains phenol – toxic and corrosive. Gloves and goggles.",nt:"Can add 0.05% cotton blue to stain fungal hyphae (lactophenol cotton blue)."},
+{id:"koh5",s:"mount",n:"Potassium hydroxide 5%",a:"KOH clearing / softening",u:"Softens and clears tough material (seeds, barks); also used for detecting anthraquinone-containing tissues (turn red).",y:100,
+ p:[{i:[["Potassium hydroxide (pellets)",5,"g"],[W,100,"mL","to"]]}],
+ m:["Weigh KOH pellets quickly (they absorb moisture).","Dissolve in about 70 mL water – the solution gets hot.","Cool, then make up to the final volume with water.","Store in a polyethylene or rubber-stoppered bottle."],
+ t:"Warm the specimen in a few drops, wash with water, then mount.",r:"Anthraquinone-containing cells/powder turn red to violet-red (e.g. rhubarb, senna).",
+ st:"Plastic bottle; glass stoppers stick.",h:["Corrosive"],sf:"Corrosive to skin and eyes. Always add KOH to water, never water to solid KOH.",nt:""},
+{id:"schultze",s:"mount",n:"Schultze's macerating fluid",a:"KClO₃ + HNO₃ maceration",u:"Separates lignified cells (fibres, sclereids, vessels, tracheids) for isolated-element examination.",y:10,
+ p:[{i:[["Nitric acid 50% (v/v)",10,"mL"],["Potassium chlorate (crystals)",0.5,"g"]]}],
+ m:["Prepare 50% nitric acid by carefully adding concentrated HNO₃ to an equal volume of water.","Put small pieces of the drug in a test tube, add the 50% nitric acid.","Add a few crystals of potassium chlorate.","Warm GENTLY on a water bath in a fume hood until the tissue softens and gas evolution slows.","Pour into plenty of water, wash several times, tease apart with needles and mount."],
+ t:"Mount isolated elements in dilute glycerol or stain with phloroglucinol–HCl.",r:"Individual fibres, sclereids and vessel elements separated.",
+ st:"Prepare fresh at the time of use – do not store.",h:["Oxidizer","Corrosive","Toxic"],
+ sf:"Strong oxidizing mixture – risk of violent reaction. Fume hood only, small quantities, never heat directly over a flame, never seal the tube. Toxic chlorine oxide fumes.",nt:"Use only under supervision. Maceration in 5% KOH or chromic acid are alternatives."},
+
+/* ---------- STAINS ---------- */
+{id:"phloro",s:"stain",n:"Phloroglucinol–HCl",a:"Lignin test",u:"Detects lignified walls (xylem vessels, fibres, sclereids, stone cells).",y:100,
+ p:[{t:"Reagent 1",i:[["Phloroglucinol",1,"g"],["Ethanol 90%",100,"mL","to"]]},{t:"Reagent 2",i:[["Hydrochloric acid, concentrated",null,"in dropper bottle"]]}],
+ m:["Dissolve phloroglucinol in 90% ethanol.","Store in an amber dropper bottle.","Keep conc. HCl in a separate dropper bottle."],
+ t:"Add 1–2 drops phloroglucinol to the section/powder, wait 1–2 min (allow to almost dry), then add 1 drop conc. HCl and cover.",
+ r:"Lignified walls → pink to cherry-red.",st:"Amber bottle; usable for several weeks (discard if brown).",h:["Corrosive","Flammable"],
+ sf:"Conc. HCl is corrosive and fuming – work carefully; never let it touch the microscope objective.",nt:"Examine immediately; colour fades and acid damages the stage. Wipe off excess acid."},
+{id:"iodine",s:"stain",n:"Iodine solution (dilute)",a:"Iodine–KI, N/50 iodine",u:"Detects starch and aleurone grains in sections and powders.",y:100,
+ p:[{i:[["Potassium iodide",2,"g"],["Iodine",1,"g"],[W,100,"mL","to"]]}],
+ m:["Dissolve KI in about 5 mL water first (iodine only dissolves in concentrated KI).","Add the iodine and shake until dissolved.","Dilute to the final volume with water."],
+ t:"Add 1 drop to the specimen and cover.",r:"Starch → blue to blue-black. Aleurone grains/proteins → yellow-brown. Lignin → yellow.",
+ st:"Amber bottle, tightly closed.",h:["Irritant"],sf:"Stains skin and clothes; avoid inhaling iodine vapour.",nt:"Too dark? Dilute further with water."},
+{id:"lugol",s:"stain",n:"Lugol's iodine (strong)",a:"Lugol's solution",u:"Stock iodine solution; dilute 1 in 10 for starch staining.",y:100,
+ p:[{i:[["Potassium iodide",10,"g"],["Iodine",5,"g"],[W,100,"mL","to"]]}],
+ m:["Dissolve KI in about 10 mL water.","Add iodine; shake until dissolved.","Dilute to volume."],
+ t:"Dilute 1:10 with water before use on specimens.",r:"Starch → blue-black.",st:"Amber bottle.",h:["Irritant"],sf:"Avoid skin contact and vapour.",nt:""},
+{id:"czi",s:"stain",n:"Chlor-zinc-iodine",a:"Schultze's solution",u:"Distinguishes cellulose walls from lignified/suberized walls.",y:25,
+ p:[{i:[["Zinc chloride",20,"g"],["Potassium iodide",6.5,"g"],[W,10.5,"mL"],["Iodine",0.5,"g"]]}],
+ m:["Dissolve zinc chloride and potassium iodide in the water.","Add the iodine and shake for about 15 minutes.","Filter through glass wool if necessary."],
+ t:"Add 1–2 drops to the section, wait 1–2 min, cover.",r:"Cellulose → blue-violet. Lignified, suberized and cutinized walls → yellow-brown. Starch → blue-black.",
+ st:"Amber bottle, protected from light; prepare fresh every few weeks.",h:["Corrosive","Irritant"],sf:"Zinc chloride is corrosive.",nt:""},
+{id:"sudan",s:"stain",n:"Sudan III solution",a:"Fat stain",u:"Detects fixed oils, fats, volatile oil droplets, cutin and suberin.",y:10,
+ p:[{i:[["Sudan III",0.01,"g"],["Ethanol 90%",5,"mL"],["Glycerol",5,"mL"]]}],
+ m:["Dissolve Sudan III in the ethanol.","Add the glycerol and mix.","Filter if any undissolved dye remains."],
+ t:"Mount the section in a few drops; warm gently or leave 5–10 min, then examine.",r:"Oils, fats, cuticle and suberized (cork) walls → orange-red.",
+ st:"Well-closed amber bottle.",h:["Flammable"],sf:"Flammable (ethanol).",nt:"Sudan IV or Sudan Black B can be used similarly."},
+{id:"ruth",s:"stain",n:"Ruthenium red (0.02%)",a:"Mucilage stain",u:"Detects mucilage and pectic substances (e.g. linseed, ispaghula, marshmallow).",y:50,
+ p:[{i:[["Ruthenium red",0.01,"g"],[W,50,"mL","to"]]}],
+ m:["Dissolve ruthenium red in water (1 in 5000).","Prepare fresh in small amounts."],
+ t:"Mount the dry powder/section directly in the reagent.",r:"Mucilage and pectin → pink to red.",
+ st:"Freshly prepared; keep in the dark.",h:["Irritant"],sf:"Low hazard; expensive dye – make small amounts.",nt:"Mucilage swells in water; for observing mucilage cells in situ mount first in alcohol."},
+{id:"safranin",s:"stain",n:"Safranin O 1%",a:"Safranin",u:"Stains lignified walls, cutin and nuclei red; used with fast green for double staining.",y:100,
+ p:[{i:[["Safranin O",1,"g"],["Ethanol 50%",100,"mL","to"]]}],
+ m:["Dissolve safranin in 50% ethanol.","Filter and store."],
+ t:"Double staining: stain section in safranin 2–5 min → wash with water → pass through 50%, 70%, 90% ethanol → fast green 30–60 s → absolute ethanol → mount.",
+ r:"Lignified walls → red; cellulose walls (with fast green) → green.",st:"Closed bottle, months.",h:["Flammable"],sf:"Stains skin.",nt:""},
+{id:"fastgreen",s:"stain",n:"Fast green FCF 0.5%",a:"Counterstain",u:"Counterstain for cellulose walls and cytoplasm in safranin double staining.",y:100,
+ p:[{i:[["Fast green FCF",0.5,"g"],["Ethanol 95%",100,"mL","to"]]}],
+ m:["Dissolve dye in ethanol; filter."],t:"Use for 30–60 s after safranin (see Safranin).",r:"Cellulose walls → green.",st:"Closed bottle.",h:["Flammable"],sf:"Flammable.",nt:"Light green SF can be used instead."},
+{id:"oxalate",s:"stain",n:"Crystal identification (Ca oxalate / Ca carbonate)",a:"Acetic acid, HCl, 66% H₂SO₄",u:"Confirms the nature of crystals seen in cleared preparations.",y:100,
+ p:[{t:"Acetic acid 6%",i:[["Glacial acetic acid",6,"mL"],[W,100,"mL","to"]]},{t:"Sulfuric acid 66% (v/v)",i:[[W,34,"mL"],["Sulfuric acid, concentrated",66,"mL"]]},{t:"Dilute HCl",i:[["see General → Dilute HCl",null,""]]}],
+ m:["Acetic acid: dilute glacial acetic acid with water.","66% H₂SO₄: place the water in a beaker in an ice bath and add the concentrated acid SLOWLY in small portions with stirring (acid into water – never the reverse)."],
+ t:"Irrigate the cleared preparation with each reagent under the cover slip and watch the crystals.",
+ r:"Calcium oxalate: insoluble in acetic acid; soluble in HCl without effervescence; dissolves in 66% H₂SO₄ and needle-shaped calcium sulfate crystals appear. Calcium carbonate (cystoliths): dissolves in acids WITH effervescence.",
+ st:"Glass bottles.",h:["Corrosive"],sf:"Diluting H₂SO₄ releases strong heat – acid into water, slowly, with cooling. Goggles essential.",nt:""},
+
+/* ---------- ALKALOIDS ---------- */
+{id:"mayer",s:"alk",n:"Mayer's reagent",a:"Potassium mercuric iodide",u:"General precipitating reagent for alkaloids.",y:100,
+ p:[{i:[["Mercuric chloride",1.36,"g"],[W+" (for HgCl₂)",60,"mL"],["Potassium iodide",5,"g"],[W+" (for KI)",10,"mL"],[W,100,"mL","to"]]}],
+ m:["Dissolve mercuric chloride in 60 mL water.","Dissolve potassium iodide in 10 mL water.","Pour the HgCl₂ solution into the KI solution with stirring (the red precipitate formed redissolves).","Make up to the final volume with water."],
+ t:"To 1–2 mL of the acidified extract (in dilute HCl or H₂SO₄), add a few drops of reagent.",r:"Cream / white precipitate → alkaloids present.",
+ st:"Amber bottle, months.",h:["Toxic"],sf:"Mercury compound – VERY TOXIC and an environmental hazard. Gloves; never pipette by mouth; collect waste for heavy-metal disposal.",
+ nt:"Proteins also precipitate – use a purified acid extract (alkaloid extraction) to avoid false positives. Confirm with at least two reagents."},
+{id:"wagner",s:"alk",n:"Wagner's reagent",a:"Iodine–potassium iodide",u:"General precipitating reagent for alkaloids.",y:100,
+ p:[{i:[["Potassium iodide",2,"g"],["Iodine",1.27,"g"],[W,100,"mL","to"]]}],
+ m:["Dissolve KI in about 5 mL water.","Add iodine and shake until dissolved.","Dilute to volume."],
+ t:"To 1–2 mL acidified extract add a few drops.",r:"Reddish-brown precipitate → alkaloids.",st:"Amber bottle.",h:["Irritant"],sf:"Avoid iodine vapour and skin contact.",nt:""},
+{id:"drag",s:"alk",n:"Dragendorff's reagent (Munier)",a:"Potassium bismuth iodide",u:"Most widely used alkaloid reagent – tube test and TLC spray.",y:80,
+ p:[{t:"Solution A",i:[["Bismuth subnitrate",0.85,"g"],["Glacial acetic acid",10,"mL"],[W,40,"mL"]]},{t:"Solution B",i:[["Potassium iodide",8,"g"],[W,20,"mL"]]}],
+ m:["Solution A: dissolve bismuth subnitrate in glacial acetic acid, then add water.","Solution B: dissolve KI in water.","Stock solution: mix equal volumes of A and B.","Spray reagent (for TLC): 1 mL stock + 2 mL glacial acetic acid + 10 mL water."],
+ t:"Tube: add a few drops of stock solution to 1–2 mL acidified extract. TLC: spray the developed, dried plate.",
+ r:"Orange to orange-red precipitate / orange spots on yellow background → alkaloids.",
+ st:"Stock: amber bottle in refrigerator, several weeks. Spray solution: prepare fresh.",h:["Corrosive","Irritant"],sf:"Acetic acid corrosive. Bismuth waste should be collected.",nt:"Some non-alkaloids (e.g. coumarins, some proteins) can also react – confirm."},
+{id:"hager",s:"alk",n:"Hager's reagent",a:"Saturated picric acid",u:"Precipitating reagent for alkaloids.",y:100,
+ p:[{i:[["Picric acid (moist)",1.2,"g"],[W,100,"mL"]]}],
+ m:["Add picric acid to water (saturated ≈ 1.2%).","Shake well; leave some undissolved excess; filter before use."],
+ t:"To 1–2 mL acidified extract add a few drops.",r:"Yellow crystalline precipitate → alkaloids.",
+ st:"Keep picric acid stock always WET.",h:["Explosive","Toxic"],sf:"Dry picric acid is EXPLOSIVE (shock/heat sensitive). Never let it dry out on bottle necks or caps. Toxic.",nt:""},
+{id:"vitali",s:"alk",n:"Vitali–Morin test",a:"Tropane alkaloids",u:"Specific colour test for tropane alkaloids (atropine, hyoscyamine, hyoscine – Belladonna, Datura, Hyoscyamus).",y:100,
+ p:[{t:"Reagents",i:[["Fuming nitric acid",null,"few drops"],["Acetone",null,"2–3 mL"]]},{t:"Ethanolic KOH 3%",i:[["Potassium hydroxide",3,"g"],["Ethanol 96%",100,"mL","to"]]}],
+ m:["Prepare ethanolic KOH: dissolve KOH in ethanol (fresh)."],
+ t:"Evaporate the alkaloid residue with 3–5 drops fuming HNO₃ to dryness on a water bath (fume hood). Cool, dissolve the yellow residue in a little acetone, then add 1 drop ethanolic KOH.",
+ r:"Violet colour → tropane alkaloid ester.",st:"Ethanolic KOH: fresh (turns brown).",h:["Corrosive","Oxidizer","Flammable"],sf:"Fuming HNO₃ – fume hood only. Acetone flammable.",nt:""},
+{id:"murexide",s:"alk",n:"Murexide test",a:"Purine alkaloids",u:"Caffeine, theobromine, theophylline (tea, coffee, cocoa, kola).",y:0,
+ p:[{t:"Reagents",i:[["Potassium chlorate",null,"few crystals"],["Hydrochloric acid, conc.",null,"1–2 drops"],["Ammonia solution",null,"vapour"]]}],
+ m:["No reagent preparation needed."],
+ t:"Mix a little residue with a few crystals of KClO₃ and 1–2 drops conc. HCl in a porcelain dish. Evaporate to dryness on a water bath. Expose the residue to ammonia vapour (hold over an open ammonia bottle).",
+ r:"Reddish/yellow residue turns purple (murexide) with ammonia → purine alkaloids.",st:"—",h:["Oxidizer","Corrosive"],sf:"KClO₃ strong oxidizer; HCl fumes. Fume hood.",nt:""},
+{id:"thalle",s:"alk",n:"Thalleioquin test",a:"Quinine / quinidine",u:"Specific for quinine and quinidine (Cinchona bark).",y:0,
+ p:[{t:"Reagents",i:[["Bromine water (saturated)",null,"2–3 drops"],["Dilute ammonia (10%)",null,"excess"]]}],
+ m:["No special preparation; use freshly prepared bromine water."],
+ t:"To 2 mL of a faintly acidic solution of the alkaloid add 2–3 drops bromine water, then excess dilute ammonia.",
+ r:"Emerald-green colour → quinine/quinidine.",st:"—",h:["Toxic","Corrosive"],sf:"Bromine is highly toxic and corrosive – fume hood, gloves.",nt:"Quinine also shows blue fluorescence in dilute H₂SO₄ under UV 366 nm."},
+{id:"vanurk",s:"alk",n:"Van Urk's reagent",a:"p-DAB / Ehrlich-type",u:"Ergot (indole) alkaloids.",y:100,
+ p:[{i:[[W,35,"mL"],["Sulfuric acid, concentrated",65,"mL"],["p-Dimethylaminobenzaldehyde",0.125,"g"],["Ferric chloride 5%",0.1,"mL"]]}],
+ m:["Add the conc. H₂SO₄ slowly to the water with cooling (ice bath).","When cool, dissolve the p-DAB.","Add the ferric chloride solution."],
+ t:"Add 1–2 mL reagent to 1 mL alkaloid solution (layer or mix).",r:"Blue to violet-blue colour → ergot/indole alkaloids.",st:"Use within about 7 days; dark.",h:["Corrosive"],sf:"Strong acid – goggles and gloves.",nt:""},
+
+/* ---------- CARBOHYDRATES ---------- */
+{id:"molisch",s:"carb",n:"Molisch's reagent",a:"α-Naphthol test",u:"General test for carbohydrates (and glycosides).",y:100,
+ p:[{i:[["α-Naphthol",5,"g"],["Ethanol 95%",100,"mL","to"]]}],
+ m:["Dissolve α-naphthol in ethanol.","Store in amber bottle."],
+ t:"To 2 mL sample add 2 drops reagent and mix. Incline the tube and pour 1–2 mL conc. H₂SO₄ slowly down the side to form a lower layer. Do not shake.",
+ r:"Violet / purple ring at the interface → carbohydrate.",st:"Amber bottle; prepare fresh monthly.",h:["Toxic","Flammable"],sf:"Conc. H₂SO₄ – pour slowly, point tube away from people.",nt:"Very sensitive but not specific."},
+{id:"fehling",s:"carb",n:"Fehling's solutions A & B",a:"Fehling's test",u:"Reducing sugars (glucose, fructose, maltose, lactose).",y:1000,
+ p:[{t:"Fehling's A",i:[["Copper(II) sulfate pentahydrate",34.66,"g"],[W,500,"mL","to"]]},{t:"Fehling's B",i:[["Potassium sodium tartrate (Rochelle salt)",173,"g"],["Sodium hydroxide",50,"g"],[W,500,"mL","to"]]}],
+ m:["A: dissolve CuSO₄·5H₂O in water and make up to volume.","B: dissolve Rochelle salt and NaOH in water (heat evolves), cool, make up to volume.","Store A and B separately; mix equal volumes only immediately before use."],
+ t:"Mix 1 mL A + 1 mL B, add 1–2 mL sample, heat in boiling water bath 2–5 min.",
+ r:"Brick-red precipitate (Cu₂O) → reducing sugar.",st:"Separate bottles (B in plastic/rubber stopper). Stable for months separately.",h:["Corrosive","Irritant"],sf:"Solution B is strongly alkaline.",nt:"Sucrose and starch are negative until hydrolysed (boil with dilute HCl, neutralize, then test)."},
+{id:"benedict",s:"carb",n:"Benedict's reagent",a:"Benedict's qualitative",u:"Reducing sugars – more stable and less alkaline than Fehling's; semi-quantitative.",y:1000,
+ p:[{i:[["Sodium citrate (trisodium)",173,"g"],["Sodium carbonate, anhydrous",100,"g"],[W+" (warm)",800,"mL"],["Copper(II) sulfate pentahydrate",17.3,"g"],[W+" (for CuSO₄)",100,"mL"],[W,1000,"mL","to"]]}],
+ m:["Dissolve sodium citrate and sodium carbonate in ~800 mL warm water; filter if needed.","Dissolve CuSO₄·5H₂O separately in 100 mL water.","Add the copper solution slowly to the citrate–carbonate solution with constant stirring.","Make up to the final volume with water."],
+ t:"To 5 mL reagent add 8 drops (≈0.5 mL) sample; heat in boiling water bath 3–5 min.",
+ r:"Green → yellow → orange → brick-red precipitate (increasing sugar). Blue = negative.",st:"Stable for a long time; closed bottle.",h:["Irritant"],sf:"Low-moderate hazard.",nt:"Tip: use the scaler to make 250 mL (×0.25)."},
+{id:"barfoed",s:"carb",n:"Barfoed's reagent",a:"Monosaccharide test",u:"Distinguishes reducing monosaccharides from reducing disaccharides.",y:200,
+ p:[{i:[["Copper(II) acetate",13.3,"g"],[W,200,"mL"],["Glacial acetic acid",1.8,"mL"]]}],
+ m:["Dissolve copper acetate in the water (filter if turbid).","Add glacial acetic acid."],
+ t:"To 2 mL reagent add 1 mL sample; heat in boiling water bath 2–3 min, then let stand.",
+ r:"Red precipitate within 2–3 min → monosaccharide. Disaccharides react only after prolonged heating (7–10 min).",st:"Closed bottle.",h:["Irritant"],sf:"Copper salts harmful if swallowed.",nt:"Do not over-heat – disaccharides hydrolyse and give false positives."},
+{id:"seliwanoff",s:"carb",n:"Seliwanoff's reagent",a:"Resorcinol–HCl",u:"Distinguishes ketoses (fructose, sucrose, inulin) from aldoses.",y:100,
+ p:[{i:[["Resorcinol",0.05,"g"],[W,67,"mL"],["Hydrochloric acid, concentrated",33,"mL"]]}],
+ m:["Add the conc. HCl to the water.","Dissolve resorcinol in the diluted acid."],
+ t:"To 3 mL reagent add 1 mL sample; heat in boiling water bath for 1 min.",
+ r:"Cherry-red within 1 min → ketose. Aldoses give faint pink only after longer heating.",st:"Amber bottle.",h:["Corrosive"],sf:"Acid – gloves and goggles.",nt:""},
+{id:"bial",s:"carb",n:"Bial's orcinol reagent",a:"Pentose test",u:"Pentoses (arabinose, xylose, ribose) – e.g. in gums.",y:100,
+ p:[{i:[["Orcinol",0.3,"g"],["Hydrochloric acid, concentrated",100,"mL"],["Ferric chloride 10%",5,"drops"]]}],
+ m:["Dissolve orcinol in conc. HCl.","Add the ferric chloride solution."],
+ t:"To 2 mL reagent add 1 mL sample; heat in boiling water bath.",r:"Blue-green colour → pentose. Hexoses give yellow-brown.",st:"Amber bottle; fresh.",h:["Corrosive"],sf:"Fuming conc. HCl – fume hood.",nt:""},
+{id:"osazone",s:"carb",n:"Osazone reagent",a:"Phenylhydrazine test",u:"Identifies sugars by the crystal shape of their osazones.",y:0,
+ p:[{i:[["Phenylhydrazine hydrochloride",2,"g"],["Sodium acetate",3,"g"]]}],
+ m:["Grind phenylhydrazine HCl with sodium acetate (2:3) into a uniform powder. Store dry."],
+ t:"Add ~0.3 g of the mixture to 5 mL sugar solution, heat in boiling water bath 20–30 min, cool slowly, examine crystals under the microscope.",
+ r:"Glucose/fructose: needle-shaped (broom-like) crystals within ~5 min. Maltose: sunflower-shaped. Lactose: powder-puff/hedgehog.",st:"Dry, dark, well-closed.",h:["Toxic"],sf:"Phenylhydrazine is toxic and a suspected carcinogen – gloves, fume hood.",nt:"Sucrose gives no osazone (non-reducing)."},
+
+/* ---------- GLYCOSIDES ---------- */
+{id:"keller",s:"gly",n:"Keller–Killiani reagent",a:"FeCl₃–acetic acid",u:"2-Deoxysugars of cardiac glycosides (Digitalis, Strophanthus).",y:10,
+ p:[{i:[["Glacial acetic acid",10,"mL"],["Ferric chloride 5%",1,"drop"]]}],
+ m:["Add one drop of 5% ferric chloride to the glacial acetic acid."],
+ t:"Dissolve the extract residue in 2 mL reagent, transfer to a tube, and carefully underlay with 1 mL conc. H₂SO₄.",
+ r:"Reddish-brown ring at the interface; the upper acetic acid layer gradually turns blue-green → 2-deoxysugars (cardiac glycosides).",st:"Prepare fresh.",h:["Corrosive"],sf:"Conc. H₂SO₄ and glacial acetic acid – gloves, goggles.",nt:""},
+{id:"kedde",s:"gly",n:"Kedde's reagent",a:"3,5-Dinitrobenzoic acid",u:"Unsaturated lactone ring of cardenolides (tube & TLC).",y:20,
+ p:[{t:"Solution A",i:[["3,5-Dinitrobenzoic acid",0.2,"g"],["Methanol",10,"mL","to"]]},{t:"Solution B (≈1 M KOH)",i:[["Potassium hydroxide",0.57,"g"],[W,10,"mL","to"]]}],
+ m:["Prepare A and B separately.","Mix equal volumes immediately before use."],
+ t:"Add 1 mL mixed reagent to the methanolic extract. TLC: spray plate.",r:"Purple / violet (fades) → cardenolides.",st:"A and B separately; mix fresh.",h:["Toxic","Flammable","Corrosive"],sf:"Methanol is toxic and flammable.",nt:"Bufadienolides do not react."},
+{id:"baljet",s:"gly",n:"Baljet's reagent",a:"Alkaline picrate",u:"Cardenolides (lactone ring).",y:10,
+ p:[{i:[["Picric acid 1% (aqueous)",9,"mL"],["Sodium hydroxide 10%",1,"mL"]]}],
+ m:["Mix 9 parts 1% picric acid with 1 part 10% NaOH, freshly."],t:"Add to the extract and observe.",r:"Orange to orange-red colour → cardenolides.",st:"Fresh.",h:["Explosive","Toxic","Corrosive"],sf:"Keep picric acid stock wet.",nt:""},
+{id:"legal",s:"gly",n:"Legal's test",a:"Sodium nitroprusside",u:"Cardenolides (active methylene of lactone ring).",y:5,
+ p:[{t:"Sodium nitroprusside 2% (fresh)",i:[["Sodium nitroprusside",0.1,"g"],[W,5,"mL","to"]]},{t:"Also needed",i:[["Pyridine",null,"1 mL"],["Sodium hydroxide 10%",null,"few drops"]]}],
+ m:["Prepare nitroprusside solution fresh (light-sensitive)."],
+ t:"Dissolve the residue in 1 mL pyridine, add 1–2 drops nitroprusside solution, then make alkaline with 10% NaOH.",r:"Pink to deep red colour (fades) → cardenolides.",st:"Fresh only; protect from light.",h:["Toxic","Flammable"],sf:"Pyridine – fume hood (toxic, bad odour). Nitroprusside toxic.",nt:""},
+{id:"born",s:"gly",n:"Borntrager's test (& modified)",a:"Anthraquinones",u:"Free and combined anthraquinones (senna, cascara, rhubarb, aloe).",y:100,
+ p:[{t:"Ammonia solution 10%",i:[["Strong ammonia solution (25%)",40,"mL"],[W,100,"mL","to"]]},{t:"Also needed",i:[["Chloroform (or benzene)",null,"5 mL"],["Dilute sulfuric acid",null,"5 mL"],["Ferric chloride 5% (modified test)",null,"5 mL"]]}],
+ m:["Prepare 10% ammonia: dilute strong ammonia with water (fume hood)."],
+ t:"Direct (free AQ): shake 0.2 g powder with 5 mL chloroform, filter, add 2 mL 10% ammonia, shake.\nModified (O-glycosides): boil 0.2 g powder with 5 mL dilute H₂SO₄ 2–3 min, filter hot, cool, shake with chloroform, separate, add ammonia.\nModified (C-glycosides, e.g. aloin): boil with 5% FeCl₃ + dilute HCl, then extract and test as above.",
+ r:"Rose-pink to red colour in the ammoniacal (upper) layer → anthraquinones.",st:"Ammonia: tightly closed, cool.",h:["Toxic","Corrosive"],sf:"Chloroform is toxic – fume hood. Benzene is carcinogenic; prefer chloroform or ethyl acetate.",nt:""},
+{id:"picrate",s:"gly",n:"Sodium picrate paper (Guignard)",a:"Cyanogenic glycoside test",u:"Detects HCN released from cyanogenic glycosides (bitter almond, cherry laurel, linseed).",y:100,
+ p:[{t:"Picric acid 1%",i:[["Picric acid (moist)",1,"g"],[W,100,"mL","to"]]},{t:"Sodium carbonate 10%",i:[["Sodium carbonate",10,"g"],[W,100,"mL","to"]]}],
+ m:["Dip strips of filter paper in 1% picric acid and let dry.","Just before use, dip the strip in 10% sodium carbonate."],
+ t:"Place the crushed, moistened drug (a few drops of water, ± 1 drop chloroform) in a test tube. Suspend the moist picrate paper above it from the stopper (not touching). Stopper and warm at ~37 °C for 15–60 min.",
+ r:"Yellow paper turns orange → brick-red → HCN released.",st:"Store dried picrate strips in a closed jar, away from heat.",h:["Explosive","Toxic"],sf:"HCN is extremely toxic – keep tube stoppered, open in fume hood. Never let picric acid dry as a bulk solid.",nt:""},
+{id:"froth",s:"gly",n:"Froth test (saponins)",a:"Foam test",u:"Saponins (glycyrrhiza, quillaja, senega).",y:0,
+ p:[{t:"Needed",i:[[W,null,"10 mL"]]}],
+ m:["No reagent needed."],t:"Boil 0.5–1 g powder with 10 mL water, cool, filter. Shake the filtrate vigorously in a stoppered tube for 15 seconds, then let stand.",
+ r:"Persistent honeycomb froth (≥1 cm) lasting 10–15 min → saponins.",st:"—",h:[],sf:"—",nt:"Confirm with haemolysis test or Liebermann–Burchard on the aglycone."},
+
+/* ---------- PHENOLICS ---------- */
+{id:"fecl3",s:"phen",n:"Ferric chloride 5%",a:"FeCl₃ test",u:"Phenolics and tannins (tube test and tissue staining).",y:100,
+ p:[{i:[["Ferric chloride (FeCl₃·6H₂O)",5,"g"],[W,100,"mL","to"]]}],
+ m:["Dissolve ferric chloride in water. Add 1–2 drops dilute HCl if turbid."],
+ t:"Add 2–3 drops to 2 mL aqueous/alcoholic extract.",r:"Blue-black → hydrolysable (gallic) tannins. Green-black → condensed (catechol) tannins.",st:"Amber bottle.",h:["Corrosive"],sf:"Corrosive to eyes; stains.",nt:"Also used on sections to locate tannin cells."},
+{id:"gelatin",s:"phen",n:"Gelatin–salt reagent",a:"Tannin confirmatory",u:"True tannins precipitate proteins (distinguishes them from simple phenols).",y:100,
+ p:[{i:[["Gelatin",1,"g"],["Sodium chloride",10,"g"],[W,100,"mL","to"]]}],
+ m:["Warm water to ~50 °C, dissolve gelatin, then sodium chloride.","Cool."],
+ t:"Add a few drops to 2 mL aqueous extract.",r:"White precipitate → tannins.",st:"Refrigerate; prepare fresh weekly (spoils).",h:[],sf:"Low hazard.",nt:"Gelatin alone (1%) also works; NaCl enhances precipitation."},
+{id:"leadac",s:"phen",n:"Lead acetate 10%",a:"Lead acetate test",u:"Tannins, flavonoids and other phenolics; also used to clarify extracts.",y:100,
+ p:[{i:[["Lead(II) acetate",10,"g"],[W,100,"mL","to"]]}],
+ m:["Dissolve lead acetate in water (CO₂-free water gives a clearer solution)."],
+ t:"Add a few drops to the extract.",r:"Precipitate (white/yellow/buff) → phenolics/tannins.",st:"Closed bottle.",h:["Toxic"],sf:"Lead compounds are toxic (reproductive toxin). Gloves; collect waste.",nt:""},
+{id:"shinoda",s:"phen",n:"Shinoda test",a:"Mg–HCl (cyanidin reaction)",u:"Flavonoids (flavonols, flavanones, flavones).",y:0,
+ p:[{t:"Needed",i:[["Magnesium turnings / ribbon",null,"few pieces"],["Hydrochloric acid, concentrated",null,"few drops"]]}],
+ m:["No reagent preparation."],t:"To 2 mL ethanolic extract add a few Mg turnings, then add conc. HCl dropwise.",
+ r:"Pink, red, crimson or magenta colour → flavonoids.",st:"—",h:["Corrosive","Flammable"],sf:"Hydrogen gas evolves – no flames nearby.",nt:"Zn–HCl variant: flavanonols give deep red."},
+{id:"alcl3",s:"phen",n:"Aluminium chloride 1%",a:"AlCl₃ reagent",u:"Flavonoids (tube test, TLC spray and colorimetric assay).",y:100,
+ p:[{i:[["Aluminium chloride",1,"g"],["Ethanol 96%",100,"mL","to"]]}],
+ m:["Dissolve AlCl₃ in ethanol (exothermic – add slowly)."],t:"Add a few drops to extract; or spray TLC plate and view under UV 366 nm.",
+ r:"Yellow colour / intense yellow fluorescence under UV 366 → flavonoids.",st:"Closed bottle.",h:["Corrosive","Flammable"],sf:"Anhydrous AlCl₃ reacts violently with water – add slowly.",nt:"For quantitative work (total flavonoids) 2% AlCl₃ in methanol is common."},
+
+/* ---------- TERPENOIDS / STEROIDS ---------- */
+{id:"lb",s:"terp",n:"Liebermann–Burchard test",a:"Acetic anhydride–H₂SO₄",u:"Steroids and triterpenoids (sterols, saponin aglycones, cardiac aglycones).",y:0,
+ p:[{t:"Needed",i:[["Chloroform",null,"2 mL"],["Acetic anhydride",null,"1 mL"],["Sulfuric acid, concentrated",null,"2 drops"]]}],
+ m:["No stock preparation – use dry glassware (water spoils the reaction)."],
+ t:"Dissolve the dry residue in 2 mL chloroform, add 1 mL acetic anhydride, cool, then add 2 drops conc. H₂SO₄ down the side.",
+ r:"Red → violet → blue → green. Blue-green = steroids; pink-red/purple = triterpenoids.",st:"—",h:["Corrosive","Toxic"],sf:"Acetic anhydride is corrosive and a lachrymator. Fume hood.",nt:"For a TLC spray version see TLC section (anisaldehyde)."},
+{id:"salk",s:"terp",n:"Salkowski test",a:"Chloroform–H₂SO₄",u:"Sterols and triterpenes.",y:0,
+ p:[{t:"Needed",i:[["Chloroform",null,"2 mL"],["Sulfuric acid, concentrated",null,"2 mL"]]}],
+ m:["No reagent preparation."],t:"Dissolve residue in 2 mL chloroform, carefully add 2 mL conc. H₂SO₄ down the side; do not shake.",
+ r:"Red/reddish-brown chloroform layer; acid layer shows yellow-green fluorescence → sterols.",st:"—",h:["Corrosive","Toxic"],sf:"Fume hood.",nt:""},
+{id:"voil",s:"terp",n:"Volatile oil – quick tests",a:"Sudan III, filter paper test",u:"Detecting volatile oils in drugs and sections.",y:0,
+ p:[{t:"Needed",i:[["Sudan III solution",null,"see Microscopy – Stains"],["Filter paper",null,""]]}],
+ m:["Use Sudan III solution from the stains section."],
+ t:"Section: mount in Sudan III – oil glands/ducts stain red.\nPaper test: put a drop of extract on filter paper; a volatile oil evaporates with no permanent stain (fixed oil leaves a translucent spot).",
+ r:"Red-stained oil droplets; non-permanent spot → volatile oil.",st:"—",h:[],sf:"—",nt:"Confirm by TLC with anisaldehyde- or vanillin-H₂SO₄."},
+
+/* ---------- PROTEINS ---------- */
+{id:"ninhydrin",s:"prot",n:"Ninhydrin 0.2%",a:"Ninhydrin reagent",u:"Amino acids and proteins (tube and TLC spray).",y:100,
+ p:[{i:[["Ninhydrin",0.2,"g"],["Ethanol (or n-butanol)",100,"mL","to"]]}],
+ m:["Dissolve ninhydrin in ethanol or n-butanol."],
+ t:"Tube: boil 2 mL sample with 0.5 mL reagent 1–2 min. TLC: spray, heat at 100–105 °C for 5 min.",
+ r:"Blue-purple (Ruhemann's purple) → amino acids. Proline/hydroxyproline → yellow.",st:"Amber bottle, refrigerate; weeks.",h:["Irritant","Flammable"],sf:"Stains skin purple for days – gloves!",nt:""},
+{id:"biuret",s:"prot",n:"Biuret test",a:"NaOH + CuSO₄",u:"Proteins and peptides (≥2 peptide bonds).",y:100,
+ p:[{t:"Sodium hydroxide 10%",i:[["Sodium hydroxide",10,"g"],[W,100,"mL","to"]]},{t:"Copper sulfate 1%",i:[["Copper(II) sulfate pentahydrate",1,"g"],[W,100,"mL","to"]]}],
+ m:["Prepare both solutions separately."],t:"To 2 mL sample add 2 mL 10% NaOH, mix, then add 1–2 drops 1% CuSO₄.",
+ r:"Violet / purple colour → protein.",st:"Separate bottles (NaOH in plastic).",h:["Corrosive"],sf:"NaOH corrosive.",nt:"Excess CuSO₄ masks the colour with blue."},
+{id:"xantho",s:"prot",n:"Xanthoproteic test",a:"Nitric acid test",u:"Proteins containing aromatic amino acids (tyrosine, tryptophan).",y:0,
+ p:[{t:"Needed",i:[["Nitric acid, concentrated",null,"1 mL"],["Ammonia solution 10%",null,"excess"]]}],
+ m:["No preparation."],t:"To 2 mL sample add 1 mL conc. HNO₃, heat gently, cool, then add ammonia until alkaline.",
+ r:"Yellow on heating → orange with ammonia → aromatic amino acids.",st:"—",h:["Corrosive","Oxidizer"],sf:"Conc. HNO₃ – fume hood; stains skin yellow.",nt:"Millon's reagent (mercury-based) is avoided here for safety."},
+
+/* ---------- TLC ---------- */
+{id:"anis",s:"tlc",n:"Anisaldehyde–sulfuric acid",a:"AS reagent",u:"Terpenoids, essential oil components, saponins, steroids, bitter principles.",y:100,
+ p:[{i:[["Glacial acetic acid",10,"mL"],["Methanol",85,"mL"],["Sulfuric acid, concentrated",5,"mL"],["Anisaldehyde",0.5,"mL"]]}],
+ m:["Mix glacial acetic acid and methanol.","Add the conc. H₂SO₄ slowly with cooling.","Add the anisaldehyde last and mix."],
+ t:"Spray the dried plate evenly, heat at 100–110 °C for 5–10 min, observe in daylight and UV 366.",
+ r:"Blue, violet, red, grey or green spots (colour depends on compound).",st:"Fresh, or refrigerated for ~1 week (discard if pink).",h:["Corrosive","Toxic","Flammable"],sf:"Spray only in a fume hood / spray cabinet.",nt:""},
+{id:"vanillin",s:"tlc",n:"Vanillin–sulfuric acid",a:"VS reagent",u:"Essential oils, terpenoids, saponins, higher alcohols.",y:200,
+ p:[{t:"Solution I",i:[["Vanillin",1,"g"],["Ethanol 96%",100,"mL","to"]]},{t:"Solution II",i:[["Sulfuric acid, concentrated",10,"mL"],["Ethanol 96%",100,"mL","to"]]}],
+ m:["Solution I: dissolve vanillin in ethanol.","Solution II: add H₂SO₄ slowly to cooled ethanol."],
+ t:"Spray with Solution I, then immediately with Solution II; heat at 110 °C for 5–10 min.",r:"Blue, violet, red, brown spots.",st:"Fresh.",h:["Corrosive","Flammable"],sf:"Fume hood.",nt:""},
+{id:"iodoplat",s:"tlc",n:"Iodoplatinate reagent",a:"Potassium iodoplatinate",u:"Alkaloids and other nitrogen compounds on TLC.",y:200,
+ p:[{t:"Solution I",i:[["Hexachloroplatinic(IV) acid 10%",3,"mL"],[W,97,"mL"]]},{t:"Solution II",i:[["Potassium iodide",6,"g"],[W,100,"mL","to"]]}],
+ m:["Prepare I and II.","Mix equal volumes before use."],t:"Spray dried plate.",r:"Violet, blue-violet or brown spots on pink background → alkaloids.",st:"Amber bottle, fridge.",h:["Toxic","Corrosive"],sf:"Platinum compounds are sensitizers – gloves.",nt:""},
+{id:"nppeg",s:"tlc",n:"NP/PEG (Natural Products reagent)",a:"Neu's reagent",u:"Flavonoids and phenolic acids – best flavonoid TLC detector.",y:200,
+ p:[{t:"NP (1%)",i:[["Diphenylboric acid 2-aminoethyl ester",1,"g"],["Methanol",100,"mL","to"]]},{t:"PEG (5%)",i:[["Polyethylene glycol 4000",5,"g"],["Ethanol",100,"mL","to"]]}],
+ m:["Prepare both solutions separately."],t:"Spray with NP, then with PEG. Observe under UV 366 after ~15 min.",
+ r:"Orange (flavonols e.g. quercetin), yellow-green (kaempferol/apigenin derivatives), blue (phenolic acids) fluorescence.",st:"Fridge, weeks.",h:["Irritant","Flammable"],sf:"Methanol toxic.",nt:"PEG intensifies and stabilizes fluorescence."},
+{id:"kohtlc",s:"tlc",n:"Ethanolic KOH 5% (Bornträger spray)",a:"KOH reagent",u:"Anthraquinones, anthrones, coumarins on TLC.",y:100,
+ p:[{i:[["Potassium hydroxide",5,"g"],["Ethanol 96%",100,"mL","to"]]}],
+ m:["Dissolve KOH in ethanol (may need shaking; slightly warm)."],t:"Spray dried plate; heat gently if needed; observe daylight + UV 366.",
+ r:"Anthraquinones: red (daylight), red fluorescence UV. Coumarins: blue fluorescence UV 366.",st:"Fresh; turns yellow-brown on standing.",h:["Corrosive","Flammable"],sf:"Corrosive.",nt:""},
+{id:"h2so4tlc",s:"tlc",n:"Sulfuric acid 10% in methanol",a:"Charring reagent",u:"Universal detection of organic compounds (steroids, terpenes, sugars).",y:100,
+ p:[{i:[["Methanol",90,"mL"],["Sulfuric acid, concentrated",10,"mL"]]}],
+ m:["Cool the methanol in an ice bath.","Add H₂SO₄ slowly with stirring."],t:"Spray, heat at 110–120 °C for 5–10 min.",r:"Brown-black (charred) or coloured spots.",st:"Closed bottle.",h:["Corrosive","Toxic","Flammable"],sf:"Fume hood.",nt:"Not for plastic-backed plates at high temperature."},
+{id:"iodvap",s:"tlc",n:"Iodine vapour",a:"Iodine chamber",u:"Universal, non-destructive detection (unsaturated & many organic compounds).",y:0,
+ p:[{t:"Needed",i:[["Iodine crystals",null,"a few"],["Closed TLC tank / jar",null,""]]}],
+ m:["Put a few iodine crystals in a dry, closed tank; let vapour saturate."],t:"Place the dried plate in the tank for a few minutes.",r:"Yellow-brown spots (mark with pencil – they fade).",st:"Keep tank closed.",h:["Irritant"],sf:"Avoid inhaling vapour.",nt:"Plate can be sprayed with another reagent after the iodine fades."},
+
+/* ---------- GENERAL ---------- */
+{id:"dhcl",s:"gen",n:"Dilute hydrochloric acid (≈2 M, ~7%)",a:"Dil. HCl",u:"Acidifying extracts, alkaloid extraction, hydrolysis.",y:100,
+ p:[{i:[[W,70,"mL"],["Hydrochloric acid, concentrated (~36%)",17,"mL"],[W,100,"mL","to"]]}],
+ m:["Place about 70 mL water in a flask.","Add the conc. HCl slowly (fume hood).","Cool and make up to volume."],t:"—",r:"—",st:"Glass bottle.",h:["Corrosive"],sf:"Always add acid to water.",nt:""},
+{id:"dh2so4",s:"gen",n:"Dilute sulfuric acid (≈1 M, ~10%)",a:"Dil. H₂SO₄",u:"Hydrolysis of glycosides, acidifying extracts.",y:100,
+ p:[{i:[[W,80,"mL"],["Sulfuric acid, concentrated (~98%)",5.5,"mL"],[W,100,"mL","to"]]}],
+ m:["Place 80 mL water in a beaker in an ice bath.","Add the conc. H₂SO₄ slowly with stirring.","Cool to room temperature, make up to volume."],t:"—",r:"—",st:"Glass bottle.",h:["Corrosive"],sf:"Strongly exothermic – acid into water, never the reverse.",nt:""},
+{id:"naoh10",s:"gen",n:"Sodium hydroxide 10%",a:"NaOH 10% w/v",u:"Alkaline tests (flavonoids turn yellow), Biuret, Baljet, Legal.",y:100,
+ p:[{i:[["Sodium hydroxide pellets",10,"g"],[W,100,"mL","to"]]}],
+ m:["Dissolve pellets in ~70 mL water (gets hot).","Cool and make up to volume.","Store in plastic bottle."],t:"Flavonoid test: add a few drops to extract.",r:"Flavonoids: intense yellow that disappears on adding dilute acid.",st:"Plastic bottle.",h:["Corrosive"],sf:"Corrosive – goggles.",nt:""},
+{id:"nh3",s:"gen",n:"Ammonia solution 10%",a:"Dilute ammonia",u:"Borntrager's test, alkaloid extraction (basifying), murexide.",y:100,
+ p:[{i:[["Strong ammonia solution (25%)",40,"mL"],[W,100,"mL","to"]]}],
+ m:["In the fume hood, add strong ammonia to about 50 mL water.","Make up to volume; close tightly."],t:"—",r:"—",st:"Tightly closed, cool place.",h:["Corrosive","Irritant"],sf:"Pungent irritant vapour – fume hood.",nt:"If your stock is 28–30%, use ≈35 mL."},
+{id:"eth70",s:"gen",n:"Ethanol 70% (from 96%)",a:"Ethanol dilution",u:"Extraction, washing, staining series.",y:100,
+ p:[{i:[["Ethanol 96%",73,"mL"],[W,100,"mL","to"]]}],
+ m:["Measure ethanol in a graduated cylinder.","Make up to volume with water and mix (volume contracts slightly – adjust after cooling)."],t:"For any other strength use the Dilution calculator (C₁V₁ = C₂V₂).",r:"—",st:"Closed bottle, away from flames.",h:["Flammable"],sf:"Flammable.",nt:"90% ethanol: 94 mL of 96% to 100 mL. 50%: 52 mL to 100 mL."},
+{id:"cuso4",s:"gen",n:"Copper sulfate 1%",a:"CuSO₄ 1%",u:"Biuret test.",y:100,
+ p:[{i:[["Copper(II) sulfate pentahydrate",1,"g"],[W,100,"mL","to"]]}],m:["Dissolve and make up to volume."],t:"—",r:"—",st:"Closed bottle.",h:["Irritant"],sf:"Harmful if swallowed.",nt:""}
+];
+
+/* ============ TESTS DATA ============
+ id, c (test section), n (name), aim, need (reagent/test ids to prepare first), ex (other materials),
+ smp (sample), pr (procedure steps), pos, neg, ctl (control), pc (precautions)
+*/
+const TSECS=[
+ {id:"prep",ic:"🫙",n:"Extract preparation",d:"Prepare the test solution first"},
+ {id:"micro",ic:"🔬",n:"Microscopical tests",d:"Lignin, starch, cellulose, fats, crystals…"},
+ {id:"alk",ic:"🧪",n:"Alkaloid tests",d:"General screening & specific tests"},
+ {id:"carb",ic:"🍬",n:"Carbohydrate tests",d:"Reducing, non-reducing, ketoses, pentoses, starch"},
+ {id:"gly",ic:"💊",n:"Glycoside & saponin tests",d:"Cardiac, anthraquinone, cyanogenic, saponins"},
+ {id:"phen",ic:"🍃",n:"Phenolic, flavonoid & tannin tests",d:""},
+ {id:"terp",ic:"🌿",n:"Steroid, terpenoid & volatile oil tests",d:""},
+ {id:"prot",ic:"🥚",n:"Protein & amino acid tests",d:""},
+ {id:"tlc",ic:"🧫",n:"TLC procedure",d:"Spotting, developing, spraying, Rf"}
+];
+const T=[
+/* ---- PREP ---- */
+{id:"p_acid",c:"prep",n:"Acid extract for alkaloid tests",aim:"Converts alkaloids into water-soluble salts for precipitation tests.",need:["dhcl","nh3"],ex:["Chloroform","Separating funnel","Filter paper","Water bath"],
+ smp:"0.5–1 g powdered drug.",
+ pr:["QUICK METHOD: warm 0.5–1 g powder with 10 mL dilute HCl (or 1% H₂SO₄) on a water bath for 5–10 min.","Cool and filter. Use the clear filtrate for the precipitation tests.","PURIFIED METHOD (recommended – fewer false positives): moisten 1 g powder with 10% ammonia, then shake/extract with 10 mL chloroform for 10 min.","Filter the chloroform; shake it with 5 mL dilute HCl in a separating funnel.","Collect the upper acid layer – it contains the alkaloids as salts. Use it for the tests."],
+ pos:"—",neg:"—",ctl:"Keep 1 mL of the acid extract without reagent as a blank for comparison.",
+ pc:["Proteins, tannins and some glycosides in a crude extract can precipitate with alkaloid reagents → prefer the purified method.","Filtrate must be clear; turbidity before adding reagent makes results unreadable.","Chloroform and ammonia: fume hood."]},
+{id:"p_aq",c:"prep",n:"Aqueous extract",aim:"For sugars, tannins, saponins, mucilage and water-soluble glycosides.",need:[],ex:["Beaker","Water bath / hot plate","Filter paper"],
+ smp:"2 g powdered drug.",
+ pr:["Add 20 mL distilled water to 2 g powder.","Boil gently for 5 min (or warm on a water bath 15 min).","Cool and filter. Make up to 20 mL with water if needed."],
+ pos:"—",neg:"—",ctl:"",pc:["Use within the same day – aqueous extracts ferment and grow microbes.","For saponins do not shake while boiling (foam overflows)."]},
+{id:"p_eth",c:"prep",n:"Ethanolic extract & dry residue",aim:"For flavonoids, phenolics, cardiac glycosides, steroids/terpenoids and anthraquinones.",need:["eth70"],ex:["Ethanol 70–96%","Water bath","Porcelain dish","Filter paper"],
+ smp:"2 g powdered drug.",
+ pr:["Add 20 mL ethanol (70% or 96%) to 2 g powder.","Warm on a water bath for 10 min (preferably under a reflux condenser), shaking occasionally.","Cool and filter.","Use part of the filtrate directly (flavonoid, phenolic tests).","Evaporate portions to dryness in porcelain dishes on a water bath to obtain residues for Keller–Killiani, Liebermann–Burchard and Salkowski tests."],
+ pos:"—",neg:"—",ctl:"",pc:["Ethanol is flammable – water bath only, NO open flame.","Residues for Liebermann–Burchard must be completely dry (water spoils the test).","For steroid/terpene tests, extracting with petroleum ether or chloroform gives a cleaner residue (less chlorophyll)."]},
+
+/* ---- MICRO ---- */
+{id:"t_lignin",c:"micro",n:"Test for lignin",aim:"Locate lignified elements: vessels, fibres, sclereids, stone cells.",need:["phloro"],ex:["Slide & cover slip","Filter paper strips"],
+ smp:"Transverse section or a small amount of powder.",
+ pr:["Place the section/powder on a clean slide.","Add 1–2 drops phloroglucinol solution.","Leave 1–2 min until almost dry.","Add 1 drop concentrated HCl.","Cover with a cover slip; blot excess acid; examine at once."],
+ pos:"Lignified walls stain pink to cherry-red.",neg:"Walls stay colourless (cellulose, unlignified parenchyma).",ctl:"A known lignified drug (e.g. quassia wood) as positive.",
+ pc:["Conc. HCl corrodes microscope lenses and stage – never let acid touch the objective; wipe the underside of the slide.","Examine within a few minutes; colour fades.","Do not heat the preparation."]},
+{id:"t_starch",c:"micro",n:"Test for starch",aim:"Detect starch grains and study their shape.",need:["iodine"],ex:["Slide & cover slip"],
+ smp:"Powder or section mounted in water (NOT chloral hydrate).",
+ pr:["Mount the powder in water and examine starch grain shape (hilum, striations) first.","Irrigate with 1 drop iodine solution at the edge of the cover slip.","Examine again."],
+ pos:"Starch grains turn blue to blue-black.",neg:"No blue grains.",ctl:"Potato or wheat starch as positive.",
+ pc:["Chloral hydrate and boiling destroy starch – do not clear before this test.","Too much iodine makes everything dark – dilute the reagent.","Gelatinized (heated) starch stains diffusely without grain shape."]},
+{id:"t_cell",c:"micro",n:"Test for cellulose",aim:"Distinguish cellulose walls from lignified/suberized walls.",need:["czi"],ex:["Slide & cover slip"],
+ smp:"Section or powder.",
+ pr:["Add 1–2 drops chlor-zinc-iodine to the specimen.","Leave 1–2 min.","Cover and examine."],
+ pos:"Cellulose walls → blue-violet.",neg:"Lignified, suberized or cutinized walls → yellow-brown.",ctl:"Cotton fibre as positive.",
+ pc:["Reagent deteriorates – use freshly prepared (weeks).","Starch also turns blue-black; don't confuse grains with walls."]},
+{id:"t_fat",c:"micro",n:"Test for fixed oil, fat, cutin & suberin",aim:"Detect oil globules, oil cells, cuticle and cork.",need:["sudan"],ex:["Slide & cover slip","Spirit lamp (gentle warming)"],
+ smp:"Section or powder.",
+ pr:["Mount specimen in 2–3 drops Sudan III.","Warm very gently or leave 5–10 min.","Cover and examine."],
+ pos:"Oil globules, cuticle, suberized walls → orange-red.",neg:"No red-stained structures.",ctl:"Linseed or castor seed section as positive.",
+ pc:["Do not boil – ethanol in the reagent is flammable and evaporates.","Dye precipitates can look like red particles – filter the reagent."]},
+{id:"t_muc",c:"micro",n:"Test for mucilage",aim:"Detect mucilage cells and pectic substances.",need:["ruth"],ex:["Slide & cover slip","Absolute ethanol (optional)"],
+ smp:"Dry powder or section.",
+ pr:["Mount the dry powder directly in ruthenium red solution.","Leave 2–3 min, cover and examine.","Optional: mount first in absolute ethanol to see unswollen mucilage cells, then irrigate with reagent."],
+ pos:"Mucilage → pink to red (swelling may be seen).",neg:"No pink-red staining.",ctl:"Ispaghula or linseed as positive.",
+ pc:["Water makes mucilage swell and spread – observe quickly.","Pectin-rich walls also stain pink (expected)."]},
+{id:"t_ox",c:"micro",n:"Test for calcium oxalate & calcium carbonate",aim:"Identify crystals and cystoliths.",need:["chloral","oxalate","dhcl"],ex:["Slide & cover slip","Filter paper strips","Polarizing microscope (optional)"],
+ smp:"Powder cleared with chloral hydrate.",
+ pr:["Clear the powder in chloral hydrate and note crystal type: prisms, rosettes (cluster crystals), raphides (needles) or microsphenoidal sand.","Irrigate with 6% acetic acid → observe.","On a fresh mount, irrigate with dilute HCl → observe.","On a fresh mount, irrigate with 66% H₂SO₄ → observe for several minutes."],
+ pos:"Calcium oxalate: insoluble in acetic acid; dissolves in HCl WITHOUT effervescence; dissolves in 66% H₂SO₄ with formation of needle-shaped calcium sulfate crystals. Calcium carbonate: dissolves in acids WITH effervescence.",neg:"Crystals unaffected by all acids → other crystal types (e.g. silica).",ctl:"Rhubarb (clusters) or squill (raphides) as positive.",
+ pc:["Air bubbles may be mistaken for effervescence – watch the crystal itself.","Polarized light: oxalate crystals are bright (birefringent).","66% H₂SO₄: prepare by adding acid to water with cooling; never touch the objective."]},
+{id:"t_tanc",c:"micro",n:"Test for tannin cells",aim:"Locate tannin-containing cells in sections.",need:["fecl3"],ex:["Slide & cover slip"],
+ smp:"Fresh or dry section.",pr:["Add 1–2 drops ferric chloride 5% to the section.","Cover and examine."],
+ pos:"Cell contents → blue-black (hydrolysable) or green-black (condensed tannins).",neg:"No dark cell contents.",ctl:"Oak gall or hamamelis as positive.",
+ pc:["Iron from tools/needles can cause dark spots – use glass rods.","Other phenolics also react; confirm with gelatin test in extract."]},
+{id:"t_aleu",c:"micro",n:"Test for aleurone grains (proteins)",aim:"Detect protein (aleurone) grains in seeds.",need:["iodine"],ex:["Slide & cover slip"],
+ smp:"Section of seed endosperm/cotyledon (e.g. linseed, almond), mounted in oil or glycerol.",
+ pr:["Mount section, add 1 drop iodine solution.","Cover and examine."],pos:"Aleurone grains → yellow-brown (globoids and crystalloids visible).",neg:"No yellow-brown grains.",ctl:"",
+ pc:["Mount in water dissolves some aleurone grains – use glycerol or oil mounting for structure.","Starch present will turn blue-black – distinguish by colour."]},
+
+/* ---- ALKALOIDS ---- */
+{id:"t_alk",c:"alk",n:"General screening for alkaloids",aim:"Detect alkaloids with precipitating reagents.",need:["p_acid","mayer","wagner","drag","hager"],ex:["Test tubes (5)","Droppers"],
+ smp:"Acid extract (see Extract preparation).",
+ pr:["Put 1 mL of the clear acid extract into each of 5 tubes.","Tube 1: keep as blank (no reagent).","Tube 2: add 2–3 drops Mayer's reagent.","Tube 3: add 2–3 drops Wagner's reagent.","Tube 4: add 2–3 drops Dragendorff's reagent.","Tube 5: add 2–3 drops Hager's reagent.","Compare each tube with the blank against a dark/light background."],
+ pos:"Mayer's: cream/white ppt. Wagner's: reddish-brown ppt. Dragendorff's: orange to orange-red ppt. Hager's: yellow ppt.",neg:"No precipitate (same as blank).",ctl:"Known positive drug (e.g. cinchona, belladonna) and a reagent blank.",
+ pc:["Conclude 'alkaloids present' only if ≥2–3 reagents are positive.","False positives: proteins, tannins, coumarins, some glycosides – use a purified acid extract.","Extract must be acidic; in neutral solution alkaloid bases may not precipitate.","Caffeine and some purine alkaloids do not precipitate with Mayer's – use murexide test.","Mayer's contains mercury – collect waste separately."]},
+{id:"t_vitali",c:"alk",n:"Vitali–Morin test (tropane alkaloids)",aim:"Specific for hyoscyamine/atropine and hyoscine.",need:["vitali"],ex:["Porcelain dish","Water bath"],
+ smp:"Purified alkaloid residue (from chloroform extract evaporated to dryness).",
+ pr:["Add 3–5 drops fuming nitric acid to the residue in a porcelain dish.","Evaporate to dryness on a water bath in the fume hood.","Cool; dissolve the yellow residue in 1–2 mL acetone.","Add 1–2 drops 3% ethanolic KOH."],
+ pos:"Violet colour → tropane ester alkaloids.",neg:"No violet colour.",ctl:"Atropine sulfate as positive.",
+ pc:["Fuming HNO₃ – fume hood, gloves, goggles.","Residue must be completely dry before adding acetone.","Strychnine and some other alkaloids give interfering colours – use purified extract."]},
+{id:"t_murex",c:"alk",n:"Murexide test (purine alkaloids)",aim:"Caffeine, theobromine, theophylline.",need:["murexide"],ex:["Porcelain dish","Water bath"],
+ smp:"Small amount of residue or powdered tea/coffee/cocoa extract residue.",
+ pr:["Mix the residue with a few crystals of potassium chlorate.","Add 1–2 drops conc. HCl.","Evaporate to dryness on a water bath.","Invert the dish over an open bottle of ammonia (or add a drop of dilute ammonia)."],
+ pos:"Residue turns purple (murexide) → purine alkaloids.",neg:"No purple colour.",ctl:"Caffeine as positive.",
+ pc:["KClO₃ is a strong oxidizer – small amounts only, keep away from organic matter in bulk.","Fume hood (chlorine, HCl, NH₃ vapours)."]},
+{id:"t_thal",c:"alk",n:"Thalleioquin test (quinine)",aim:"Quinine and quinidine (Cinchona).",need:["thalle","nh3"],ex:["Test tube","UV lamp 366 nm (optional)"],
+ smp:"2 mL faintly acidic solution of the alkaloid.",
+ pr:["Add 2–3 drops bromine water to 2 mL of the solution.","Add excess 10% ammonia."],
+ pos:"Emerald-green colour → quinine/quinidine.",neg:"No green colour.",ctl:"Quinine sulfate.",
+ pc:["Bromine is very toxic – fume hood, gloves.","Too much bromine destroys the colour – use only a few drops.","Supporting test: quinine shows blue fluorescence in dilute H₂SO₄ under UV 366 nm."]},
+{id:"t_vanurk",c:"alk",n:"Van Urk test (ergot alkaloids)",aim:"Ergot / indole alkaloids.",need:["vanurk"],ex:["Test tube"],
+ smp:"1 mL alkaloid solution.",pr:["Add 1–2 mL Van Urk's reagent to 1 mL of the solution and mix carefully."],
+ pos:"Blue to violet-blue colour.",neg:"No blue colour.",ctl:"",pc:["Reagent is concentrated acid – goggles.","Use reagent within 7 days."]},
+
+/* ---- CARBOHYDRATES ---- */
+{id:"t_molisch",c:"carb",n:"Molisch's test",aim:"General test for all carbohydrates (free or combined).",need:["molisch"],ex:["Test tubes","Conc. H₂SO₄"],
+ smp:"2 mL aqueous extract or sugar solution.",
+ pr:["Add 2 drops Molisch's reagent to 2 mL sample; mix.","Incline the tube and carefully pour 1–2 mL conc. H₂SO₄ down the side so it forms a lower layer.","Do not shake; observe the interface."],
+ pos:"Violet/purple ring at the junction of the two layers.",neg:"No violet ring (a green ring may appear from reagent alone).",ctl:"Glucose 1% (positive) and water (blank).",
+ pc:["Very sensitive but non-specific: glycosides and some other compounds also react.","Excess reagent gives a green ring – use only 2 drops.","Pour acid slowly with tube pointed away from people; heat is generated."]},
+{id:"t_fehling",c:"carb",n:"Fehling's test",aim:"Reducing sugars.",need:["fehling"],ex:["Boiling water bath","Test tubes"],
+ smp:"2 mL aqueous extract or sugar solution.",
+ pr:["Mix 1 mL Fehling's A + 1 mL Fehling's B (deep blue).","Add 2 mL sample.","Heat in a boiling water bath for 2–5 min."],
+ pos:"Green → yellow → brick-red precipitate (Cu₂O).",neg:"Solution stays clear blue.",ctl:"Glucose 1% (positive), sucrose 1% (negative).",
+ pc:["Mix A and B only at the time of use.","Sucrose and starch are negative – hydrolyse first (see non-reducing sugar test).","Strongly coloured extracts mask the colour – decolorize with charcoal or dilute.","Solution B is caustic."]},
+{id:"t_bened",c:"carb",n:"Benedict's test",aim:"Reducing sugars (semi-quantitative).",need:["benedict"],ex:["Boiling water bath"],
+ smp:"0.5 mL (8 drops) sample.",
+ pr:["Put 5 mL Benedict's reagent in a tube.","Add 8 drops of sample and mix.","Heat in boiling water bath for 3–5 min; let cool."],
+ pos:"Green (trace) → yellow → orange → brick-red (large amount).",neg:"Remains blue.",ctl:"Glucose 1% and water.",
+ pc:["Ratio matters: too much sample gives false strong colours.","Ascorbic acid and other reducing agents can give false positives."]},
+{id:"t_barf",c:"carb",n:"Barfoed's test",aim:"Distinguish monosaccharides from reducing disaccharides.",need:["barfoed"],ex:["Boiling water bath","Timer"],
+ smp:"1 mL sugar solution.",
+ pr:["Add 1 mL sample to 2 mL Barfoed's reagent.","Heat in a boiling water bath for exactly 2–3 min.","Remove and let stand; observe the bottom of the tube."],
+ pos:"Red precipitate within 2–3 min → monosaccharide (glucose, fructose).",neg:"No ppt in 3 min → disaccharide (maltose, lactose) or non-reducing sugar.",ctl:"Glucose and maltose side by side.",
+ pc:["Heating longer than ~5 min hydrolyses disaccharides → false positive.","Use a timer and run the controls in parallel."]},
+{id:"t_selw",c:"carb",n:"Seliwanoff's test",aim:"Ketoses (fructose; sucrose and inulin after hydrolysis in situ).",need:["seliwanoff"],ex:["Boiling water bath","Timer"],
+ smp:"1 mL sugar solution.",pr:["Add 1 mL sample to 3 mL Seliwanoff's reagent.","Heat in a boiling water bath for 1 min (max 2 min)."],
+ pos:"Cherry-red within 1 min → ketose.",neg:"No colour or faint pink after longer heating → aldose.",ctl:"Fructose and glucose side by side.",
+ pc:["Prolonged heating converts glucose too → false positive.","Concentrated sugar solutions give misleading colours – use ~1%."]},
+{id:"t_bial",c:"carb",n:"Bial's test",aim:"Pentoses (e.g. arabinose in gums).",need:["bial"],ex:["Boiling water bath"],
+ smp:"1 mL hydrolysed sample.",pr:["Add 1 mL sample to 2 mL Bial's reagent.","Heat in a boiling water bath until colour develops (1–2 min)."],
+ pos:"Blue-green colour → pentose.",neg:"Yellow-brown → hexoses.",ctl:"Arabinose or xylose.",
+ pc:["Conc. HCl – fume hood.","Polysaccharides (gums) must be hydrolysed first (boil with dilute acid)."]},
+{id:"t_iod",c:"carb",n:"Iodine test for starch",aim:"Starch, dextrins, glycogen in solution.",need:["iodine"],ex:["Test tubes","Water bath"],
+ smp:"2 mL aqueous extract (cooled).",pr:["Add 1–2 drops iodine solution to 2 mL cooled sample.","Optional: heat the blue solution, then cool again."],
+ pos:"Blue-black → starch (colour disappears on heating and returns on cooling). Red-brown → dextrins or glycogen.",neg:"Yellow (colour of iodine).",ctl:"1% starch solution.",
+ pc:["Test must be done cold.","Strongly acidic or alkaline solutions give weak results – neutralize first."]},
+{id:"t_nonred",c:"carb",n:"Test for non-reducing sugars (sucrose)",aim:"Detect sucrose / non-reducing sugars after hydrolysis.",need:["fehling","dhcl","naoh10"],ex:["Boiling water bath","Litmus paper"],
+ smp:"2 mL sample that is NEGATIVE with Fehling's.",
+ pr:["Add 1 mL dilute HCl to 2 mL sample.","Heat in a boiling water bath for 5 min (hydrolysis).","Cool and neutralize with 10% NaOH (check with litmus).","Perform Fehling's test on the hydrolysate."],
+ pos:"Brick-red ppt after hydrolysis (but not before) → non-reducing sugar.",neg:"No ppt.",ctl:"Sucrose 1%.",
+ pc:["Neutralization is essential – excess acid destroys the Fehling's reagent.","Always confirm the sample was negative before hydrolysis."]},
+{id:"t_osaz",c:"carb",n:"Osazone formation",aim:"Identify reducing sugars by osazone crystal shape.",need:["osazone"],ex:["Boiling water bath","Microscope"],
+ smp:"5 mL sugar solution (~1%).",
+ pr:["Add ~0.3 g osazone mixture to 5 mL sample; dissolve.","Heat in boiling water bath for 20–30 min, noting the time crystals appear.","Cool slowly; examine crystals under the microscope."],
+ pos:"Glucose/fructose: needle (broom/sheaf) crystals in ~5 min (hot). Maltose: sunflower-shaped. Lactose: powder-puff/hedgehog (form on cooling).",neg:"No crystals (sucrose – non-reducing).",ctl:"",
+ pc:["Phenylhydrazine is toxic and a suspected carcinogen – gloves, fume hood.","Cool slowly; rapid cooling gives poorly formed crystals."]},
+
+/* ---- GLYCOSIDES ---- */
+{id:"t_keller",c:"gly",n:"Keller–Killiani test",aim:"2-Deoxysugars (digitoxose) of cardiac glycosides.",need:["keller","p_eth"],ex:["Porcelain dish","Conc. H₂SO₄"],
+ smp:"Dry residue of ethanolic extract (or chloroform extract after lead acetate cleanup).",
+ pr:["Dissolve the residue in 2 mL Keller–Killiani reagent (FeCl₃–acetic acid).","Transfer to a dry test tube.","Incline the tube and carefully underlay 1 mL conc. H₂SO₄ down the side."],
+ pos:"Reddish-brown ring at the interface; upper layer slowly becomes blue-green.",neg:"No reddish-brown ring / no blue-green.",ctl:"Digitalis leaf extract.",
+ pc:["Do not shake.","Glassware must be dry.","The test is for 2-deoxysugars – cardiac glycosides without them (e.g. some Strophanthus) can be negative."]},
+{id:"t_kedde",c:"gly",n:"Kedde test",aim:"Five-membered unsaturated lactone of cardenolides.",need:["kedde"],ex:["Test tube"],
+ smp:"Methanolic/ethanolic extract.",pr:["Mix equal volumes of Kedde's A and B.","Add 1 mL of the mixture to 1 mL extract."],
+ pos:"Purple to violet colour (fades).",neg:"No violet colour.",ctl:"Digitalis extract.",
+ pc:["Observe immediately – colour fades.","Bufadienolides (squill) are negative.","Methanol toxic."]},
+{id:"t_baljet",c:"gly",n:"Baljet test",aim:"Cardenolide lactone ring.",need:["baljet"],ex:["Test tube"],
+ smp:"Extract or thin section.",pr:["Add a few drops of freshly mixed Baljet's reagent to the extract or section."],
+ pos:"Orange to orange-red colour.",neg:"Yellow (colour of picrate).",ctl:"",pc:["Picric acid: explosive when dry – keep stocks wet.","Not highly specific – confirm with Kedde/Keller–Killiani."]},
+{id:"t_legal",c:"gly",n:"Legal's test",aim:"Cardenolides.",need:["legal","naoh10"],ex:["Pyridine","Test tube"],
+ smp:"Dry extract residue.",pr:["Dissolve the residue in 1 mL pyridine.","Add 1–2 drops fresh 2% sodium nitroprusside.","Make alkaline with a few drops 10% NaOH."],
+ pos:"Pink to blood-red colour (fades).",neg:"No red colour.",ctl:"",pc:["Pyridine: fume hood.","Nitroprusside must be freshly prepared and protected from light."]},
+{id:"t_born",c:"gly",n:"Borntrager's test (free anthraquinones)",aim:"Free anthraquinone aglycones.",need:["born"],ex:["Chloroform","Separating funnel / test tube"],
+ smp:"0.2 g powdered drug.",
+ pr:["Shake 0.2 g powder with 5 mL chloroform for 5 min.","Filter.","Add 2 mL 10% ammonia to the filtrate and shake."],
+ pos:"Rose-pink to red colour in the ammoniacal (upper) layer.",neg:"Ammonia layer stays colourless.",ctl:"Rhubarb or cascara.",
+ pc:["Most anthraquinones in senna/cascara are glycosides → use the modified test.","Chloroform is toxic – fume hood.","Avoid benzene (carcinogenic)."]},
+{id:"t_bornm",c:"gly",n:"Modified Borntrager's test (O- & C-glycosides)",aim:"Anthraquinone glycosides after hydrolysis.",need:["born","dh2so4","fecl3","dhcl"],ex:["Water bath","Chloroform"],
+ smp:"0.2 g powdered drug.",
+ pr:["O-glycosides (senna, rhubarb, cascara): boil 0.2 g powder with 5 mL dilute H₂SO₄ for 2–3 min.","C-glycosides (aloe – aloin): boil 0.2 g powder with 5 mL 5% FeCl₃ + 5 mL dilute HCl for ~5 min (oxidative hydrolysis).","Filter while hot; cool the filtrate.","Shake with 5 mL chloroform; separate the chloroform layer.","Add 2 mL 10% ammonia to the chloroform layer and shake."],
+ pos:"Pink to red ammoniacal layer → anthraquinone glycosides.",neg:"No pink colour.",ctl:"Senna leaf (O-glycoside), aloe (C-glycoside).",
+ pc:["C-glycosides (aloin) are NOT hydrolysed by acid alone – FeCl₃ is required.","Filter hot – anthraquinones may precipitate on cooling.","Fume hood for chloroform and ammonia."]},
+{id:"t_cyan",c:"gly",n:"Test for cyanogenic glycosides",aim:"HCN released by enzymatic hydrolysis.",need:["picrate"],ex:["Test tube with cork","Incubator/water bath 37 °C"],
+ smp:"1–2 g freshly crushed drug.",
+ pr:["Place the crushed drug in a test tube and moisten with a few drops of water (± 1 drop chloroform to aid enzyme action).","Moisten a picrate paper strip with 10% Na₂CO₃.","Suspend the strip from the cork above the drug – it must not touch it.","Stopper tightly; keep at ~37 °C for 15–60 min."],
+ pos:"Paper turns orange → brick-red.",neg:"Paper stays yellow.",ctl:"Bitter almond or linseed (positive).",
+ pc:["HCN is extremely toxic – open the tube only in a fume hood.","Heat-dried or old drugs may have inactive enzyme → add emulsin/enzyme source or acid hydrolysis.","Dry picric acid is explosive."]},
+{id:"t_froth",c:"gly",n:"Froth (foam) test for saponins",aim:"Saponins.",need:["froth","p_aq"],ex:["Graduated test tube with stopper","Ruler"],
+ smp:"Aqueous extract of 0.5–1 g drug (cooled, filtered).",
+ pr:["Put 10 mL of the cooled aqueous extract in a graduated test tube.","Stopper and shake vigorously for 15 seconds.","Let stand and measure froth height after 10–15 min."],
+ pos:"Honeycomb froth ≥1 cm persisting 10–15 min → saponins.",neg:"Froth collapses within a few minutes.",ctl:"Quillaja or glycyrrhiza.",
+ pc:["Proteins and some other compounds give transient froth – persistence is the key.","Confirm with haemolysis test or Liebermann–Burchard on the aglycone.","Froth index (quantitative) uses serial dilutions – this is the qualitative version."]},
+
+/* ---- PHENOLICS ---- */
+{id:"t_fecl3",c:"phen",n:"Ferric chloride test",aim:"Phenolics and tannins; tannin type.",need:["fecl3","p_aq"],ex:["Test tubes"],
+ smp:"2 mL aqueous or ethanolic extract.",pr:["Add 2–3 drops 5% FeCl₃ to 2 mL extract."],
+ pos:"Blue-black → hydrolysable (gallic) tannins. Green-black → condensed (catechol) tannins / phenolics.",neg:"No change (yellow-orange of reagent).",ctl:"Tannic acid 0.5%.",
+ pc:["Non-specific: any phenolic OH reacts – confirm tannins with gelatin test.","Excess reagent masks colour – add dropwise.","Very dilute extracts give only faint colour."]},
+{id:"t_gel",c:"phen",n:"Gelatin–salt test",aim:"Confirm true tannins (they precipitate proteins).",need:["gelatin","p_aq"],ex:["Test tubes"],
+ smp:"2 mL aqueous extract.",pr:["Add a few drops of gelatin–salt reagent to 2 mL extract.","Mix and observe."],
+ pos:"White precipitate → tannins.",neg:"No precipitate (simple phenolics such as gallic acid don't precipitate).",ctl:"Tannic acid 0.5%.",
+ pc:["Gelatin reagent spoils – keep refrigerated, renew weekly.","A salt-only blank (10% NaCl) rules out salting-out of other compounds."]},
+{id:"t_lead",c:"phen",n:"Lead acetate test",aim:"Tannins, flavonoids and other phenolics.",need:["leadac","p_aq"],ex:["Test tubes"],
+ smp:"2 mL extract.",pr:["Add a few drops 10% lead acetate to the extract."],pos:"White, yellow or buff precipitate.",neg:"No precipitate.",ctl:"",
+ pc:["Lead is toxic – gloves; collect waste.","Many compounds (acids, proteins, gums) also precipitate – supportive test only."]},
+{id:"t_shin",c:"phen",n:"Shinoda test",aim:"Flavonoids (flavones, flavonols, flavanones).",need:["shinoda","p_eth"],ex:["Magnesium turnings","Conc. HCl"],
+ smp:"2 mL ethanolic extract.",pr:["Add a few magnesium turnings to 2 mL extract.","Add conc. HCl dropwise (5–6 drops).","Wait for effervescence to stop; observe colour."],
+ pos:"Pink, red, crimson or magenta → flavonoids.",neg:"No colour change (chalcones/aurones/isoflavones may be negative).",ctl:"Rutin or quercetin.",
+ pc:["H₂ gas forms – no flames nearby.","Red anthocyanin pigments in the extract give a false positive – check the extract colour + HCl without Mg as blank."]},
+{id:"t_alk_fl",c:"phen",n:"Alkaline reagent test",aim:"Flavonoids.",need:["naoh10","dhcl"],ex:["Test tubes"],
+ smp:"2 mL extract.",pr:["Add a few drops 10% NaOH to the extract.","Then add dilute HCl dropwise."],
+ pos:"Intense yellow with NaOH that becomes colourless with dilute acid → flavonoids.",neg:"No yellow colour.",ctl:"",pc:["Other phenolics and chlorophyll may also change colour – use as a supportive test."]},
+{id:"t_alcl",c:"phen",n:"Aluminium chloride test",aim:"Flavonoids (especially flavones and flavonols).",need:["alcl3"],ex:["UV lamp 366 nm"],
+ smp:"Ethanolic extract.",pr:["Add a few drops 1% AlCl₃ to 2 mL extract, or spot extract on filter paper/TLC and spray.","Observe in daylight and under UV 366 nm."],
+ pos:"Yellow colour; intense yellow fluorescence under UV.",neg:"No yellow/fluorescence.",ctl:"Quercetin.",pc:["Never look directly at UV lamp – use UV goggles."]},
+
+/* ---- TERPENOIDS ---- */
+{id:"t_lb",c:"terp",n:"Liebermann–Burchard test",aim:"Steroids and triterpenoids.",need:["lb","p_eth"],ex:["Dry test tube","Ice bath"],
+ smp:"Completely dry residue of chloroform or ethanolic extract.",
+ pr:["Dissolve the residue in 2 mL chloroform.","Add 1 mL acetic anhydride; mix and cool in ice.","Add 2–3 drops conc. H₂SO₄ carefully down the side.","Observe colour changes over 5 min."],
+ pos:"Red → violet → blue → green. Blue-green = steroids (sterols, steroidal saponins). Pink-red/purple = triterpenoids.",neg:"No colour change (or only brown charring).",ctl:"Cholesterol or β-sitosterol.",
+ pc:["Moisture spoils the test – use dry glassware and dry residue.","Chlorophyll gives a green colour – remove it (charcoal or petroleum ether extract) or use a blank.","Acetic anhydride is corrosive and lachrymatory – fume hood."]},
+{id:"t_salk",c:"terp",n:"Salkowski test",aim:"Sterols and triterpenes.",need:["salk","p_eth"],ex:["Test tube"],
+ smp:"Dry residue in chloroform.",pr:["Dissolve residue in 2 mL chloroform.","Carefully add 2 mL conc. H₂SO₄ down the side to form a lower layer.","Do not shake; observe both layers."],
+ pos:"Red to reddish-brown chloroform (upper) layer; acid layer with yellow-green fluorescence → sterols. Golden-yellow → triterpenes.",neg:"No red colour.",ctl:"Cholesterol.",
+ pc:["Conc. H₂SO₄ – add slowly; heat evolves.","Use a white background to read colours."]},
+{id:"t_voil",c:"terp",n:"Tests for volatile oils",aim:"Detect volatile oils in drugs and extracts.",need:["sudan","voil"],ex:["Filter paper","Slides"],
+ smp:"Section, powder or petroleum ether extract.",
+ pr:["Microscopy: mount section in Sudan III; oil glands/ducts/secretory cells stain red.","Paper test: put a drop of extract on filter paper and let stand.","Odour: crush the drug and note aromatic odour."],
+ pos:"Red-stained oil droplets; spot on paper disappears (evaporates) → volatile oil.",neg:"A translucent permanent spot → fixed oil (not volatile).",ctl:"Clove or fennel.",
+ pc:["Sudan III stains both fixed and volatile oils – combine with the paper test.","Confirm by TLC with anisaldehyde–H₂SO₄."]},
+
+/* ---- PROTEINS ---- */
+{id:"t_ninh",c:"prot",n:"Ninhydrin test",aim:"Free amino acids and proteins.",need:["ninhydrin"],ex:["Boiling water bath"],
+ smp:"2 mL aqueous extract (neutral).",pr:["Add 0.5 mL ninhydrin reagent to 2 mL sample.","Heat in a boiling water bath for 1–2 min."],
+ pos:"Blue-purple (Ruhemann's purple). Proline → yellow.",neg:"No colour.",ctl:"Glycine 0.1%.",
+ pc:["Ammonia/ammonium salts also give purple – avoid ammonia-containing samples.","Ninhydrin stains skin for days – gloves."]},
+{id:"t_biur",c:"prot",n:"Biuret test",aim:"Proteins and peptides.",need:["biuret"],ex:["Test tubes"],
+ smp:"2 mL sample.",pr:["Add 2 mL 10% NaOH to 2 mL sample; mix.","Add 1–2 drops 1% CuSO₄; mix."],
+ pos:"Violet / purple colour.",neg:"Blue (colour of copper reagent).",ctl:"Egg albumin solution.",
+ pc:["Add CuSO₄ drop by drop – excess gives a blue colour that masks the result.","NaOH is caustic."]},
+{id:"t_xan",c:"prot",n:"Xanthoproteic test",aim:"Proteins with aromatic amino acids.",need:["xantho"],ex:["Water bath"],
+ smp:"2 mL sample.",pr:["Add 1 mL conc. HNO₃ to 2 mL sample (white ppt may form).","Heat gently; cool.","Add 10% ammonia until alkaline."],
+ pos:"Yellow on heating → orange with ammonia.",neg:"No yellow colour.",ctl:"Egg albumin.",pc:["Conc. HNO₃ – fume hood; stains skin yellow.","Heat gently, tube pointed away."]},
+
+/* ---- TLC ---- */
+{id:"t_tlc",c:"tlc",n:"General TLC procedure & detection",aim:"Separate and detect constituents; compare with reference standards.",need:["anis","drag","nppeg","kohtlc","h2so4tlc","iodvap"],ex:["Silica gel plate (F254)","Capillary tubes","TLC tank with lid","Filter paper (saturation)","Pencil & ruler","Sprayer","Hot plate / oven","UV lamp 254 & 366 nm"],
+ smp:"Concentrated extract (methanol/ethanol) and reference standard solutions (~1 mg/mL).",
+ pr:["Pour the mobile phase into the tank (depth ~0.5 cm), line with filter paper, close, and saturate 15–30 min.","With a soft pencil, draw the start line 1–1.5 cm from the bottom of the plate.","Apply sample and standard as small spots or bands (2–5 mm), at least 1 cm apart; dry between applications.","Place the plate in the tank – the start line must be ABOVE the solvent level. Close the lid.","Develop until the solvent front is ~1 cm from the top; remove and immediately mark the front with pencil.","Dry the plate completely (fume hood / hair dryer).","View under UV 254 nm (dark spots) and 366 nm (fluorescent spots); circle spots with pencil.","Spray evenly with the detection reagent (fine mist – do not wet), heat if required, observe.","Calculate Rf = distance travelled by spot ÷ distance travelled by solvent front."],
+ pos:"Spot in the sample with the same Rf and colour as the standard → compound probably present.",neg:"No spot matching the standard.",ctl:"Always co-chromatograph a reference standard on the same plate.",
+ pc:["Spots too large or overloaded → tailing and poor separation; keep spots small.","Never spot below the solvent level – sample dissolves into the solvent.","Remove all solvent (especially acids/ammonia) before spraying.","Spray in a fume hood; most sprays contain conc. H₂SO₄ or methanol.","Rf varies with saturation, temperature and plate – compare only with standards on the same plate.","UV light damages eyes – use protective glasses."]}
+];
+
+/* ============ STATE & HELPERS ============ */
+const $=s=>document.querySelector(s), app=$("#app");
+let store={};try{store=JSON.parse(localStorage.getItem("phyto")||"{}")}catch(e){}
+store.fav=store.fav||[];
+const save=()=>{try{localStorage.setItem("phyto",JSON.stringify(store))}catch(e){}};
+const byId=id=>R.find(r=>r.id===id), tById=id=>T.find(t=>t.id===id);
+const sec=id=>SECTIONS.find(s=>s.id===id), tsec=id=>TSECS.find(s=>s.id===id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function fmt(x){if(x>=100)return (Math.round(x*10)/10).toString();if(x>=10)return (+x.toFixed(1)).toString();if(x>=1)return (+x.toFixed(2)).toString();return (+x.toPrecision(3)).toString()}
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1500)}
+let factor=1;
+
+/* ============ VIEWS ============ */
+function setHeader(t,back,key){$("#hdr").textContent=t;$("#back").style.display=back?"block":"none";
+ $("#info").style.display=back?"none":"block";$("#logo").style.display=back?"none":"block";$("#srch").style.display=back?"none":"block";
+ const st=$("#star");if(key){st.style.display="block";st.textContent=store.fav.includes(key)?"★":"☆";st.onclick=()=>{const i=store.fav.indexOf(key);i<0?store.fav.push(key):store.fav.splice(i,1);save();st.textContent=i<0?"★":"☆";toast(i<0?"Saved":"Removed")}}else st.style.display="none"}
+function navOn(k){document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.go===k))}
+function itemR(r){return `<div class="item" data-go="r-${r.id}"><b>${esc(r.n)}</b><span>${esc(r.u)}</span></div>`}
+function itemT(t){return `<div class="item test" data-go="t-${t.id}"><b>${esc(t.n)}</b><span>${esc(t.aim)}</span></div>`}
+function wrap(h){return h?`<div class="list">${h}</div>`:`<div class="empty">Nothing found.</div>`}
+function bind(){app.querySelectorAll("[data-go]").forEach(e=>e.onclick=()=>go(e.dataset.go))}
+
+function home(){setHeader("Elixir Lab",false);navOn("");
+ app.innerHTML=`<input class="search" id="q" placeholder="Search reagents & tests… (e.g. lignin, Dragendorff)">
+ <div class="grid">${SECTIONS.map(s=>`<div class="tile" data-go="s-${s.id}"><span class="ic">${s.ic}</span><b>${s.n}</b><small>${R.filter(r=>r.s===s.id).length} reagents · ${s.d}</small></div>`).join("")}</div>`;
+ bind();$("#q").onfocus=()=>go("search")}
+function testsHome(){setHeader("Tests & procedures",false);navOn("tests");
+ app.innerHTML=`<div class="sechead"><p>Step-by-step procedures with expected results and precautions. Start with <b>Extract preparation</b> if you are new.</p></div>
+ <div class="grid">${TSECS.map(s=>`<div class="tile" data-go="ts-${s.id}"><span class="ic">${s.ic}</span><b>${s.n}</b><small>${T.filter(t=>t.c===s.id).length} procedures${s.d?" · "+s.d:""}</small></div>`).join("")}</div>`;bind()}
+function section(id){const s=sec(id);if(!s)return home();setHeader(s.n,true);navOn("");
+ app.innerHTML=`<div class="sechead"><p>${esc(s.d)}</p></div>${wrap(R.filter(r=>r.s===id).map(itemR).join(""))}`;bind()}
+function tsection(id){const s=tsec(id);if(!s)return testsHome();setHeader(s.n,true);navOn("tests");
+ app.innerHTML=`${s.d?`<div class="sechead"><p>${esc(s.d)}</p></div>`:""}${wrap(T.filter(t=>t.c===id).map(itemT).join(""))}`;bind()}
+function search(){setHeader("Search",true);navOn("search");
+ app.innerHTML=`<input class="search" id="q" placeholder="Reagent, test, compound or use…"><div id="res"></div>`;
+ const q=$("#q"),run=()=>{const v=q.value.trim().toLowerCase();
+  const rs=R.filter(r=>!v||(r.n+" "+r.a+" "+r.u+" "+r.r+" "+r.p.map(p=>p.i.map(i=>i[0]).join(" ")).join(" ")).toLowerCase().includes(v));
+  const ts=T.filter(t=>!v||(t.n+" "+t.aim+" "+t.pos+" "+t.pr.join(" ")).toLowerCase().includes(v));
+  $("#res").innerHTML=(ts.length?`<div class="lbl">Tests (${ts.length})</div>${wrap(ts.map(itemT).join(""))}`:"")+(rs.length?`<div class="lbl">Reagents (${rs.length})</div>${wrap(rs.map(itemR).join(""))}`:"")+(!ts.length&&!rs.length?`<div class="empty">Nothing found.</div>`:"");bind()};
+ q.oninput=run;run();setTimeout(()=>q.focus(),50)}
+function saved(){setHeader("Saved",true);navOn("saved");
+ const h=store.fav.map(k=>k.startsWith("t:")?(tById(k.slice(2))?itemT(tById(k.slice(2))):""):(byId(k)?itemR(byId(k)):"")).join("");
+ app.innerHTML=h?`<div class="list">${h}</div>`:`<div class="empty">Tap ☆ on any reagent or test to save it here.</div>`;bind()}
+
+function linkChip(id){const r=byId(id),t=tById(id);if(r)return `<button class="chip lnk" data-go="r-${id}">🧪 ${esc(r.n)}</button>`;if(t)return `<button class="chip lnk" data-go="t-${id}">📋 ${esc(t.n)}</button>`;return ""}
+
+function reagent(id){const r=byId(id);if(!r)return home();setHeader(sec(r.s).n.replace("Microscopy – ",""),true,id);navOn("");factor=1;
+ const scalable=r.p.some(p=>p.i.some(i=>i[1]!=null));
+ const used=T.filter(t=>t.need.includes(id));
+ app.innerHTML=`<h2 class="title">${esc(r.n)}</h2><p class="aka">${esc(r.a)}</p>
+ <div class="tags">${r.h.length?r.h.map(h=>`<span class="tag">⚠ ${h}</span>`).join(""):`<span class="tag ok">Low hazard</span>`}</div>
+ <div class="card"><h3>Used for</h3>${esc(r.u)}</div>
+ <div class="card"><h3>Ingredients</h3>
+  ${scalable?`<div class="chips" id="sc">${[0.25,0.5,1,2,5].map(f=>`<button class="chip${f===1?" on":""}" data-f="${f}">×${f}</button>`).join("")}${r.y?`<input type="number" inputmode="decimal" id="vol" placeholder="mL">`:""}</div>`:""}
+  <div id="ing" style="margin-top:10px"></div></div>
+ <div class="card"><h3>Preparation (tap to tick)</h3><ol class="steps">${r.m.map(s=>`<li>${esc(s)}</li>`).join("")}</ol></div>
+ ${used.length?`<div class="card"><h3>Full test procedures</h3><div class="chips">${used.map(t=>linkChip(t.id)).join("")}</div></div>`:""}
+ ${r.t&&r.t!=="—"?`<div class="card"><h3>Quick use</h3>${esc(r.t).replace(/\n/g,"<br><br>")}${r.r&&r.r!=="—"?`<div class="res"><b>Positive:</b> ${esc(r.r)}</div>`:""}</div>`:""}
+ <div class="card"><h3>Storage</h3>${esc(r.st)}</div>
+ ${r.sf&&r.sf!=="—"?`<div class="card safety"><h3>⚠ Safety</h3>${esc(r.sf)}</div>`:""}
+ ${r.nt?`<div class="card note"><h3>💡 Notes & tips</h3>${esc(r.nt)}</div>`:""}
+ <div class="btnrow"><button class="btn pri" id="copy">Copy recipe</button></div>`;
+ drawIng(r);bind();tickable();
+ const sc=$("#sc");if(sc){sc.querySelectorAll("[data-f]").forEach(c=>c.onclick=()=>{factor=+c.dataset.f;sc.querySelectorAll("[data-f]").forEach(x=>x.classList.toggle("on",x===c));const v=$("#vol");if(v)v.value="";drawIng(r)});
+  const v=$("#vol");if(v)v.oninput=()=>{const x=parseFloat(v.value);if(x>0){factor=x/r.y;sc.querySelectorAll("[data-f]").forEach(c=>c.classList.remove("on"));drawIng(r)}}}
+ $("#copy").onclick=()=>copyText(recipeText(r))}
+
+function test(id){const t=tById(id);if(!t)return testsHome();setHeader(tsec(t.c).n,true,"t:"+id);navOn("tests");
+ const has=x=>x&&x!=="—";
+ app.innerHTML=`<h2 class="title">${esc(t.n)}</h2><p class="aka">${esc(t.aim)}</p>
+ ${t.need.length||t.ex.length?`<div class="card"><h3>Prepare first</h3>${t.need.length?`<div class="chips">${t.need.map(linkChip).join("")}</div>`:""}${t.ex.length?`<div class="mats"><b>Also needed:</b> ${t.ex.map(esc).join(" · ")}</div>`:""}</div>`:""}
+ <div class="card"><h3>Sample</h3>${esc(t.smp)}</div>
+ <div class="card"><h3>Procedure (tap to tick)</h3><ol class="steps">${t.pr.map(s=>`<li>${esc(s)}</li>`).join("")}</ol></div>
+ ${has(t.pos)||has(t.neg)?`<div class="card"><h3>Results</h3>
+  ${has(t.pos)?`<div class="res pos"><b>✔ Positive:</b> ${esc(t.pos)}</div>`:""}
+  ${has(t.neg)?`<div class="res neg"><b>✘ Negative:</b> ${esc(t.neg)}</div>`:""}</div>`:""}
+ ${t.ctl?`<div class="card"><h3>Controls</h3>${esc(t.ctl)}</div>`:""}
+ ${t.pc.length?`<div class="card note"><h3>⚠ Precautions & sources of error</h3><ul class="pc">${t.pc.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>`:""}
+ <div class="btnrow"><button class="btn pri" id="copy">Copy procedure</button></div>`;
+ bind();tickable();$("#copy").onclick=()=>copyText(testText(t))}
+
+function tickable(){app.querySelectorAll("ol.steps li").forEach(li=>li.onclick=()=>li.classList.toggle("done"))}
+function qtyStr(i){if(i[1]==null)return esc(i[2]||"");const q=fmt(i[1]*factor);return i[3]==="to"?`to ${q} ${i[2]}`:`${q} ${i[2]}`}
+function drawIng(r){$("#ing").innerHTML=r.p.map(p=>`${p.t?`<div class="part">${esc(p.t)}</div>`:""}<table>${p.i.map(i=>`<tr><td>${esc(i[0])}</td><td class="q">${qtyStr(i)}</td></tr>`).join("")}</table>`).join("")+(r.y?`<div class="yield">Makes about <b>${fmt(r.y*factor)} mL</b>${factor!==1?` (×${fmt(factor)})`:""}. Type a volume in the mL box to scale exactly.</div>`:"")}
+const un=s=>s.replace(/&amp;/g,"&");
+function recipeText(r){return `${r.n} (${r.a})\nUse: ${r.u}\n\nIngredients${factor!==1?` (×${fmt(factor)})`:""}:\n`+r.p.map(p=>(p.t?p.t+":\n":"")+p.i.map(i=>`• ${i[0]}: ${un(qtyStr(i))}`).join("\n")).join("\n")+`\n\nPreparation:\n`+r.m.map((s,k)=>`${k+1}. ${s}`).join("\n")+(r.t&&r.t!=="—"?`\n\nTest: ${r.t}`:"")+(r.r&&r.r!=="—"?`\nPositive: ${r.r}`:"")+`\nStorage: ${r.st}\nSafety: ${r.sf}`}
+function testText(t){const nm=id=>(byId(id)||tById(id)||{}).n;return `${t.n}\nAim: ${t.aim}\n`+(t.need.length?`Prepare: ${t.need.map(nm).filter(Boolean).join(", ")}\n`:"")+(t.ex.length?`Also needed: ${t.ex.join(", ")}\n`:"")+`Sample: ${t.smp}\n\nProcedure:\n`+t.pr.map((s,k)=>`${k+1}. ${s}`).join("\n")+(t.pos!=="—"?`\n\nPositive: ${t.pos}`:"")+(t.neg!=="—"?`\nNegative: ${t.neg}`:"")+(t.ctl?`\nControls: ${t.ctl}`:"")+(t.pc.length?`\n\nPrecautions:\n`+t.pc.map(p=>`• ${p}`).join("\n"):"")}
+function copyText(t){try{navigator.clipboard.writeText(t).then(()=>toast("Copied"),()=>fallbackCopy(t))}catch(e){fallbackCopy(t)}}
+function fallbackCopy(t){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");toast("Copied")}catch(e){toast("Copy not allowed")}a.remove()}
+
+function tools(){setHeader("Calculators",true);navOn("tools");
+ app.innerHTML=`
+ <div class="card"><h3>% w/v solution</h3>How much solid do I weigh?
+  <label class="f">Strength (% w/v)</label><input class="inp" id="p1" type="number" inputmode="decimal" placeholder="e.g. 5">
+  <label class="f">Final volume (mL)</label><input class="inp" id="p2" type="number" inputmode="decimal" placeholder="e.g. 250">
+  <div class="out" id="po">Enter values.</div></div>
+ <div class="card"><h3>Molar solution</h3>
+  <label class="f">Molecular weight (g/mol)</label><input class="inp" id="m1" type="number" inputmode="decimal" placeholder="e.g. 58.44 (NaCl)">
+  <label class="f">Molarity (M)</label><input class="inp" id="m2" type="number" inputmode="decimal" placeholder="e.g. 0.1">
+  <label class="f">Final volume (mL)</label><input class="inp" id="m3" type="number" inputmode="decimal" placeholder="e.g. 100">
+  <div class="out" id="mo">Enter values.</div></div>
+ <div class="card"><h3>Dilution (C₁V₁ = C₂V₂)</h3>Ethanol, acids, any stock (same units for C₁ and C₂).
+  <label class="f">Stock concentration C₁</label><input class="inp" id="d1" type="number" inputmode="decimal" placeholder="e.g. 96">
+  <label class="f">Wanted concentration C₂</label><input class="inp" id="d2" type="number" inputmode="decimal" placeholder="e.g. 70">
+  <label class="f">Wanted final volume V₂ (mL)</label><input class="inp" id="d3" type="number" inputmode="decimal" placeholder="e.g. 500">
+  <div class="out" id="do">Enter values.</div></div>
+ <div class="card"><h3>Rf value (TLC)</h3>
+  <label class="f">Distance travelled by spot (cm)</label><input class="inp" id="r1" type="number" inputmode="decimal" placeholder="e.g. 3.2">
+  <label class="f">Distance travelled by solvent front (cm)</label><input class="inp" id="r2" type="number" inputmode="decimal" placeholder="e.g. 8">
+  <div class="out" id="ro">Enter values.</div></div>
+ <div class="card note"><h3>💡 Reminder</h3>“to 100 mL” means dissolve, then add solvent until the total volume reaches 100 mL (use a volumetric flask or measuring cylinder). For acids: always add acid to water.</div>`;
+ const n=id=>parseFloat($("#"+id).value);
+ const P=()=>{const a=n("p1"),b=n("p2");$("#po").innerHTML=a>0&&b>0?`Weigh <b>${fmt(a*b/100)} g</b> and dissolve, then make up <b>to ${fmt(b)} mL</b>.`:"Enter values."};
+ const M=()=>{const a=n("m1"),b=n("m2"),c=n("m3");$("#mo").innerHTML=a>0&&b>0&&c>0?`Weigh <b>${fmt(a*b*c/1000)} g</b>, dissolve, make up <b>to ${fmt(c)} mL</b>.`:"Enter values."};
+ const D=()=>{const a=n("d1"),b=n("d2"),c=n("d3");$("#do").innerHTML=a>0&&b>0&&c>0?(b>a?"Wanted concentration cannot exceed the stock.":`Take <b>${fmt(b*c/a)} mL</b> of stock and make up <b>to ${fmt(c)} mL</b> (≈ ${fmt(c-b*c/a)} mL solvent).`):"Enter values."};
+ const F=()=>{const a=n("r1"),b=n("r2");$("#ro").innerHTML=a>0&&b>0?(a>b?"Spot distance cannot exceed solvent front.":`Rf = <b>${(a/b).toFixed(2)}</b>`):"Enter values."};
+ ["p1","p2"].forEach(i=>$("#"+i).oninput=P);["m1","m2","m3"].forEach(i=>$("#"+i).oninput=M);["d1","d2","d3"].forEach(i=>$("#"+i).oninput=D);["r1","r2"].forEach(i=>$("#"+i).oninput=F)}
+
+function about(){setHeader("About",true);navOn("");
+ app.innerHTML=`<div class="card"><img class="brandlogo" src="${$("#logo").src}" alt="Elixir"><h3 style="text-align:center">Elixir Lab</h3>A pocket guide to preparing and using reagents in pharmacognosy and phytochemistry practical work: microscopy, phytochemical screening and TLC detection.<br><br>
+ <b>How to use:</b><br>• <b>Reagents</b> tab: how to prepare each reagent. Scale with ×¼ … ×5 or type a volume in mL.<br>• <b>Results</b> tab: record +/– results for several samples and copy the table.<br>• <b>Tests</b> tab: full procedures with sample, steps, positive/negative results, controls and precautions. “Prepare first” links take you to the reagents needed.<br>• Tap steps to tick them off at the bench.<br>• ☆ saves a reagent or test.<br>• Copy → paste into WhatsApp, notes or a lab sheet.</div>
+ <div class="card safety"><h3>⚠ Safety first</h3>Wear a lab coat, gloves and goggles. Use a fume hood for concentrated acids, ammonia, chloroform, pyridine, bromine and spray reagents. Always add acid to water. Collect mercury, lead, bismuth and platinum waste separately.</div>
+ ${contentCard()}
+ <p class="disc">Formulations and procedures follow standard pharmacognosy practical texts and pharmacopoeial practice; minor variations exist between references. Verify against your department's manual or the current pharmacopoeia before official/quantitative use. ${R.length} reagents · ${T.length} test procedures.</p>`}
+
+/* ============ RESULTS SHEETS ============ */
+const CL={t_lignin:"Lignin",t_starch:"Starch",t_cell:"Cellulose",t_fat:"Fixed oil / fat",t_muc:"Mucilage",t_ox:"Ca oxalate / carbonate",t_tanc:"Tannin cells",t_aleu:"Aleurone (protein)",
+ t_alk:"Alkaloids",t_vitali:"Tropane alkaloids",t_murex:"Purine alkaloids",t_thal:"Quinine",t_vanurk:"Ergot alkaloids",
+ t_molisch:"Carbohydrates / glycosides",t_fehling:"Reducing sugars",t_bened:"Reducing sugars",t_barf:"Monosaccharides",t_selw:"Ketoses",t_bial:"Pentoses",t_iod:"Starch",t_nonred:"Non-reducing sugars",t_osaz:"Sugar identity",
+ t_keller:"Cardiac glycosides",t_kedde:"Cardiac glycosides",t_baljet:"Cardiac glycosides",t_legal:"Cardiac glycosides",t_born:"Free anthraquinones",t_bornm:"Anthraquinone glycosides",t_cyan:"Cyanogenic glycosides",t_froth:"Saponins",
+ t_fecl3:"Phenolics / tannins",t_gel:"Tannins",t_lead:"Phenolics",t_shin:"Flavonoids",t_alk_fl:"Flavonoids",t_alcl:"Flavonoids",
+ t_lb:"Steroids / triterpenes",t_salk:"Sterols / triterpenes",t_voil:"Volatile oil",t_ninh:"Amino acids",t_biur:"Proteins",t_xan:"Proteins"};
+const PRESETS=[
+ {id:"std",n:"Standard phytochemical screening",t:["t_molisch","t_fehling","t_iod","t_alk","t_keller","t_kedde","t_bornm","t_cyan","t_froth","t_fecl3","t_gel","t_shin","t_alcl","t_lb","t_salk","t_voil","t_biur"]},
+ {id:"micro",n:"Microscopical tests",t:T.filter(t=>t.c==="micro").map(t=>t.id)},
+ {id:"alk",n:"Alkaloids",t:T.filter(t=>t.c==="alk").map(t=>t.id)},
+ {id:"carb",n:"Carbohydrates",t:T.filter(t=>t.c==="carb").map(t=>t.id)},
+ {id:"gly",n:"Glycosides & saponins",t:T.filter(t=>t.c==="gly").map(t=>t.id)},
+ {id:"custom",n:"Custom – pick tests",t:[]}
+];
+const VALS=["","+","++","+++","±","–"], RANK={"+++":5,"++":4,"+":3,"±":2,"–":1,"":0};
+store.sheets=store.sheets||[];
+const uid=()=>Math.random().toString(36).slice(2,8);
+const shById=id=>store.sheets.find(s=>s.id===id);
+const today=()=>new Date().toISOString().slice(0,10);
+
+function modal(html,onReady){const m=document.createElement("div");m.className="modal";m.innerHTML=`<div class="sheetbox">${html}</div>`;document.body.appendChild(m);
+ m.onclick=e=>{if(e.target===m)m.remove()};onReady&&onReady(m,()=>m.remove());return m}
+function confirmBox(msg,ok){modal(`<p style="margin:0 0 14px">${esc(msg)}</p><div class="btnrow"><button class="btn" id="mc">Cancel</button><button class="btn danger" id="mo">Delete</button></div>`,(m,close)=>{m.querySelector("#mc").onclick=close;m.querySelector("#mo").onclick=()=>{close();ok()}})}
+
+function results(){setHeader("Results sheets",false);navOn("results");
+ const l=[...store.sheets].sort((a,b)=>b.date.localeCompare(a.date));
+ app.innerHTML=`<button class="btn pri wide" id="new">＋ New results sheet</button>
+ ${l.length?`<div class="list">${l.map(s=>{const done=Object.values(s.v).filter(Boolean).length,tot=s.tests.length*s.samples.length;
+  return `<div class="item" data-go="sheet-${s.id}"><b>${esc(s.title)}</b><span>${s.date} · ${s.samples.map(x=>esc(x.n)).join(", ")} · ${done}/${tot} recorded</span></div>`}).join("")}</div>`
+ :`<div class="empty">No sheets yet.<br>Create one to record +/– results for one or more drug samples, then copy the table into Word, Excel or WhatsApp.</div>`}
+ <p class="disc">Sheets are stored on this device only. Use “Copy” on a sheet to keep a permanent copy.</p>`;
+ bind();$("#new").onclick=()=>newSheet()}
+
+function testPicker(sel){return TSECS.filter(s=>s.id!=="prep"&&s.id!=="tlc").map(s=>`<div class="part">${s.ic} ${esc(s.n)}</div>${T.filter(t=>t.c===s.id).map(t=>`<label class="ck"><input type="checkbox" value="${t.id}"${sel.includes(t.id)?" checked":""}> ${esc(t.n)}</label>`).join("")}`).join("")}
+
+function newSheet(){
+ modal(`<h3 class="mh">New results sheet</h3>
+ <label class="f">Title</label><input class="inp" id="nt" placeholder="e.g. Phytochemical screening – Group A">
+ <label class="f">Samples (drugs), separated by commas</label><input class="inp" id="ns" placeholder="e.g. Senna leaf, Rhubarb, Cinchona bark">
+ <label class="f">Test panel</label><div class="chips" id="np">${PRESETS.map((p,i)=>`<button class="chip${i===0?" on":""}" data-p="${p.id}">${esc(p.n)}</button>`).join("")}</div>
+ <div id="pick" class="pick" style="display:none"></div>
+ <div class="btnrow" style="margin-top:14px"><button class="btn" id="nc">Cancel</button><button class="btn pri" id="nok">Create</button></div>`,
+ (m,close)=>{let preset=PRESETS[0].id;const q=s=>m.querySelector(s);
+  m.querySelectorAll("[data-p]").forEach(c=>c.onclick=()=>{preset=c.dataset.p;m.querySelectorAll("[data-p]").forEach(x=>x.classList.toggle("on",x===c));
+   const pk=q("#pick");if(preset==="custom"){pk.style.display="block";pk.innerHTML=testPicker([])}else pk.style.display="none"});
+  q("#nc").onclick=close;
+  q("#nok").onclick=()=>{const names=q("#ns").value.split(",").map(x=>x.trim()).filter(Boolean);
+   const tests=preset==="custom"?[...m.querySelectorAll("#pick input:checked")].map(x=>x.value):PRESETS.find(p=>p.id===preset).t;
+   if(!names.length){toast("Add at least one sample");return}if(!tests.length){toast("Pick at least one test");return}
+   const sh={id:uid(),title:q("#nt").value.trim()||PRESETS.find(p=>p.id===preset).n,date:today(),samples:names.map(n=>({id:uid(),n})),tests,v:{},notes:""};
+   store.sheets.push(sh);save();close();go("sheet-"+sh.id)}})}
+
+function cellCls(v){return v==="+++"||v==="++"||v==="+"?"cp":v==="–"?"cn":v==="±"?"cd":""}
+function sheet(id){const s=shById(id);if(!s)return results();setHeader("Results sheet",true);navOn("results");
+ const groups=[];TSECS.forEach(g=>{const ts=s.tests.filter(t=>tById(t)&&tById(t).c===g.id);if(ts.length)groups.push([g,ts])});
+ app.innerHTML=`<h2 class="title" id="ttl">${esc(s.title)}</h2><p class="aka">${s.date} · tap a cell to cycle: + → ++ → +++ → ± → – → blank</p>
+ <div class="tblwrap"><table class="rs"><thead><tr><th>Test</th>${s.samples.map(x=>`<th class="sc">${esc(x.n)}</th>`).join("")}</tr></thead><tbody>
+ ${groups.map(([g,ts])=>`<tr class="gh"><td colspan="${s.samples.length+1}">${g.ic} ${esc(g.n.replace(" tests",""))}</td></tr>`+ts.map(t=>`<tr><td class="tn" data-go="t-${t}">${esc(tById(t).n.replace(/ \(.*\)$/,""))}<small>${esc(CL[t]||"")}</small></td>${s.samples.map(x=>{const v=s.v[t+"|"+x.id]||"";return `<td class="cell ${cellCls(v)}" data-k="${t}|${x.id}">${v}</td>`}).join("")}</tr>`).join("")).join("")}
+ </tbody></table></div>
+ <div class="legend"><span class="cp">+ / ++ / +++</span> present (weak→strong) <span class="cd">±</span> doubtful <span class="cn">–</span> absent</div>
+ <div class="card"><h3>Summary</h3><div id="sum"></div></div>
+ <div class="card"><h3>Notes</h3><textarea class="inp" id="notes" rows="3" placeholder="Observations, extract details, deviations…">${esc(s.notes)}</textarea></div>
+ <div class="btnrow"><button class="btn pri" id="ctab">Copy table</button><button class="btn pri" id="crep">Copy report</button></div>
+ <div class="btnrow"><button class="btn" id="edit">Edit sheet</button><button class="btn danger" id="del">Delete</button></div>
+ <p class="disc">“Copy table” pastes as a table into Excel / Google Sheets (and Word via Paste → Keep text, then Convert text to table). “Copy report” gives a readable summary for WhatsApp or a lab report.</p>`;
+ const drawSum=()=>{$("#sum").innerHTML=s.samples.map(x=>{const r=summary(s,x);return `<div class="sumrow"><b>${esc(x.n)}</b><br>${r.pos.length?`<span class="cp">Present:</span> ${r.pos.map(esc).join(", ")}<br>`:""}${r.dbt.length?`<span class="cd">Doubtful:</span> ${r.dbt.map(esc).join(", ")}<br>`:""}${r.neg.length?`<span class="cn">Absent:</span> ${r.neg.map(esc).join(", ")}`:""}${!r.pos.length&&!r.dbt.length&&!r.neg.length?`<span class="muted">No results recorded yet.</span>`:""}</div>`}).join("")};
+ drawSum();bind();
+ app.querySelectorAll(".cell").forEach(c=>c.onclick=()=>{const k=c.dataset.k,v=s.v[k]||"",nv=VALS[(VALS.indexOf(v)+1)%VALS.length];
+  if(nv)s.v[k]=nv;else delete s.v[k];c.textContent=nv;c.className="cell "+cellCls(nv);save();drawSum()});
+ $("#notes").oninput=e=>{s.notes=e.target.value;save()};
+ $("#ctab").onclick=()=>copyText(sheetTSV(s));$("#crep").onclick=()=>copyText(sheetReport(s));
+ $("#del").onclick=()=>confirmBox(`Delete “${s.title}”? This cannot be undone.`,()=>{store.sheets=store.sheets.filter(x=>x.id!==s.id);save();toast("Deleted");go("results")});
+ $("#edit").onclick=()=>editSheet(s)}
+
+function summary(s,x){const best={};s.tests.forEach(t=>{const lab=CL[t]||tById(t).n,v=s.v[t+"|"+x.id]||"";if(!(lab in best)||RANK[v]>RANK[best[lab]])best[lab]=v});
+ const pos=[],dbt=[],neg=[];Object.entries(best).forEach(([l,v])=>{if(RANK[v]>=3)pos.push(`${l} (${v})`);else if(v==="±")dbt.push(l);else if(v==="–")neg.push(l)});return {pos,dbt,neg}}
+function sheetTSV(s){return ["Test\tDetects\t"+s.samples.map(x=>x.n).join("\t"),...s.tests.map(t=>`${tById(t).n}\t${CL[t]||""}\t`+s.samples.map(x=>(s.v[t+"|"+x.id]||"").replace("–","-")).join("\t"))].join("\n")}
+function sheetReport(s){return `${s.title}\nDate: ${s.date}\n\n`+s.samples.map(x=>{const r=summary(s,x);return `▸ ${x.n}\n`+s.tests.map(t=>`  • ${tById(t).n}: ${s.v[t+"|"+x.id]||"not recorded"}`).join("\n")+`\n  Present: ${r.pos.join(", ")||"—"}\n  Absent: ${r.neg.join(", ")||"—"}`+(r.dbt.length?`\n  Doubtful: ${r.dbt.join(", ")}`:"")}).join("\n\n")+(s.notes?`\n\nNotes: ${s.notes}`:"")+`\n\nKey: + weak, ++ moderate, +++ strong, ± doubtful, – absent`}
+
+function editSheet(s){
+ modal(`<h3 class="mh">Edit sheet</h3>
+ <label class="f">Title</label><input class="inp" id="et" value="${esc(s.title)}">
+ <label class="f">Samples</label><div id="es">${s.samples.map(x=>`<div class="srow" data-id="${x.id}"><input class="inp" value="${esc(x.n)}"><button class="xbtn" aria-label="Remove">✕</button></div>`).join("")}</div>
+ <button class="chip" id="eadd" style="margin-top:8px">＋ Add sample</button>
+ <label class="f">Tests</label><div class="pick" style="display:block">${testPicker(s.tests)}</div>
+ <div class="btnrow" style="margin-top:14px"><button class="btn" id="ec">Cancel</button><button class="btn pri" id="eok">Save</button></div>`,
+ (m,close)=>{const q=x=>m.querySelector(x);
+  const wire=()=>m.querySelectorAll(".xbtn").forEach(b=>b.onclick=()=>{if(m.querySelectorAll(".srow").length>1)b.parentNode.remove();else toast("Keep at least one sample")});wire();
+  q("#eadd").onclick=()=>{const d=document.createElement("div");d.className="srow";d.dataset.id=uid();d.innerHTML=`<input class="inp" placeholder="Sample name"><button class="xbtn">✕</button>`;q("#es").appendChild(d);wire();d.querySelector("input").focus()};
+  q("#ec").onclick=close;
+  q("#eok").onclick=()=>{const tests=[...m.querySelectorAll(".pick input:checked")].map(x=>x.value);if(!tests.length){toast("Pick at least one test");return}
+   const samples=[...m.querySelectorAll(".srow")].map(r=>({id:r.dataset.id,n:r.querySelector("input").value.trim()})).filter(x=>x.n);if(!samples.length){toast("Add a sample");return}
+   s.title=q("#et").value.trim()||s.title;s.samples=samples;
+   const keep=s.tests.filter(t=>tests.includes(t));s.tests=keep.concat(tests.filter(t=>!keep.includes(t)));
+   Object.keys(s.v).forEach(k=>{const [t,sid]=k.split("|");if(!tests.includes(t)||!samples.some(x=>x.id===sid))delete s.v[k]});
+   save();close();sheet(s.id)}})}
+
+/* ============ CONTENT LOADER (elixir-lab-content.xlsx) ============ */
+const CONTENT={source:"built-in",problems:[],file:"elixir-lab-content.xlsx"};
+function loadScript(src){return new Promise((ok,no)=>{const s=document.createElement("script");s.src=src;s.onload=ok;s.onerror=no;document.head.appendChild(s)})}
+async function loadContent(){
+ if(!/^https?:$/.test(location.protocol))return;
+ let buf;try{const r=await fetch(CONTENT.file,{cache:"no-cache"});if(!r.ok)return;buf=await r.arrayBuffer()}catch(e){return}
+ try{if(!window.XLSX)await loadScript("xlsx.mini.min.js")}catch(e){CONTENT.problems.push("Could not load xlsx.mini.min.js – upload it next to index.html.");return}
+ try{applyContent(XLSX.read(buf,{type:"array"}))}catch(e){CONTENT.problems.push("Could not read the content file: "+e.message)}
+ route()}
+function applyContent(wb){
+ const P=[],need=n=>{const ws=wb.Sheets[n];if(!ws){P.push(`Sheet “${n}” is missing.`);return []}return XLSX.utils.sheet_to_json(ws,{defval:"",raw:true})};
+ const g=(row,pre)=>{const k=Object.keys(row).find(k=>k.trim().toLowerCase().startsWith(pre));return k==null?"":String(row[k]).trim()};
+ const lines=s=>String(s).split(/\r?\n/).map(x=>x.trim()).filter(Boolean), list=s=>String(s).split(",").map(x=>x.trim()).filter(Boolean);
+ const S=need("Sections"),RR=need("Reagents"),II=need("Ingredients"),TT=need("Tests");
+ const sR=[],sT=[];S.forEach((r,i)=>{const id=g(r,"id");if(!id)return;const o={id,ic:g(r,"icon")||"•",n:g(r,"name")||id,d:g(r,"description")};
+  const ty=g(r,"type").toLowerCase();if(ty.startsWith("r"))sR.push(o);else if(ty.startsWith("t"))sT.push(o);else P.push(`Sections row ${i+2}: Type must be Reagent or Test.`)});
+ const seen=new Set(),dup=(id,where)=>{if(seen.has(id))P.push(`${where}: ID “${id}” is used twice.`);seen.add(id)};
+ const ing={};II.forEach((r,i)=>{const rid=g(r,"reagent id");if(!rid)return;const name=g(r,"ingredient");if(!name){P.push(`Ingredients row ${i+2}: Ingredient is empty.`);return}
+  let a=g(r,"amount"),u=g(r,"unit"),q=a===""?null:Number(a.replace(",","."));if(q!=null&&isNaN(q)){u=(a+" "+u).trim();q=null}
+  const part=g(r,"part"),arr=ing[rid]=ing[rid]||[];let p=arr.find(x=>(x.t||"")===part);if(!p){p={t:part,i:[]};arr.push(p)}
+  const it=[name,q,u];if(g(r,"make up").toUpperCase().startsWith("Y"))it.push("to");p.i.push(it)});
+ const nR=[];RR.forEach((r,i)=>{const id=g(r,"id");if(!id)return;dup(id,`Reagents row ${i+2}`);const s=g(r,"section");
+  if(!sR.some(x=>x.id===s))P.push(`Reagents “${id}”: Section ID “${s}” not found in Sections (Type = Reagent).`);
+  if(!ing[id])P.push(`Reagent “${id}” has no rows in Ingredients.`);
+  nR.push({id,s,n:g(r,"name")||id,a:g(r,"also"),u:g(r,"used"),y:Number(g(r,"makes"))||0,p:ing[id]||[{t:"",i:[]}],m:lines(g(r,"preparation")),
+   t:g(r,"quick"),r:g(r,"positive"),st:g(r,"storage")||"—",h:list(g(r,"hazard")),sf:g(r,"safety"),nt:g(r,"notes")})});
+ Object.keys(ing).forEach(k=>{if(!nR.some(r=>r.id===k))P.push(`Ingredients: Reagent ID “${k}” does not exist in Reagents.`)});
+ const nT=[],cl={},std=[];TT.forEach((r,i)=>{const id=g(r,"id");if(!id)return;dup(id,`Tests row ${i+2}`);const c=g(r,"section");
+  if(!sT.some(x=>x.id===c))P.push(`Test “${id}”: Section ID “${c}” not found in Sections (Type = Test).`);
+  const pr=lines(g(r,"procedure"));if(!pr.length)P.push(`Test “${id}” has no procedure steps.`);
+  nT.push({id,c,n:g(r,"name")||id,aim:g(r,"aim"),need:list(g(r,"prepare")),ex:lines(g(r,"also needed")),smp:g(r,"sample"),pr,
+   pos:g(r,"positive"),neg:g(r,"negative"),ctl:g(r,"controls"),pc:lines(g(r,"precaution"))});
+  const d=g(r,"detects");if(d)cl[id]=d;if(g(r,"standard").toUpperCase().startsWith("Y"))std.push(id)});
+ nT.forEach(t=>t.need.forEach(x=>{if(!seen.has(x))P.push(`Test “${t.id}”: “Prepare first” ID “${x}” does not exist.`)}));
+ if(!nR.length||!nT.length||!sR.length||!sT.length){CONTENT.problems=P.concat(["Content file looks empty – the built-in content is shown instead."]);return}
+ SECTIONS.splice(0,SECTIONS.length,...sR);TSECS.splice(0,TSECS.length,...sT);R.splice(0,R.length,...nR);T.splice(0,T.length,...nT);
+ Object.keys(CL).forEach(k=>delete CL[k]);Object.assign(CL,cl);
+ PRESETS.splice(0,PRESETS.length,{id:"std",n:"Standard phytochemical screening",t:std},
+  ...TSECS.filter(s=>T.some(t=>t.c===s.id)&&!T.filter(t=>t.c===s.id).every(t=>!CL[t.id])).map(s=>({id:s.id,n:s.n,t:T.filter(t=>t.c===s.id).map(t=>t.id)})),
+  {id:"custom",n:"Custom – pick tests",t:[]});
+ if(!std.length)PRESETS.shift();
+ CONTENT.source="file";CONTENT.problems=P}
+function contentCard(){const p=CONTENT.problems;
+ return `<div class="card ${p.length?"safety":""}"><h3>${p.length?"⚠ ":""}Content check</h3>
+ Content source: <b>${CONTENT.source==="file"?CONTENT.file:"built into the app"}</b> · ${R.length} reagents · ${T.length} tests.
+ ${p.length?`<ul class="pc">${p.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:`<div class="res pos" style="margin-top:8px">✔ No problems found.</div>`}</div>`}
+
+/* ============ ROUTER (hash) ============ */
+function route(){const h=location.hash.slice(1);window.scrollTo(0,0);
+ if(!h)return home();if(h==="tests")return testsHome();if(h==="search")return search();if(h==="saved")return saved();if(h==="tools")return tools();if(h==="about")return about();if(h==="results")return results();if(h.startsWith("sheet-"))return sheet(h.slice(6));
+ if(h.startsWith("ts-"))return tsection(h.slice(3));if(h.startsWith("s-"))return section(h.slice(2));
+ if(h.startsWith("r-"))return reagent(h.slice(2));if(h.startsWith("t-"))return test(h.slice(2));home()}
+function go(h){if(location.hash.slice(1)===h)route();else location.hash=h}
+window.addEventListener("hashchange",route);
+$("#back").onclick=()=>{if(history.length>1)history.back();else go("")};
+$("#info").onclick=()=>go("about");$("#srch").onclick=()=>go("search");
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>go(b.dataset.go));
+route();
+loadContent();
+try{if("serviceWorker" in navigator&&location.protocol==="https:")navigator.serviceWorker.register("sw.js").catch(()=>{})}catch(e){}
+</script>
+</body>
+</html>

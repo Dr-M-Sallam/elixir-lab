@@ -361,8 +361,8 @@ function home(){setHeader("Reagents",false);navOn("reagents");
  <div class="grid">${SECTIONS.map(s=>`<div class="tile" data-go="s-${s.id}"><span class="ic">${ico(s.ic)}</span><b>${s.n}</b><small>${R.filter(r=>r.s===s.id).length} reagents · ${s.d}</small></div>`).join("")}</div>`;
  bind();$("#q").onfocus=()=>go("search")}
 function testsHome(){setHeader("Elixir Lab",false);navOn("");
- app.innerHTML=`<div class="sechead"><p>Step-by-step procedures with expected results and precautions. New? See <b>Other tests → Extract preparation</b> first.</p></div>
- <div class="grid">${TSECS.map(s=>`<div class="tile" data-go="ts-${s.id}"><span class="ic">${ico(s.ic)}</span><b>${s.n}</b><small>${T.filter(t=>t.c===s.id).length} procedures${s.d?" · "+s.d:""}</small></div>`).join("")}</div>`;bind()}
+ app.innerHTML=`<input class="search" id="q" placeholder="Search tests & reagents…"><div class="sechead"><p>Step-by-step procedures with expected results and precautions. New? See <b>Other tests → Extract preparation</b> first.</p></div>
+ <div class="grid">${TSECS.map(s=>`<div class="tile" data-go="ts-${s.id}"><span class="ic">${ico(s.ic)}</span><b>${s.n}</b><small>${T.filter(t=>t.c===s.id).length} procedures${s.d?" · "+s.d:""}</small></div>`).join("")}</div>`;bind();$("#q").onfocus=()=>go("search")}
 function section(id){const s=sec(id);if(!s)return home();setHeader(s.n,true);navOn("reagents");
  app.innerHTML=`<div class="sechead"><p>${esc(s.d)}</p></div>${wrap(R.filter(r=>r.s===id).map(itemR).join(""))}`;bind()}
 function tsection(id){const s=tsec(id);if(!s)return testsHome();setHeader(s.n,true);navOn("");

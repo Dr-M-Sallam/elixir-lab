@@ -136,8 +136,8 @@ header .star .ico{width:22px;height:22px;vertical-align:-4px}
 </header>
 <main id="app"></main>
 <nav id="nav">
-  <button data-go="" class="on"><i data-ico="flask"></i>Reagents</button>
-  <button data-go="tests"><i data-ico="clipboard"></i>Tests</button>
+  <button data-go="" class="on"><i data-ico="clipboard"></i>Tests</button>
+  <button data-go="reagents"><i data-ico="flask"></i>Reagents</button>
   <button data-go="results"><i data-ico="chart"></i>Results</button>
   <button data-go="saved"><i data-ico="star"></i>Saved</button>
   <button data-go="tools"><i data-ico="calc"></i>Calculators</button>
@@ -356,16 +356,16 @@ function itemT(t){return `<div class="item test" data-go="t-${t.id}"><b>${esc(t.
 function wrap(h){return h?`<div class="list">${h}</div>`:`<div class="empty">Nothing found.</div>`}
 function bind(){app.querySelectorAll("[data-go]").forEach(e=>e.onclick=()=>go(e.dataset.go))}
 
-function home(){setHeader("Elixir Lab",false);navOn("");
+function home(){setHeader("Reagents",false);navOn("reagents");
  app.innerHTML=`<input class="search" id="q" placeholder="Search reagents & tests… (e.g. lignin, Dragendorff)">
  <div class="grid">${SECTIONS.map(s=>`<div class="tile" data-go="s-${s.id}"><span class="ic">${ico(s.ic)}</span><b>${s.n}</b><small>${R.filter(r=>r.s===s.id).length} reagents · ${s.d}</small></div>`).join("")}</div>`;
  bind();$("#q").onfocus=()=>go("search")}
-function testsHome(){setHeader("Tests & procedures",false);navOn("tests");
+function testsHome(){setHeader("Elixir Lab",false);navOn("");
  app.innerHTML=`<div class="sechead"><p>Step-by-step procedures with expected results and precautions. New? See <b>Other tests → Extract preparation</b> first.</p></div>
  <div class="grid">${TSECS.map(s=>`<div class="tile" data-go="ts-${s.id}"><span class="ic">${ico(s.ic)}</span><b>${s.n}</b><small>${T.filter(t=>t.c===s.id).length} procedures${s.d?" · "+s.d:""}</small></div>`).join("")}</div>`;bind()}
-function section(id){const s=sec(id);if(!s)return home();setHeader(s.n,true);navOn("");
+function section(id){const s=sec(id);if(!s)return home();setHeader(s.n,true);navOn("reagents");
  app.innerHTML=`<div class="sechead"><p>${esc(s.d)}</p></div>${wrap(R.filter(r=>r.s===id).map(itemR).join(""))}`;bind()}
-function tsection(id){const s=tsec(id);if(!s)return testsHome();setHeader(s.n,true);navOn("tests");
+function tsection(id){const s=tsec(id);if(!s)return testsHome();setHeader(s.n,true);navOn("");
  app.innerHTML=`${s.d?`<div class="sechead"><p>${esc(s.d)}</p></div>`:""}${wrap(T.filter(t=>t.c===id).map(itemT).join(""))}`;bind()}
 function search(){setHeader("Search",true);navOn("search");
  app.innerHTML=`<input class="search" id="q" placeholder="Reagent, test, compound or use…"><div id="res"></div>`;
@@ -380,7 +380,7 @@ function saved(){setHeader("Saved",true);navOn("saved");
 
 function linkChip(id){const r=byId(id),t=tById(id);if(r)return `<button class="chip lnk" data-go="r-${id}">${ico("flask")} ${esc(r.n)}</button>`;if(t)return `<button class="chip lnk" data-go="t-${id}">${ico("clipboard")} ${esc(t.n)}</button>`;return ""}
 
-function reagent(id){const r=byId(id);if(!r)return home();setHeader(sec(r.s).n.replace("Microscopy – ",""),true,id);navOn("");factor=1;
+function reagent(id){const r=byId(id);if(!r)return home();setHeader(sec(r.s).n.replace("Microscopy – ",""),true,id);navOn("reagents");factor=1;
  const scalable=r.p.some(p=>p.i.some(i=>i[1]!=null));
  const used=T.filter(t=>t.need.includes(id));
  app.innerHTML=`<h2 class="title">${esc(r.n)}</h2><p class="aka">${esc(r.a)}</p>
@@ -401,7 +401,7 @@ function reagent(id){const r=byId(id);if(!r)return home();setHeader(sec(r.s).n.r
   const v=$("#vol");if(v)v.oninput=()=>{const x=parseFloat(v.value);if(x>0){factor=x/r.y;sc.querySelectorAll("[data-f]").forEach(c=>c.classList.remove("on"));drawIng(r)}}}
  $("#copy").onclick=()=>copyText(recipeText(r))}
 
-function test(id){const t=tById(id);if(!t)return testsHome();setHeader(tsec(t.c).n,true,"t:"+id);navOn("tests");
+function test(id){const t=tById(id);if(!t)return testsHome();setHeader(tsec(t.c).n,true,"t:"+id);navOn("");
  const has=x=>x&&x!=="—";
  app.innerHTML=`<h2 class="title">${esc(t.n)}</h2><p class="aka">${esc(t.aim)}</p>
  ${t.need.length||t.ex.length?`<div class="card"><h3>Prepare first</h3>${t.need.length?`<div class="chips">${t.need.map(linkChip).join("")}</div>`:""}${t.ex.length?`<div class="mats"><b>Also needed:</b> ${t.ex.map(esc).join(" · ")}</div>`:""}</div>`:""}
@@ -452,7 +452,7 @@ function tools(){setHeader("Calculators",true);navOn("tools");
  const F=()=>{const a=n("r1"),b=n("r2");$("#ro").innerHTML=a>0&&b>0?(a>b?"Spot distance cannot exceed solvent front.":`Rf = <b>${(a/b).toFixed(2)}</b>`):"Enter values."};
  ["p1","p2"].forEach(i=>$("#"+i).oninput=P);["m1","m2","m3"].forEach(i=>$("#"+i).oninput=M);["d1","d2","d3"].forEach(i=>$("#"+i).oninput=D);["r1","r2"].forEach(i=>$("#"+i).oninput=F)}
 
-function about(){setHeader("About",true);navOn("");
+function about(){setHeader("About",true);navOn("about");
  app.innerHTML=`<div class="card"><img class="brandlogo" src="${$("#logo").src}" alt="Elixir"><h3 style="text-align:center">Elixir Lab</h3>A pocket guide to preparing and using reagents in pharmacognosy and phytochemistry practical work: microscopy, phytochemical screening and TLC detection.<br><br>
  <b>How to use:</b><br>• <b>Reagents</b> tab: how to prepare each reagent. Scale with ×¼ … ×5 or type a volume in mL.<br>• <b>Results</b> tab: record +/– results for several samples and copy the table.<br>• <b>Tests</b> tab: full procedures with sample, steps, positive/negative results, controls and precautions. “Prepare first” links take you to the reagents needed.<br>• Tap steps to tick them off at the bench.<br>• ${ico("star")} saves a reagent or test.<br>• Copy → paste into WhatsApp, notes or a lab sheet.</div>
  <div class="card safety"><h3>${ico("warn")} Safety first</h3>Wear a lab coat, gloves and goggles. Use a fume hood for concentrated acids, ammonia, chloroform, pyridine, bromine and spray reagents. Always add acid to water. Collect mercury, lead, bismuth and platinum waste separately.</div>
@@ -595,7 +595,7 @@ function contentCard(){const p=CONTENT.problems;
 
 /* ============ ROUTER (hash) ============ */
 function route(){const h=location.hash.slice(1);window.scrollTo(0,0);
- if(!h)return home();if(h==="tests")return testsHome();if(h==="search")return search();if(h==="saved")return saved();if(h==="tools")return tools();if(h==="about")return about();if(h==="results")return results();if(h.startsWith("sheet-"))return sheet(h.slice(6));
+ if(!h||h==="tests")return testsHome();if(h==="reagents")return home();if(h==="search")return search();if(h==="saved")return saved();if(h==="tools")return tools();if(h==="about")return about();if(h==="results")return results();if(h.startsWith("sheet-"))return sheet(h.slice(6));
  if(h.startsWith("ts-"))return tsection(h.slice(3));if(h.startsWith("s-"))return section(h.slice(2));
  if(h.startsWith("r-"))return reagent(h.slice(2));if(h.startsWith("t-"))return test(h.slice(2));home()}
 function go(h){if(location.hash.slice(1)===h)route();else location.hash=h}

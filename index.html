@@ -514,20 +514,43 @@ function sheet(id){const s=shById(id);if(!s)return results();setHeader("Results 
  <div class="legend"><span class="cp">+ / ++ / +++</span> present (weak→strong) <span class="cd">±</span> doubtful <span class="cn">–</span> absent</div>
  <div class="card"><h3>Summary</h3><div id="sum"></div></div>
  <div class="card"><h3>Notes</h3><textarea class="inp" id="notes" rows="3" placeholder="Observations, extract details, deviations…">${esc(s.notes)}</textarea></div>
- <div class="btnrow"><button class="btn pri" id="ctab">Copy table</button><button class="btn pri" id="crep">Copy report</button></div>
+ <button class="btn pri wide" id="xlsx">${ico("chart")} Export as Excel (.xlsx)</button>
+ <div class="btnrow"><button class="btn" id="ctab">Copy table</button><button class="btn" id="crep">Copy report</button></div>
  <div class="btnrow"><button class="btn" id="edit">Edit sheet</button><button class="btn danger" id="del">Delete</button></div>
- <p class="disc">“Copy table” pastes as a table into Excel / Google Sheets (and Word via Paste → Keep text, then Convert text to table). “Copy report” gives a readable summary for WhatsApp or a lab report.</p>`;
+ <p class="disc">“Export as Excel” creates a real .xlsx file. “Copy table” pastes as a table into Excel / Google Sheets (and Word via Paste → Keep text, then Convert text to table). “Copy report” gives a readable summary for WhatsApp or a lab report.</p>`;
  const drawSum=()=>{$("#sum").innerHTML=s.samples.map(x=>{const r=summary(s,x);return `<div class="sumrow"><b>${esc(x.n)}</b><br>${r.pos.length?`<span class="cp">Present:</span> ${r.pos.map(esc).join(", ")}<br>`:""}${r.dbt.length?`<span class="cd">Doubtful:</span> ${r.dbt.map(esc).join(", ")}<br>`:""}${r.neg.length?`<span class="cn">Absent:</span> ${r.neg.map(esc).join(", ")}`:""}${!r.pos.length&&!r.dbt.length&&!r.neg.length?`<span class="muted">No results recorded yet.</span>`:""}</div>`}).join("")};
  drawSum();bind();
  app.querySelectorAll(".cell").forEach(c=>c.onclick=()=>{const k=c.dataset.k,v=s.v[k]||"",nv=VALS[(VALS.indexOf(v)+1)%VALS.length];
   if(nv)s.v[k]=nv;else delete s.v[k];c.textContent=nv;c.className="cell "+cellCls(nv);save();drawSum()});
  $("#notes").oninput=e=>{s.notes=e.target.value;save()};
- $("#ctab").onclick=()=>copyText(sheetTSV(s));$("#crep").onclick=()=>copyText(sheetReport(s));
+ $("#xlsx").onclick=()=>exportXlsx(s);$("#ctab").onclick=()=>copyText(sheetTSV(s));$("#crep").onclick=()=>copyText(sheetReport(s));
  $("#del").onclick=()=>confirmBox(`Delete “${s.title}”? This cannot be undone.`,()=>{store.sheets=store.sheets.filter(x=>x.id!==s.id);save();toast("Deleted");go("results")});
  $("#edit").onclick=()=>editSheet(s)}
 
 function summary(s,x){const best={};s.tests.forEach(t=>{const lab=CL[t]||tById(t).n,v=s.v[t+"|"+x.id]||"";if(!(lab in best)||RANK[v]>RANK[best[lab]])best[lab]=v});
  const pos=[],dbt=[],neg=[];Object.entries(best).forEach(([l,v])=>{if(RANK[v]>=3)pos.push(`${l} (${v})`);else if(v==="±")dbt.push(l);else if(v==="–")neg.push(l)});return {pos,dbt,neg}}
+async function exportXlsx(s){
+ try{if(!window.XLSX)await loadScript("xlsx.mini.min.js")}catch(e){try{await loadScript("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.mini.min.js")}catch(e2){toast("Excel export not available here");return}}
+ const n=s.samples.length,rows=[[s.title],["Date: "+s.date],[],["Test","Detects",...s.samples.map(x=>x.n)]];
+ TSECS.forEach(g=>{const ts=s.tests.filter(t=>tById(t)&&tById(t).c===g.id);if(!ts.length)return;rows.push([g.n]);
+  ts.forEach(t=>rows.push([tById(t).n,CL[t]||"",...s.samples.map(x=>(s.v[t+"|"+x.id]||"").replace("–","-"))]))});
+ const sumStart=rows.length+1;rows.push([],["SUMMARY"],["Sample","Present","Doubtful","Absent"]);
+ s.samples.forEach(x=>{const r=summary(s,x);rows.push([x.n,r.pos.join(", ").replace(/–/g,"-")||"-",r.dbt.join(", ")||"-",r.neg.join(", ")||"-"])});
+ if(s.notes)rows.push([],["Notes",s.notes]);
+ rows.push([],["Key: + weak, ++ moderate, +++ strong, ± doubtful, - absent"],["Exported from Elixir Lab"]);
+ const ws=XLSX.utils.aoa_to_sheet(rows);ws["!cols"]=[{wch:42},{wch:26},...s.samples.map(()=>({wch:14}))];
+ ws["!merges"]=[{s:{r:0,c:0},e:{r:0,c:Math.max(1,n+1)}}];
+ const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Results");
+ const out=XLSX.write(wb,{bookType:"xlsx",type:"array"}),mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+ const name=(s.title.replace(/[^\w\- ]+/g," ").replace(/\s+/g," ").trim().slice(0,60)||"Results")+" "+s.date+".xlsx";
+ const blob=new Blob([out],{type:mime});let file=null;try{file=new File([blob],name,{type:mime})}catch(e){}
+ const canShare=file&&navigator.canShare&&navigator.canShare({files:[file]});
+ const download=()=>{try{const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);toast("Saved to Downloads")}catch(e){toast("Download blocked here – use the installed app")}};
+ modal(`<h3 class="mh">Excel file ready</h3><p class="aka" style="margin:0 0 14px">${esc(name)}</p>
+  <div class="btnrow">${canShare?`<button class="btn pri" id="xsh">Share…</button>`:""}<button class="btn${canShare?"":" pri"}" id="xdl">Download</button></div>
+  <p class="disc" style="margin-top:4px">${canShare?"Share sends it straight to WhatsApp, Gmail, Drive… ":""}Download saves it to your phone's Downloads folder.</p>`,
+  (m,close)=>{m.querySelector("#xdl").onclick=()=>{download();close()};
+   const sh=m.querySelector("#xsh");if(sh)sh.onclick=async()=>{try{await navigator.share({files:[file],title:s.title})}catch(e){}close()}})}
 function sheetTSV(s){return ["Test\tDetects\t"+s.samples.map(x=>x.n).join("\t"),...s.tests.map(t=>`${tById(t).n}\t${CL[t]||""}\t`+s.samples.map(x=>(s.v[t+"|"+x.id]||"").replace("–","-")).join("\t"))].join("\n")}
 function sheetReport(s){return `${s.title}\nDate: ${s.date}\n\n`+s.samples.map(x=>{const r=summary(s,x);return `▸ ${x.n}\n`+s.tests.map(t=>`  • ${tById(t).n}: ${s.v[t+"|"+x.id]||"not recorded"}`).join("\n")+`\n  Present: ${r.pos.join(", ")||"—"}\n  Absent: ${r.neg.join(", ")||"—"}`+(r.dbt.length?`\n  Doubtful: ${r.dbt.join(", ")}`:"")}).join("\n\n")+(s.notes?`\n\nNotes: ${s.notes}`:"")+`\n\nKey: + weak, ++ moderate, +++ strong, ± doubtful, – absent`}
 

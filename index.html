@@ -122,6 +122,9 @@ header .star .ico{width:22px;height:22px;vertical-align:-4px}
 .tag .ico{width:12px;height:12px;vertical-align:-1px}
 .card h3 .ico{width:15px;height:15px;vertical-align:-2px}
 .xbtn .ico{vertical-align:-3px}
+.rimgs{display:flex;gap:8px;overflow-x:auto;margin-top:10px}
+.rimgs img{height:150px;max-width:85%;border-radius:10px;object-fit:cover;background:#fff;border:1px solid var(--line);cursor:zoom-in;flex:none}
+.zoomimg{display:block;width:100%;max-height:70vh;object-fit:contain;border-radius:12px;background:#000}
 .disc{font-size:13px;color:var(--muted);margin-top:16px;line-height:1.45}
 </style>
 </head>
@@ -411,13 +414,16 @@ function test(id){const t=tById(id);if(!t)return testsHome();setHeader(tsec(t.c)
  <div class="card"><h3>Sample</h3>${esc(t.smp)}</div>
  <div class="card"><h3>Procedure (tap to tick)</h3><ol class="steps">${t.pr.map(s=>`<li>${esc(s)}</li>`).join("")}</ol></div>
  ${has(t.pos)||has(t.neg)?`<div class="card"><h3>Results</h3>
-  ${has(t.pos)?`<div class="res pos"><b>${ico("check")} Positive:</b> ${esc(t.pos)}</div>`:""}
-  ${has(t.neg)?`<div class="res neg"><b>${ico("x")} Negative:</b> ${esc(t.neg)}</div>`:""}</div>`:""}
+  ${has(t.pos)?`<div class="res pos"><b>${ico("check")} Positive:</b> ${esc(t.pos)}${resImgs(t.pi,"Positive – "+t.n)}</div>`:""}
+  ${has(t.neg)?`<div class="res neg"><b>${ico("x")} Negative:</b> ${esc(t.neg)}${resImgs(t.ni,"Negative – "+t.n)}</div>`:""}</div>`:""}
  ${t.ctl?`<div class="card"><h3>Controls</h3>${esc(t.ctl)}</div>`:""}
  ${t.pc.length?`<div class="card note"><h3>${ico("warn")} Precautions & sources of error</h3><ul class="pc">${t.pc.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>`:""}
  <div class="btnrow"><button class="btn pri" id="copy">Copy procedure</button></div>`;
- bind();tickable();$("#copy").onclick=()=>copyText(testText(t))}
+ bind();tickable();zoomable();$("#copy").onclick=()=>copyText(testText(t))}
 
+function imgSrc(f){return /^(https?:|data:|\.?\/)/.test(f)||f.includes("/")?f:"images/"+f}
+function resImgs(list,cap){return list&&list.length?`<div class="rimgs">${list.map(f=>`<img src="${esc(encodeURI(imgSrc(f)))}" alt="${esc(cap)}" loading="lazy" data-cap="${esc(cap)}" onerror="this.remove()">`).join("")}</div>`:""}
+function zoomable(){app.querySelectorAll(".rimgs img").forEach(im=>im.onclick=()=>modal(`<img class="zoomimg" src="${im.src}" alt=""><p class="aka" style="margin:10px 0 12px;text-align:center">${esc(im.dataset.cap||"")}</p><button class="btn wide" id="zc">Close</button>`,(m,close)=>{m.querySelector("#zc").onclick=close;m.querySelector(".zoomimg").onclick=close}))}
 function tickable(){app.querySelectorAll("ol.steps li").forEach(li=>li.onclick=()=>li.classList.toggle("done"))}
 function qtyStr(i){if(i[1]==null)return esc(i[2]||"");const q=fmt(i[1]*factor);return i[3]==="to"?`to ${q} ${i[2]}`:`${q} ${i[2]}`}
 function drawIng(r){$("#ing").innerHTML=r.p.map(p=>`${p.t?`<div class="part">${esc(p.t)}</div>`:""}<table>${p.i.map(i=>`<tr><td>${esc(i[0])}</td><td class="q">${qtyStr(i)}</td></tr>`).join("")}</table>`).join("")+(r.y?`<div class="yield">Makes about <b>${fmt(r.y*factor)} mL</b>${factor!==1?` (×${fmt(factor)})`:""}. Type a volume in the mL box to scale exactly.</div>`:"")}
@@ -606,7 +612,7 @@ function applyContent(wb){
   if(!sT.some(x=>x.id===c))P.push(`Test “${id}”: Section ID “${c}” not found in Sections (Type = Test).`);
   const pr=lines(g(r,"procedure"));if(!pr.length)P.push(`Test “${id}” has no procedure steps.`);
   nT.push({id,c,n:g(r,"name")||id,aim:g(r,"aim"),need:list(g(r,"prepare")),ex:lines(g(r,"also needed")),smp:g(r,"sample"),pr,
-   pos:g(r,"positive"),neg:g(r,"negative"),ctl:g(r,"controls"),pc:lines(g(r,"precaution"))});
+   pos:g(r,"positive"),neg:g(r,"negative"),ctl:g(r,"controls"),pc:lines(g(r,"precaution")),pi:imgList(g(r,"positive result image")),ni:imgList(g(r,"negative result image"))});
   const d=g(r,"detects");if(d)cl[id]=d;if(g(r,"standard").toUpperCase().startsWith("Y"))std.push(id)});
  nT.forEach(t=>t.need.forEach(x=>{if(!seen.has(x))P.push(`Test “${t.id}”: “Prepare first” ID “${x}” does not exist.`)}));
  if(!nR.length||!nT.length||!sR.length||!sT.length){CONTENT.problems=P.concat(["Content file looks empty – the built-in content is shown instead."]);return}
@@ -614,6 +620,7 @@ function applyContent(wb){
  Object.keys(CL).forEach(k=>delete CL[k]);Object.assign(CL,cl);
  buildPresets(std);
  CONTENT.source="file";CONTENT.problems=P}
+function imgList(v){return String(v).split(/[,\n]/).map(x=>x.trim()).filter(Boolean)}
 function contentCard(){const p=CONTENT.problems;
  return `<div class="card ${p.length?"safety":""}"><h3>${p.length?ico("warn")+" ":""}Content check</h3>
  Content source: <b>${CONTENT.source==="file"?CONTENT.file:"built into the app"}</b> · ${R.length} reagents · ${T.length} tests.

@@ -666,7 +666,7 @@ const CALCS=[
   c:v=>{if(v.s<0||v.e<0||v.s+v.e<=0)return "Enter the counts.";const si=v.s/(v.s+v.e)*100;
    return {r:`Stomatal index = <b>${f2(si)}</b>`,s:[`SI = ${f4(v.s)} ÷ (${f4(v.s)} + ${f4(v.e)}) × 100 = ${f2(si)}`]}},
   fm:"Stomatal index = S ÷ (S + E) × 100",nt:"Count in several fields of the same surface (upper or lower epidermis) with a camera lucida or eyepiece grid, and take the mean. Subsidiary cells are counted as epidermal cells; each stoma (pair of guard cells) counts as one."},
- {id:"acidvalue",g:"Oils & fats",n:"Acid value",d:"mg KOH needed to neutralize the free fatty acids in 1 g of fixed oil, fat or resin.",
+ {id:"acidvalue",g:"Quality control",n:"Acid value",d:"mg KOH needed to neutralize the free fatty acids in 1 g of fixed oil, fat or resin.",
   f:[["w","Weight of sample (g)"],["v","Volume of KOH (or NaOH) used (mL)"],["n","Normality of KOH (N)",0.1],["vb","Blank titration (mL) – optional",0]],
   opt:["vb"],
   c:v=>{if(v.w<=0)return "Enter the sample weight.";if(v.n<=0)return "Enter the normality.";const net=v.v-(v.vb||0);if(net<0)return "Blank volume is larger than the sample titration.";

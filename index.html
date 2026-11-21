@@ -666,6 +666,12 @@ const CALCS=[
   c:v=>{if(v.s<0||v.e<0||v.s+v.e<=0)return "Enter the counts.";const si=v.s/(v.s+v.e)*100;
    return {r:`Stomatal index = <b>${f2(si)}</b>`,s:[`SI = ${f4(v.s)} ÷ (${f4(v.s)} + ${f4(v.e)}) × 100 = ${f2(si)}`]}},
   fm:"Stomatal index = S ÷ (S + E) × 100",nt:"Count in several fields of the same surface (upper or lower epidermis) with a camera lucida or eyepiece grid, and take the mean. Subsidiary cells are counted as epidermal cells; each stoma (pair of guard cells) counts as one."},
+ {id:"acidvalue",g:"Oils & fats",n:"Acid value",d:"mg KOH needed to neutralize the free fatty acids in 1 g of fixed oil, fat or resin.",
+  f:[["w","Weight of sample (g)"],["v","Volume of KOH (or NaOH) used (mL)"],["n","Normality of KOH (N)",0.1],["vb","Blank titration (mL) – optional",0]],
+  opt:["vb"],
+  c:v=>{if(v.w<=0)return "Enter the sample weight.";if(v.n<=0)return "Enter the normality.";const net=v.v-(v.vb||0);if(net<0)return "Blank volume is larger than the sample titration.";
+   const av=net*v.n*56.11/v.w,ffa=av*0.503;return {r:`Acid value = <b>${f2(av)}</b> mg KOH/g`,s:[(v.vb?`Net volume = ${f4(v.v)} − ${f4(v.vb)} = ${f4(net)} mL`:`Volume = ${f4(net)} mL`),`AV = ${f4(net)} × ${f4(v.n)} × 56.11 ÷ ${f4(v.w)} = ${f2(av)}`,`Free fatty acids (as oleic acid) ≈ AV × 0.503 = ${f2(ffa)} %`]}},
+  fm:"Acid value = (V × N × 56.11) ÷ W   (V = mL KOH, N = normality, W = g sample; 56.11 = MW of KOH)",nt:"Dissolve the sample (about 10 g, or as stated in the monograph) in 50 mL of a neutralized 1:1 mixture of ethanol (96%) and ether (or petroleum ether), add 0.5–1 mL phenolphthalein, and titrate with 0.1 M KOH until the pink colour persists for at least 15 s. If a blank is run, subtract its titre."},
  {id:"wv",g:"Solutions",n:"% w/v solution",d:"How much solid to weigh.",f:[["p","Strength (% w/v)"],["v","Final volume (mL)"]],
   c:v=>{if(v.p<=0||v.v<=0)return "Enter values.";const g=v.p*v.v/100;return {r:`Weigh <b>${f4(g)} g</b>, dissolve, make up to <b>${f4(v.v)} mL</b>`,s:[`${f4(v.p)} × ${f4(v.v)} ÷ 100 = ${f4(g)} g`]}},fm:"grams = % × volume (mL) ÷ 100",nt:""},
  {id:"molar",g:"Solutions",n:"Molar solution",d:"Grams for a given molarity.",f:[["mw","Molecular weight (g/mol)"],["m","Molarity (M)"],["v","Final volume (mL)"]],

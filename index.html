@@ -469,8 +469,13 @@ function test(id){const t=tById(id);if(!t)return testsHome();setHeader(tsec(t.c)
  <div class="btnrow"><button class="btn pri" id="copy">Copy procedure</button></div>`;
  bind();tickable();zoomable();$("#copy").onclick=()=>copyText(testText(t))}
 
+const IMG_EXT=[".jpg",".jpeg",".JPG",".JPEG",".png",".PNG",".webp"];
+function imgFail(el){const src=el.getAttribute("src")||"",m=src.match(/^(.*?)(\.[A-Za-z]+)?$/),base=m[1],tried=(el.dataset.tried||"").split("|").filter(Boolean);
+ if(!el.dataset.tried)tried.push(m[2]||"");const next=IMG_EXT.find(x=>!tried.includes(x));
+ if(next){tried.push(next);el.dataset.tried=tried.join("|");el.src=base+next;return}
+ el.remove();if(typeof chkPh==="function")chkPh()}
 function imgSrc(f){return /^(https?:|data:|\.?\/)/.test(f)||f.includes("/")?f:"images/"+f}
-function resImgs(list,cap){return list&&list.length?`<div class="rimgs">${list.map(f=>`<img src="${esc(encodeURI(imgSrc(f)))}" alt="${esc(cap)}" loading="lazy" data-cap="${esc(cap)}" onerror="this.remove()">`).join("")}</div>`:""}
+function resImgs(list,cap){return list&&list.length?`<div class="rimgs">${list.map(f=>`<img src="${esc(encodeURI(imgSrc(f)))}" alt="${esc(cap)}" loading="lazy" data-cap="${esc(cap)}" onerror="imgFail(this)">`).join("")}</div>`:""}
 function zoomable(){app.querySelectorAll(".rimgs img").forEach(im=>im.onclick=()=>modal(`<img class="zoomimg" src="${im.src}" alt=""><p class="aka" style="margin:10px 0 12px;text-align:center">${esc(im.dataset.cap||"")}</p><button class="btn wide" id="zc">Close</button>`,(m,close)=>{m.querySelector("#zc").onclick=close;m.querySelector(".zoomimg").onclick=close}))}
 function tickable(){app.querySelectorAll("ol.steps li").forEach(li=>li.onclick=()=>li.classList.toggle("done"))}
 function qtyStr(i){if(i[1]==null)return esc(i[2]||"");const q=fmt(i[1]*factor);return i[3]==="to"?`to ${q} ${i[2]}`:`${q} ${i[2]}`}
@@ -603,7 +608,7 @@ function editSheet(s){
 
 /* ============ ATLAS ============ */
 const aById=id=>A.find(a=>a.id===id), asec=id=>ASECS.find(s=>s.id===id);
-function itemA(a){const f=(a.img||[])[0];return `<div class="item atl" data-go="a-${a.id}"><span class="thumb">${ico("microscope")}${f?`<img src="${esc(encodeURI(imgSrc(f)))}" alt="" loading="lazy" onerror="this.remove()">`:""}</span><div><b>${esc(a.n)}</b><span>${esc(a.ex)}</span></div></div>`}
+function itemA(a){const f=(a.img||[])[0];return `<div class="item atl" data-go="a-${a.id}"><span class="thumb">${ico("microscope")}${f?`<img src="${esc(encodeURI(imgSrc(f)))}" alt="" loading="lazy" onerror="imgFail(this)">`:""}</span><div><b>${esc(a.n)}</b><span>${esc(a.ex)}</span></div></div>`}
 function atlasHome(){setHeader("Microscopy atlas",false);navOn("atlas");
  app.innerHTML=`<input class="search" id="q" placeholder="Search the atlas…">
  <div class="grid">${ASECS.map(s=>`<div class="tile" data-go="as-${s.id}"><span class="ic">${sico(s.ic)}</span><b>${esc(s.n)}</b><small>${A.filter(a=>a.s===s.id).length} entries · ${esc(s.d)}</small></div>`).join("")}</div>`;
@@ -611,7 +616,7 @@ function atlasHome(){setHeader("Microscopy atlas",false);navOn("atlas");
 function asection(id){const s=asec(id);if(!s)return atlasHome();setHeader(s.n,true);navOn("atlas");
  app.innerHTML=`${s.d?`<div class="sechead"><p>${esc(s.d)}</p></div>`:""}${wrap(A.filter(a=>a.s===id).map(itemA).join(""))}`;bind()}
 function atlasItem(id){const a=aById(id);if(!a)return atlasHome();setHeader(asec(a.s)?asec(a.s).n:"Atlas",true,"a:"+id);navOn("atlas");
- const imgs=(a.img||[]).map(f=>`<img src="${esc(encodeURI(imgSrc(f)))}" alt="${esc(a.n)}" data-cap="${esc(a.n)}" onerror="this.remove();chkPh()">`).join("");
+ const imgs=(a.img||[]).map(f=>`<img src="${esc(encodeURI(imgSrc(f)))}" alt="${esc(a.n)}" data-cap="${esc(a.n)}" onerror="imgFail(this)">`).join("");
  app.innerHTML=`<h2 class="title">${esc(a.n)}</h2>
  <div class="atlimgs rimgs" id="aimg">${imgs}</div>
  <div class="card ph-card" id="aph" style="display:none">${ico("microscope")} Photo not added yet.<br><small>Upload <b>${esc((a.img||[])[0]||"a photo")}</b> to the <b>images</b> folder on GitHub.</small></div>

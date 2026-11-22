@@ -476,7 +476,7 @@ function test(id){const t=tById(id);if(!t)return testsHome();setHeader(tsec(t.c)
  <div class="btnrow"><button class="btn pri" id="copy">Copy procedure</button></div>`;
  bind();tickable();zoomable();$("#copy").onclick=()=>copyText(testText(t))}
 
-const APP_BUILD="v30";
+const APP_BUILD="v32";
 const IMG_EXT=[".jpg",".jpeg",".JPG",".JPEG",".png",".PNG",".webp"];
 function tryLoad(src,ok,fail){const m=src.match(/^(.*?)(\.[A-Za-z]+)?$/),base=m[1],c=[src,...IMG_EXT.filter(x=>x!==(m[2]||"")).map(x=>base+x)];let k=0;
  const next=()=>{if(k>=c.length)return fail();const u=c[k++],im=new Image();im.onload=()=>ok(u,im.naturalWidth/im.naturalHeight||1.33);im.onerror=next;im.src=u};next()}

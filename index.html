@@ -132,6 +132,13 @@ nav button{padding:4px 2px;font-size:10.5px;flex:1;min-width:0}
 .atlimgs img{height:220px}
 .ph-card{text-align:center;color:var(--muted)}.ph-card .ico{width:28px;height:28px;display:block;margin:0 auto 6px;color:var(--pri)}
 ol.calcsteps{margin:10px 0 0;padding-left:20px;font-size:14.5px;color:var(--muted)}ol.calcsteps li{margin:3px 0}
+.pimg{position:relative;flex:none;display:block;cursor:zoom-in;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
+.pimg img,.thumb img,.zoomimg{pointer-events:none;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none;-webkit-user-drag:none}
+.rimgs .pimg img{display:block}
+.pimg{height:150px;width:150px;background:#fff center/cover no-repeat;border-radius:10px;border:1px solid var(--line)}
+.atlimgs .pimg{height:220px;width:220px}
+.tbg{position:absolute;inset:0;background:center/cover no-repeat}
+.zoombg{width:100%;height:70vh;background:#000 center/contain no-repeat;border-radius:12px;-webkit-touch-callout:none;user-select:none}
 .disc{font-size:13px;color:var(--muted);margin-top:16px;line-height:1.45}
 </style>
 </head>
@@ -469,14 +476,16 @@ function test(id){const t=tById(id);if(!t)return testsHome();setHeader(tsec(t.c)
  <div class="btnrow"><button class="btn pri" id="copy">Copy procedure</button></div>`;
  bind();tickable();zoomable();$("#copy").onclick=()=>copyText(testText(t))}
 
+const APP_BUILD="v30";
 const IMG_EXT=[".jpg",".jpeg",".JPG",".JPEG",".png",".PNG",".webp"];
-function imgFail(el){const src=el.getAttribute("src")||"",m=src.match(/^(.*?)(\.[A-Za-z]+)?$/),base=m[1],tried=(el.dataset.tried||"").split("|").filter(Boolean);
- if(!el.dataset.tried)tried.push(m[2]||"");const next=IMG_EXT.find(x=>!tried.includes(x));
- if(next){tried.push(next);el.dataset.tried=tried.join("|");el.src=base+next;return}
- el.remove();if(typeof chkPh==="function")chkPh()}
+function tryLoad(src,ok,fail){const m=src.match(/^(.*?)(\.[A-Za-z]+)?$/),base=m[1],c=[src,...IMG_EXT.filter(x=>x!==(m[2]||"")).map(x=>base+x)];let k=0;
+ const next=()=>{if(k>=c.length)return fail();const u=c[k++],im=new Image();im.onload=()=>ok(u,im.naturalWidth/im.naturalHeight||1.33);im.onerror=next;im.src=u};next()}
+function hydrate(root){(root||document).querySelectorAll("[data-src]:not([data-h])").forEach(el=>{el.dataset.h="1";
+ tryLoad(el.dataset.src,(u,r)=>{el.style.backgroundImage=`url("${u}")`;el.dataset.url=u;if(el.classList.contains("pimg")){const h=el.offsetHeight||150;el.style.width=Math.round(h*r)+"px"}el.classList.add("ok")},
+  ()=>{el.remove();if(typeof chkPh==="function")chkPh()})})}
 function imgSrc(f){return /^(https?:|data:|\.?\/)/.test(f)||f.includes("/")?f:"images/"+f}
-function resImgs(list,cap){return list&&list.length?`<div class="rimgs">${list.map(f=>`<img src="${esc(encodeURI(imgSrc(f)))}" alt="${esc(cap)}" loading="lazy" data-cap="${esc(cap)}" onerror="imgFail(this)">`).join("")}</div>`:""}
-function zoomable(){app.querySelectorAll(".rimgs img").forEach(im=>im.onclick=()=>modal(`<img class="zoomimg" src="${im.src}" alt=""><p class="aka" style="margin:10px 0 12px;text-align:center">${esc(im.dataset.cap||"")}</p><button class="btn wide" id="zc">Close</button>`,(m,close)=>{m.querySelector("#zc").onclick=close;m.querySelector(".zoomimg").onclick=close}))}
+function resImgs(list,cap){return list&&list.length?`<div class="rimgs">${list.map(f=>`<span class="pimg" role="img" aria-label="${esc(cap)}" data-cap="${esc(cap)}" data-src="${esc(encodeURI(imgSrc(f)))}"></span>`).join("")}</div>`:""}
+function zoomable(){app.querySelectorAll(".rimgs .pimg").forEach(w=>w.onclick=()=>{if(!w.dataset.url)return;modal(`<div class="zoombg" style="background-image:url('${w.dataset.url}')"></div><p class="aka" style="margin:10px 0 12px;text-align:center">${esc(w.dataset.cap||"")}</p><button class="btn wide" id="zc">Close</button>`,(m,close)=>{m.querySelector("#zc").onclick=close;m.querySelector(".zoombg").onclick=close})})}
 function tickable(){app.querySelectorAll("ol.steps li").forEach(li=>li.onclick=()=>li.classList.toggle("done"))}
 function qtyStr(i){if(i[1]==null)return esc(i[2]||"");const q=fmt(i[1]*factor);return i[3]==="to"?`to ${q} ${i[2]}`:`${q} ${i[2]}`}
 function drawIng(r){$("#ing").innerHTML=r.p.map(p=>`${p.t?`<div class="part">${esc(p.t)}</div>`:""}<table>${p.i.map(i=>`<tr><td>${esc(i[0])}</td><td class="q">${qtyStr(i)}</td></tr>`).join("")}</table>`).join("")+(r.y?`<div class="yield">Makes about <b>${fmt(r.y*factor)} mL</b>${factor!==1?` (×${fmt(factor)})`:""}. Type a volume in the mL box to scale exactly.</div>`:"")}
@@ -491,6 +500,7 @@ function about(){setHeader("About",true);navOn("about");
  <b>How to use:</b><br>• <b>Reagents</b> tab: how to prepare each reagent. Scale with ×¼ … ×5 or type a volume in mL.<br>• <b>Results</b> tab: record +/– results for several samples and copy the table.<br>• <b>Tests</b> tab: full procedures with sample, steps, positive/negative results, controls and precautions. “Prepare first” links take you to the reagents needed.<br>• Tap steps to tick them off at the bench.<br>• ${ico("star")} saves a reagent or test.<br>• Copy → paste into WhatsApp, notes or a lab sheet.</div>
  <div class="card safety"><h3>${ico("warn")} Safety first</h3>Wear a lab coat, gloves and goggles. Use a fume hood for concentrated acids, ammonia, chloroform, pyridine, bromine and spray reagents. Always add acid to water. Collect mercury, lead, bismuth and platinum waste separately.</div>
  ${contentCard()}
+ <p class="disc">App version: ${APP_BUILD}</p>
  ${/github\.io$/.test(location.hostname)?`<p class="disc"><a href="privacy.html" style="color:var(--pri)">Privacy policy</a></p>`:""}
  <p class="disc">Section icons: Microsoft Fluent Emoji 3D (MIT License, © Microsoft Corporation) and custom Elixir Lab icons. Formulations and procedures follow standard pharmacognosy practical texts and pharmacopoeial practice; minor variations exist between references. Verify against your department's manual or the current pharmacopoeia before official/quantitative use. ${R.length} reagents · ${T.length} test procedures.</p>`}
 
@@ -608,7 +618,7 @@ function editSheet(s){
 
 /* ============ ATLAS ============ */
 const aById=id=>A.find(a=>a.id===id), asec=id=>ASECS.find(s=>s.id===id);
-function itemA(a){const f=(a.img||[])[0];return `<div class="item atl" data-go="a-${a.id}"><span class="thumb">${ico("microscope")}${f?`<img src="${esc(encodeURI(imgSrc(f)))}" alt="" loading="lazy" onerror="imgFail(this)">`:""}</span><div><b>${esc(a.n)}</b><span>${esc(a.ex)}</span></div></div>`}
+function itemA(a){const f=(a.img||[])[0];return `<div class="item atl" data-go="a-${a.id}"><span class="thumb">${ico("microscope")}${f?`<span class="tbg" data-src="${esc(encodeURI(imgSrc(f)))}"></span>`:""}</span><div><b>${esc(a.n)}</b><span>${esc(a.ex)}</span></div></div>`}
 function atlasHome(){setHeader("Microscopy atlas",false);navOn("atlas");
  app.innerHTML=`<input class="search" id="q" placeholder="Search the atlas…">
  <div class="grid">${ASECS.map(s=>`<div class="tile" data-go="as-${s.id}"><span class="ic">${sico(s.ic)}</span><b>${esc(s.n)}</b><small>${A.filter(a=>a.s===s.id).length} entries · ${esc(s.d)}</small></div>`).join("")}</div>`;
@@ -616,7 +626,7 @@ function atlasHome(){setHeader("Microscopy atlas",false);navOn("atlas");
 function asection(id){const s=asec(id);if(!s)return atlasHome();setHeader(s.n,true);navOn("atlas");
  app.innerHTML=`${s.d?`<div class="sechead"><p>${esc(s.d)}</p></div>`:""}${wrap(A.filter(a=>a.s===id).map(itemA).join(""))}`;bind()}
 function atlasItem(id){const a=aById(id);if(!a)return atlasHome();setHeader(asec(a.s)?asec(a.s).n:"Atlas",true,"a:"+id);navOn("atlas");
- const imgs=(a.img||[]).map(f=>`<img src="${esc(encodeURI(imgSrc(f)))}" alt="${esc(a.n)}" data-cap="${esc(a.n)}" onerror="imgFail(this)">`).join("");
+ const imgs=(a.img||[]).map(f=>`<span class="pimg" role="img" aria-label="${esc(a.n)}" data-cap="${esc(a.n)}" data-src="${esc(encodeURI(imgSrc(f)))}"></span>`).join("");
  app.innerHTML=`<h2 class="title">${esc(a.n)}</h2>
  <div class="atlimgs rimgs" id="aimg">${imgs}</div>
  <div class="card ph-card" id="aph" style="display:none">${ico("microscope")} Photo not added yet.<br><small>Upload <b>${esc((a.img||[])[0]||"a photo")}</b> to the <b>images</b> folder on GitHub.</small></div>
@@ -625,7 +635,7 @@ function atlasItem(id){const a=aById(id);if(!a)return atlasHome();setHeader(asec
  ${a.tst?`<div class="card"><h3>Identification</h3>${esc(a.tst)}</div>`:""}
  ${a.rel&&a.rel.length?`<div class="card"><h3>Related</h3><div class="chips">${a.rel.map(linkChip).join("")}</div></div>`:""}`;
  bind();zoomable();chkPh()}
-function chkPh(){const box=$("#aimg"),ph=$("#aph");if(box&&ph){const none=!box.querySelector("img");ph.style.display=none?"block":"none";box.style.display=none?"none":"flex"}}
+function chkPh(){const box=$("#aimg"),ph=$("#aph");if(box&&ph){const none=!box.querySelector(".pimg");ph.style.display=none?"block":"none";box.style.display=none?"none":"flex"}}
 
 /* ============ CALCULATORS ============ */
 const f2=x=>(Math.round(x*100)/100).toFixed(2), f4=x=>(+x.toPrecision(4)).toString();
@@ -761,6 +771,9 @@ function route(){const h=location.hash.slice(1);window.scrollTo(0,0);
  if(h.startsWith("r-"))return reagent(h.slice(2));if(h.startsWith("t-"))return test(h.slice(2));home()}
 function go(h){if(location.hash.slice(1)===h)route();else location.hash=h}
 window.addEventListener("hashchange",route);
+new MutationObserver(()=>hydrate(app)).observe(app,{childList:true,subtree:true});
+document.addEventListener("contextmenu",e=>{if(e.target.closest&&e.target.closest(".pimg,.thumb,.zoomwrap"))e.preventDefault()});
+document.addEventListener("dragstart",e=>{if(e.target.tagName==="IMG")e.preventDefault()});
 document.querySelectorAll("[data-ico]").forEach(e=>e.innerHTML=ico(e.dataset.ico));
 $("#back").onclick=()=>{if(history.length>1)history.back();else go("")};
 $("#info").onclick=()=>go("about");$("#srch").onclick=()=>go("search");

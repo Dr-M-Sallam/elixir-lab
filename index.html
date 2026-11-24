@@ -183,6 +183,23 @@ nav button.on::after{display:none!important}
 .famlink{color:var(--pri);font-weight:650;text-decoration:underline;cursor:pointer}
 .cic{height:1.4em;width:auto;vertical-align:-0.35em}.tile .ic .cic{height:36px;max-width:60px;width:auto;vertical-align:0}.sic .cic{height:26px}
 .disc{font-size:13px;color:var(--muted);margin-top:16px;line-height:1.45}
+/* ===== atlas entry page (v43) ===== */
+.ahead{margin:2px 0 12px}.ahead .title{margin-bottom:2px}
+.alat{margin:0 0 8px;font-size:15.5px;color:var(--ink)}
+.famchip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--pri);background:var(--pri2);color:var(--pri);border-radius:99px;padding:4px 11px;font-size:13px;font-weight:650;cursor:pointer}.famchip .ico{width:14px;height:14px}
+.facts{display:flex;gap:8px;overflow-x:auto;margin:0 -14px 12px;padding:0 14px 2px;scrollbar-width:none}.facts::-webkit-scrollbar{display:none}
+.fact{flex:none;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:7px 12px;max-width:220px}
+.fact small{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}.fact b{display:block;font-size:14px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ptabs .tabs{display:flex;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:3px;margin-bottom:10px}
+.ptabs .tab{flex:1;border:0;background:none;border-radius:8px;padding:8px 6px;font-size:14px;font-weight:650;color:var(--muted);cursor:pointer}.ptabs .tab.on{background:var(--card);color:var(--pri);box-shadow:var(--sh)}
+.ptabs .tpane{display:none}.ptabs .tpane.on{display:block}.ptabs .gal+.gal{border:0;margin:0;padding:0}
+.ptabs .addph{flex-direction:column;justify-content:center;gap:3px;min-height:120px;border:1.5px dashed var(--line);border-radius:12px;text-align:center;padding:12px}
+.ptabs .addph .ico{width:24px;height:24px;color:var(--pri)}.ptabs .addph>b{color:var(--ink);font-size:14px}.ptabs .addph small{font-size:12.5px}
+.ah{display:flex;align-items:center;justify-content:space-between;gap:8px;border-left:3px solid var(--pri);padding-left:10px;margin:0 0 10px}
+.ah h3{display:flex;align-items:center;gap:7px;margin:0}.ah h3 .ico{width:17px;height:17px;flex:none}
+.ah h3{white-space:nowrap}.szchip{min-width:0;border:1px solid var(--line);border-radius:12px;padding:3px 10px;font-size:12.5px;line-height:1.35;color:var(--muted);background:var(--card);text-align:right}
+.adcard{background:var(--amberbg);border-color:transparent}.ah.amb{border-left-color:var(--amber)}.ah.amb h3{color:var(--amber)}
+header{transition:padding .18s}body.slim header{padding:6px 14px}body.slim #hdr{font-size:16px}body.slim #hsub{font-size:12px;margin-top:0}
 </style>
 </head>
 <body>
@@ -409,7 +426,7 @@ const ASECS=[
 {"id": "secretory", "ic": "oildrop", "n": "Secretory structures", "d": "Oil cells, glands, ducts", "g": "micro"}
 ];
 const A=[
-{"id": "m_senna", "s": "leaf", "n": "Senna leaflets", "f": ["Lanceolate leaflets with acute (mucronate) apex and entire margin", "Base asymmetric", "Pale greyish-green (Alexandrian) or yellowish-green and longer (Tinnevelly)", "Thin, brittle, finely pubescent", "Faint odour; mucilaginous then bitter taste"], "sz": "", "ex": "Cassia senna (C. acutifolia) and C. angustifolia – Fabaceae", "tst": "Modified Borntrager → pink-red (anthraquinone glycosides).", "rel": ["t_bornm", "a_senna", "a_para"], "img": ["m_senna.jpg"], "ts": ["m_senna-ts.jpg"], "de": ["m_senna-de.jpg"], "cat": "", "fam": "Fabaceae", "lat": "Cassia senna, C. angustifolia"},
+{"id": "m_senna", "s": "leaf", "n": "Senna leaflets", "f": ["Lanceolate leaflets with acute (mucronate) apex and entire margin", "Base asymmetric", "Pale greyish-green (Alexandrian) or yellowish-green and longer (Tinnevelly)", "Thin, brittle, finely pubescent", "Faint odour; mucilaginous then bitter taste"], "sz": "", "ex": "Cassia senna (C. acutifolia) and C. angustifolia – Fabaceae", "tst": "Modified Borntrager → pink-red (anthraquinone glycosides).", "rel": ["t_bornm", "a_senna", "a_para"], "img": ["m_senna.jpg"], "ts": ["m_senna-ts.jpg"], "de": ["m_senna-de.jpg"], "cat": "", "fam": "Fabaceae", "lat": "Cassia senna, C. angustifolia", "micro": ["Isobilateral lamina: palisade under both epidermises, continuous over the midrib", "Paracytic (rubiaceous) stomata on both surfaces", "Unicellular, thick-walled, warty, often curved non-glandular trichomes", "Lignified pericyclic fibres in the midrib with a crystal sheath of calcium oxalate prisms", "Calcium oxalate clusters in the mesophyll"], "cn": ["Sennosides A–D (dianthrone glycosides of rhein and aloe-emodin) – main purgative principles", "Free anthraquinones and their glycosides: rhein, aloe-emodin, chrysophanol", "Flavonoids (kaempferol, isorhamnetin)", "Mucilage; calcium oxalate"], "ad": ["Cassia obovata (dog senna) – obovate leaflets with rounded, non-mucronate apex", "Argel leaves (Solenostemma argel) – thick, rigid, wrinkled leaves with symmetric base and anomocytic stomata", "Cassia auriculata – crimson colour with 80% H₂SO₄ (senna gives no colour)", "Excess pods, rachis and stalks"]},
 {"id": "m_digitalis", "s": "leaf", "n": "Digitalis leaf", "f": ["Ovate-lanceolate with crenate to dentate margin", "Petiole winged; lamina decurrent", "Upper surface dark green and rugose; lower surface greyish with prominent reticulate veins", "Pubescent, especially below", "Slight odour; very bitter taste"], "sz": "", "ex": "Digitalis purpurea – Plantaginaceae (Scrophulariaceae)", "tst": "Keller–Killiani → reddish-brown ring, blue-green acetic layer.", "rel": ["t_keller", "t_kedde", "a_digitalis", "a_anomo"], "img": ["m_digitalis.jpg"], "ts": ["m_digitalis-ts.jpg"], "de": ["m_digitalis-de.jpg"], "cat": "", "fam": "Plantaginaceae", "lat": "Digitalis purpurea"},
 {"id": "m_belladonna", "s": "leaf", "n": "Belladonna leaf", "f": ["Ovate, acuminate apex, entire margin", "Thin and brittle; dull green to brownish-green", "Slightly hairy along the veins", "Slight odour; bitter taste"], "sz": "", "ex": "Atropa belladonna – Solanaceae", "tst": "Vitali–Morin on the alkaloid extract → violet.", "rel": ["t_vitali", "a_sand", "a_aniso"], "img": ["m_belladonna.jpg"], "ts": ["m_belladonna-ts.jpg"], "de": ["m_belladonna-de.jpg"], "cat": "", "fam": "Solanaceae", "lat": "Atropa belladonna"},
 {"id": "m_stramonium", "s": "leaf", "n": "Stramonium leaf", "f": ["Ovate with irregularly sinuate-dentate margin (large triangular teeth)", "Base asymmetric", "Dark greyish-green; nearly glabrous", "Unpleasant odour when fresh; bitter taste"], "sz": "", "ex": "Datura stramonium – Solanaceae", "tst": "Vitali–Morin → violet.", "rel": ["t_vitali", "a_stram", "a_aniso"], "img": ["m_stramonium.jpg"], "ts": ["m_stramonium-ts.jpg"], "de": ["m_stramonium-de.jpg"], "cat": "", "fam": "Solanaceae", "lat": "Datura stramonium"},
@@ -582,7 +599,7 @@ function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("show");se
 let factor=1;
 
 /* ============ VIEWS ============ */
-function setHeader(t,back,key){const top=!back;document.body.classList.toggle("toplevel",top);
+function setHeader(t,back,key){if(slimOff){slimOff();slimOff=null}const top=!back;document.body.classList.toggle("toplevel",top);
  $("#hdr").textContent=top?"EliXiR Lab":t;$("#hsub").style.display=top?"block":"none";
  $("#back").style.display=back?"block":"none";$("#info").style.display=top?"flex":"none";$("#logo").style.display=top?"block":"none";
  const st=$("#star");if(key){st.style.display="block";st.innerHTML=ico("star",store.fav.includes(key)?"fill":"");st.onclick=()=>{const i=store.fav.indexOf(key);i<0?store.fav.push(key):store.fav.splice(i,1);save();st.innerHTML=ico("star",i<0?"fill":"");toast(i<0?"Saved":"Removed")}}else st.style.display="none"}
@@ -667,7 +684,7 @@ function test(id){const t=tById(id);if(!t)return testsHome();setHeader(tsec(t.c)
  <div class="btnrow"><button class="btn pri" id="copy">Copy procedure</button></div>`;
  bind();tickable();zoomable();$("#copy").onclick=()=>copyText(testText(t))}
 
-const APP_BUILD="v42";
+const APP_BUILD="v43";
 const IMG_EXT=[".jpg",".jpeg",".JPG",".JPEG",".png",".PNG",".webp"];
 function tryLoad(src,ok,fail){const m=src.match(/^(.*?)(\.[A-Za-z]+)?$/),base=m[1],c=[src,...IMG_EXT.filter(x=>x!==(m[2]||"")).map(x=>base+x)];let k=0;
  const next=()=>{if(k>=c.length)return fail();const u=c[k++],im=new Image();im.onload=()=>ok(u,im.naturalWidth/im.naturalHeight||1.33);im.onerror=next;im.src=u};next()}
@@ -837,17 +854,44 @@ function asection(id){const s=asec(id);if(!s)return atlasHome();setHeader(s.n,tr
 function gallery(title,list,cap,hint,show){if(!show)return "";const f=(list||[])[0];
  return `<div class="gal"><div class="galh">${esc(title)}</div><div class="atlimgs rimgs">${(list||[]).map(x=>`<span class="pimg" role="img" aria-label="${esc(cap)}" data-cap="${esc(cap+" – "+title)}" data-src="${esc(encodeURI(imgSrc(x)))}"></span>`).join("")}</div>
  <div class="phline">${ico("image")} Not added yet${f?` – upload <b>${esc(f)}</b>`:""}</div></div>`}
-function atlasItem(id){const a=aById(id);if(!a)return atlasHome();setHeader(asec(a.s)?asec(a.s).n:"Atlas",true,"a:"+id);navOn("atlas");
- const micro=((asec(a.s)||{}).g||"micro")==="micro",org=!micro&&a.s!=="unorg";
+/* ===== ATLAS ENTRY PAGE (v43 redesign) ===== */
+let slimOff=null;
+function slimHead(title,sub){const h=$("#hdr"),s=$("#hsub"),t0=h.textContent,s0=s.textContent,el=$("#ahead");if(!el)return;
+ const th=el.offsetTop+el.offsetHeight-$("header").offsetHeight;let on=false;
+ const f=()=>{const y=window.scrollY,want=on?y>th-30:y>th+10;if(want===on)return;on=want;document.body.classList.toggle("slim",on);
+  h.textContent=on?title:t0;s.textContent=on?sub:s0;s.style.display=on&&sub?"block":"none"};
+ window.addEventListener("scroll",f,{passive:true});
+ slimOff=()=>{window.removeEventListener("scroll",f);document.body.classList.remove("slim");s.textContent=s0}}
+function ahd(icon,title,right,cls){return `<div class="ah${cls?" "+cls:""}"><h3>${ico(icon)}<span>${esc(title)}</span></h3>${right||""}</div>`}
+function phPane(key,list,cap,title,on){const f=(list||[])[0];
+ return `<div class="gal tpane${on?" on":""}" data-pane="${key}"><div class="atlimgs rimgs">${(list||[]).map(x=>`<span class="pimg" role="img" aria-label="${esc(cap)}" data-cap="${esc(cap+" – "+title)}" data-src="${esc(encodeURI(imgSrc(x)))}"></span>`).join("")}</div>
+ <div class="phline addph">${ico("plus")}<b>Add photo</b><small>Not added yet${f?` – upload <b>${esc(f)}</b>`:""}</small></div></div>`}
+function atlasItem(id){const a=aById(id);if(!a)return atlasHome();const S=asec(a.s);setHeader(S?S.n:"Atlas",true,"a:"+id);navOn("atlas");
+ const micro=((S||{}).g||"micro")==="micro",org=!micro&&a.s!=="unorg";
  const users=micro?A.filter(x=>x.id!==a.id&&(x.rel||[]).includes(a.id)):[];
- app.innerHTML=`<h2 class="title">${esc(a.n)}</h2>${a.cat||a.fam||a.lat?`<p class="aka">${[a.cat?esc(a.cat):"",a.lat?`<i class="latin">${esc(a.lat).replace(/\b(spp|var|sp)\./g,"<span class=\"nl\">$1.</span>")}</i>`:"",a.fam?`Family: <a class="famlink" data-go="fam-${esc(a.fam)}">${esc(a.fam)}</a>`:""].filter(Boolean).join(" · ")}</p>`:""}
- <div class="card gals">${gallery(micro?"Photos":(org?"Part used":"The drug"),a.img,a.n,"",true)}${gallery("Transverse section (T.S.)",a.ts,a.n,"",org||(a.ts&&a.ts.length))}${gallery("Diagnostic elements (powder)",a.de,a.n,"",org||(a.de&&a.de.length))}</div>
- <div class="card"><h3>${micro?"Key features":"Macroscopical features"}</h3><ul class="pc">${a.f.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>${a.sz?`<div class="res pos" style="margin-top:10px"><b>Size:</b> ${esc(a.sz)}</div>`:""}</div>
- ${a.ex?`<div class="card"><h3>${micro?"Found in":"Source"}</h3>${esc(a.ex)}</div>`:""}
- ${a.tst?`<div class="card"><h3>${micro?"Identification":"Tests & identification"}</h3>${esc(a.tst)}</div>`:""}
- ${a.rel&&a.rel.length?`<div class="card"><h3>${micro?"Related":"Diagnostic elements & tests"}</h3><div class="chips">${a.rel.map(linkChip).join("")}</div></div>`:""}
- ${users.length?`<div class="card"><h3>Seen in</h3><div class="chips">${users.map(u=>linkChip(u.id)).join("")}</div></div>`:""}`;
- bind();zoomable();chkPh()}
+ const has=k=>Array.isArray(a[k])&&a[k].some(x=>String(x).trim());
+ const lat=a.lat?`<p class="alat latin">${esc(a.lat).replace(/\b(spp|var|sp)\./g,"<span class=\"nl\">$1.</span>")}</p>`:"";
+ const fam=a.fam?`<button class="famchip" data-go="fam-${esc(a.fam)}">${ico("sprout")}${esc(a.fam)}</button>`:"";
+ const facts=[["Family",a.fam],[micro?"Group":"Part used",S&&S.n],["Size",a.sz],["Category",a.cat]].filter(x=>x[1]&&String(x[1]).trim());
+ /* photo tabs */
+ const tabs=micro?[["img","Photos",a.img]]:[["img","Drug",a.img],["ts","T.S.",a.ts],["de","Powder",a.de]].filter(([k,,l])=>k==="img"||org||(l&&l.length));
+ const photos=`<div class="card gals ptabs">${tabs.length>1?`<div class="tabs" role="tablist">${tabs.map(([k,t],i)=>`<button class="tab${i?"":" on"}" role="tab" data-tab="${k}">${esc(t)}</button>`).join("")}</div>`:`<div class="galh">${esc(tabs[0][1])}</div>`}
+  ${tabs.map(([k,t,l],i)=>phPane(k,l,a.n,t,!i)).join("")}</div>`;
+ const tests=a.tst&&String(a.tst).trim();
+ app.innerHTML=`<div id="ahead" class="ahead"><h2 class="title">${esc(a.n)}</h2>${lat}${fam}</div>
+ ${facts.length?`<div class="facts">${facts.map(([k,v])=>`<div class="fact"><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join("")}</div>`:""}
+ ${photos}
+ <div class="card">${ahd(micro?"microscope":"leaf",micro?"Key features":"Macroscopical features",a.sz?`<span class="szchip">${esc(a.sz)}</span>`:"")}<ul class="pc">${(a.f||[]).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
+ ${a.ex?`<div class="card">${ahd("book",micro?"Found in":"Source")}${esc(a.ex)}</div>`:""}
+ ${org&&has("micro")?`<div class="card">${ahd("microscope","Microscopy")}<ul class="pc">${a.micro.filter(x=>String(x).trim()).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`:""}
+ ${has("cn")||tests?`<div class="card">${has("cn")?`${ahd("molecule","Constituents")}<ul class="pc">${a.cn.filter(x=>String(x).trim()).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}
+  ${tests?`<div${has("cn")?' style="margin-top:14px"':""}>${ahd("testtube",micro?"Identification":"Chemical tests")}<div class="res pos">${esc(a.tst)}</div></div>`:""}</div>`:""}
+ ${has("ad")?`<div class="card adcard">${ahd("warn","Confused with / adulterants","","amb")}<ul class="pc">${a.ad.filter(x=>String(x).trim()).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`:""}
+ ${a.rel&&a.rel.length?`<div class="card">${ahd("rings",micro?"Related":"Diagnostic elements & tests")}<div class="chips">${a.rel.map(linkChip).join("")}</div></div>`:""}
+ ${users.length?`<div class="card">${ahd("search","Seen in")}<div class="chips">${users.map(u=>linkChip(u.id)).join("")}</div></div>`:""}`;
+ app.querySelectorAll(".ptabs .tab").forEach(b=>b.onclick=()=>{app.querySelectorAll(".ptabs .tab").forEach(x=>x.classList.toggle("on",x===b));
+  app.querySelectorAll(".ptabs .tpane").forEach(p=>p.classList.toggle("on",p.dataset.pane===b.dataset.tab))});
+ bind();zoomable();chkPh();slimHead(a.n,a.fam||"")}
 function chkPh(){document.querySelectorAll(".gal").forEach(g=>{const has=!!g.querySelector(".pimg");g.querySelector(".phline").style.display=has?"none":"flex";g.querySelector(".rimgs").style.display=has?"flex":"none"})}
 
 /* ============ CALCULATORS ============ */
@@ -965,7 +1009,7 @@ function applyContent(wb){
  const nA=[];if(wb.Sheets["Atlas"]){XLSX.utils.sheet_to_json(wb.Sheets["Atlas"],{defval:"",raw:true}).forEach((r,i)=>{const id=g(r,"id");if(!id)return;dup(id,`Atlas row ${i+2}`);const s=g(r,"section");
   if(!sA.some(x=>x.id===s))P.push(`Atlas “${id}”: Section ID “${s}” not found in Sections (Type = Atlas).`);
   if(sG.length){const sec=sA.find(x=>x.id===s);if(sec&&!sG.some(x=>x.id===sec.g))P.push(`Atlas section “${sec.id}”: Group “${sec.g}” not found (Type = Atlas group).`)}
-  nA.push({id,s,cat:g(r,"category"),lat:g(r,"latin"),fam:g(r,"family"),n:g(r,"name")||id,f:lines(g(r,"key features")),sz:g(r,"size"),ex:g(r,"found in"),tst:g(r,"identification"),rel:list(g(r,"related")),img:imgList(g(r,"photo")),ts:imgList(g(r,"ts photo")),de:imgList(g(r,"diagnostic photo"))})});
+  nA.push({id,s,cat:g(r,"category"),lat:g(r,"latin"),fam:g(r,"family"),n:g(r,"name")||id,f:lines(g(r,"key features")),sz:g(r,"size"),ex:g(r,"found in"),tst:g(r,"identification"),rel:list(g(r,"related")),img:imgList(g(r,"photo")),ts:imgList(g(r,"ts photo")),de:imgList(g(r,"diagnostic photo")),micro:lines(g(r,"microscopy")),cn:lines(g(r,"constituents")),ad:lines(g(r,"confused"))})});
   nA.forEach(a=>a.rel.forEach(x=>{if(!x.startsWith("calc-")&&!seen.has(x))P.push(`Atlas “${a.id}”: Related ID “${x}” does not exist.`);if(x.startsWith("calc-")&&!CALCS.some(c=>"calc-"+c.id===x))P.push(`Atlas “${a.id}”: calculator “${x}” does not exist.`)}))}
  if(!nR.length||!nT.length||!sR.length||!sT.length){CONTENT.problems=P.concat(["Content file looks empty – the built-in content is shown instead."]);return}
  SECTIONS.splice(0,SECTIONS.length,...sR);TSECS.splice(0,TSECS.length,...sT);R.splice(0,R.length,...nR);if(nA.length&&sA.length){ASECS.splice(0,ASECS.length,...sA);A.splice(0,A.length,...nA);if(sG.length)AGRPS.splice(0,AGRPS.length,...sG);if(!sG.length)ASECS.forEach(x=>x.g=x.g||"micro")}T.splice(0,T.length,...nT);

@@ -186,7 +186,7 @@ nav button.on::after{display:none!important}
 /* ===== atlas entry page (v44 style) ===== */
 .ahead{padding:16px 16px 14px}.ahead .title{margin:0 0 4px;font-size:24px}
 .alat{margin:0 0 12px;font-size:15.5px;color:var(--muted)}
-.famchip{border:0;background:var(--pri);color:#fff;border-radius:99px;padding:6px 14px;font-size:13.5px;font-weight:650;cursor:pointer}
+.famchip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--pri);background:var(--pri2);color:var(--pri);border-radius:99px;padding:4px 11px;font-size:13px;font-weight:650;cursor:pointer}.famchip .ico{width:14px;height:14px}
 .facts{display:grid;gap:8px;margin:0 0 12px}
 .fact{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 10px}
 .fact small{display:block;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fact b{display:block;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -694,7 +694,7 @@ function test(id){const t=tById(id);if(!t)return testsHome();setHeader(tsec(t.c)
  <div class="btnrow"><button class="btn pri" id="copy">Copy procedure</button></div>`;
  bind();tickable();zoomable();$("#copy").onclick=()=>copyText(testText(t))}
 
-const APP_BUILD="v44";
+const APP_BUILD="v45";
 const IMG_EXT=[".jpg",".jpeg",".JPG",".JPEG",".png",".PNG",".webp"];
 function tryLoad(src,ok,fail){const m=src.match(/^(.*?)(\.[A-Za-z]+)?$/),base=m[1],c=[src,...IMG_EXT.filter(x=>x!==(m[2]||"")).map(x=>base+x)];let k=0;
  const next=()=>{if(k>=c.length)return fail();const u=c[k++],im=new Image();im.onload=()=>ok(u,im.naturalWidth/im.naturalHeight||1.33);im.onerror=next;im.src=u};next()}
@@ -883,7 +883,7 @@ function atlasItem(id){const a=aById(id);if(!a)return atlasHome();const S=asec(a
  const has=k=>Array.isArray(a[k])&&a[k].some(x=>String(x).trim());
  const cn1=has("cn")?String(a.cn.find(x=>String(x).trim())).split(/\s+[–(-]\s*|\s\(/)[0]:"";
  const lat=a.lat?`<p class="alat latin">${esc(a.lat).replace(/\b(spp|var|sp)\./g,"<span class=\"nl\">$1.</span>")}</p>`:"";
- const fam=a.fam?`<button class="famchip" data-go="fam-${esc(a.fam)}">${esc(a.fam)}</button>`:"";
+ const fam=a.fam?`<button class="famchip" data-go="fam-${esc(a.fam)}">${ico("sprout")}${esc(a.fam)}</button>`:"";
  const facts=[[micro?"Group":"Part used",S&&S.n],["Family",a.fam],["Constituents",cn1],["Category",a.cat]].filter(x=>x[1]&&String(x[1]).trim()).slice(0,3);
  const tabs=micro?[["img","Photos",a.img]]:[["img","Drug",a.img],["ts","T.S.",a.ts],["de","Powder",a.de]].filter(([k,,l])=>k==="img"||org||(l&&l.length));
  const photos=`<div class="card gals ptabs">${tabs.length>1?`<div class="tabs" role="tablist">${tabs.map(([k,t],i)=>`<button class="tab${i?"":" on"}" role="tab" data-tab="${k}">${esc(t)}</button>`).join("")}</div>`:`<div class="galh">${esc(tabs[0][1])}</div>`}

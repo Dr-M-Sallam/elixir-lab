@@ -183,23 +183,33 @@ nav button.on::after{display:none!important}
 .famlink{color:var(--pri);font-weight:650;text-decoration:underline;cursor:pointer}
 .cic{height:1.4em;width:auto;vertical-align:-0.35em}.tile .ic .cic{height:36px;max-width:60px;width:auto;vertical-align:0}.sic .cic{height:26px}
 .disc{font-size:13px;color:var(--muted);margin-top:16px;line-height:1.45}
-/* ===== atlas entry page (v43) ===== */
-.ahead{margin:2px 0 12px}.ahead .title{margin-bottom:2px}
-.alat{margin:0 0 8px;font-size:15.5px;color:var(--ink)}
-.famchip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--pri);background:var(--pri2);color:var(--pri);border-radius:99px;padding:4px 11px;font-size:13px;font-weight:650;cursor:pointer}.famchip .ico{width:14px;height:14px}
-.facts{display:flex;gap:8px;overflow-x:auto;margin:0 -14px 12px;padding:0 14px 2px;scrollbar-width:none}.facts::-webkit-scrollbar{display:none}
-.fact{flex:none;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:7px 12px;max-width:220px}
-.fact small{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}.fact b{display:block;font-size:14px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ptabs .tabs{display:flex;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:3px;margin-bottom:10px}
-.ptabs .tab{flex:1;border:0;background:none;border-radius:8px;padding:8px 6px;font-size:14px;font-weight:650;color:var(--muted);cursor:pointer}.ptabs .tab.on{background:var(--card);color:var(--pri);box-shadow:var(--sh)}
+/* ===== atlas entry page (v44 style) ===== */
+.ahead{padding:16px 16px 14px}.ahead .title{margin:0 0 4px;font-size:24px}
+.alat{margin:0 0 12px;font-size:15.5px;color:var(--muted)}
+.famchip{border:0;background:var(--pri);color:#fff;border-radius:99px;padding:6px 14px;font-size:13.5px;font-weight:650;cursor:pointer}
+.facts{display:grid;gap:8px;margin:0 0 12px}
+.fact{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 10px}
+.fact small{display:block;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fact b{display:block;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ptabs .tabs{display:flex;gap:6px;margin-bottom:12px}
+.ptabs .tab{border:0;background:var(--bg);border-radius:99px;padding:7px 15px;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer}.ptabs .tab.on{background:var(--pri);color:#fff}
 .ptabs .tpane{display:none}.ptabs .tpane.on{display:block}.ptabs .gal+.gal{border:0;margin:0;padding:0}
-.ptabs .addph{flex-direction:column;justify-content:center;gap:3px;min-height:120px;border:1.5px dashed var(--line);border-radius:12px;text-align:center;padding:12px}
+.phgrid{flex-wrap:wrap;gap:8px;overflow:visible}
+.phgrid .pimg{height:56px!important;width:56px!important;background-size:cover;border-radius:10px}
+.phgrid .pimg:first-child{width:100%!important;height:220px!important;background-size:contain;background-color:var(--bg);border-radius:12px}
+.ptabs .addph{flex-direction:column;justify-content:center;gap:3px;min-height:150px;border:1.5px dashed var(--line);border-radius:12px;text-align:center;padding:12px}
 .ptabs .addph .ico{width:24px;height:24px;color:var(--pri)}.ptabs .addph>b{color:var(--ink);font-size:14px}.ptabs .addph small{font-size:12.5px}
-.ah{display:flex;align-items:center;justify-content:space-between;gap:8px;border-left:3px solid var(--pri);padding-left:10px;margin:0 0 10px}
-.ah h3{display:flex;align-items:center;gap:7px;margin:0}.ah h3 .ico{width:17px;height:17px;flex:none}
-.ah h3{white-space:nowrap}.szchip{min-width:0;border:1px solid var(--line);border-radius:12px;padding:3px 10px;font-size:12.5px;line-height:1.35;color:var(--muted);background:var(--card);text-align:right}
-.adcard{background:var(--amberbg);border-color:transparent}.ah.amb{border-left-color:var(--amber)}.ah.amb h3{color:var(--amber)}
-header{transition:padding .18s}body.slim header{padding:6px 14px}body.slim #hdr{font-size:16px}body.slim #hsub{font-size:12px;margin-top:0}
+.card.sc{border-left:3px solid var(--pri)}
+.ah{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px}
+.ah h3{display:flex;align-items:center;gap:9px;margin:0;text-transform:none;letter-spacing:0;font-size:15.5px;font-weight:700;color:var(--ink);white-space:nowrap}
+.ah .ib{width:26px;height:26px;flex:none;border-radius:8px;background:var(--pri2);color:var(--pri);display:grid;place-items:center}.ah .ib .ico{width:15px;height:15px}
+.ah .ib.amb{background:#ffe3a3;color:var(--amber)}
+.szchip{min-width:0;background:var(--bg);border-radius:12px;padding:3px 10px;font-size:12.5px;line-height:1.35;color:var(--muted);text-align:right}
+.tstbox{margin-top:12px;border:1px solid #bfe0d1;color:#0f5c41}
+.card.adcard{background:var(--amberbg);border-color:transparent;border-left:3px solid #f0b938}
+.ph3{text-transform:none!important;letter-spacing:0!important;font-size:15.5px!important;font-weight:700;color:var(--ink)!important;margin:0 0 10px!important}
+header{transition:padding .18s}body.slim header{padding:7px 14px}
+body.slim #hdr{font-size:16px;display:flex;align-items:center;gap:8px}body.slim .hname{overflow:hidden;text-overflow:ellipsis}
+.hfam{flex:none;background:var(--pri);color:#fff;border-radius:99px;padding:3px 10px;font-size:12px;font-weight:600}
 </style>
 </head>
 <body>
@@ -684,7 +694,7 @@ function test(id){const t=tById(id);if(!t)return testsHome();setHeader(tsec(t.c)
  <div class="btnrow"><button class="btn pri" id="copy">Copy procedure</button></div>`;
  bind();tickable();zoomable();$("#copy").onclick=()=>copyText(testText(t))}
 
-const APP_BUILD="v43";
+const APP_BUILD="v44";
 const IMG_EXT=[".jpg",".jpeg",".JPG",".JPEG",".png",".PNG",".webp"];
 function tryLoad(src,ok,fail){const m=src.match(/^(.*?)(\.[A-Za-z]+)?$/),base=m[1],c=[src,...IMG_EXT.filter(x=>x!==(m[2]||"")).map(x=>base+x)];let k=0;
  const next=()=>{if(k>=c.length)return fail();const u=c[k++],im=new Image();im.onload=()=>ok(u,im.naturalWidth/im.naturalHeight||1.33);im.onerror=next;im.src=u};next()}
@@ -854,44 +864,48 @@ function asection(id){const s=asec(id);if(!s)return atlasHome();setHeader(s.n,tr
 function gallery(title,list,cap,hint,show){if(!show)return "";const f=(list||[])[0];
  return `<div class="gal"><div class="galh">${esc(title)}</div><div class="atlimgs rimgs">${(list||[]).map(x=>`<span class="pimg" role="img" aria-label="${esc(cap)}" data-cap="${esc(cap+" – "+title)}" data-src="${esc(encodeURI(imgSrc(x)))}"></span>`).join("")}</div>
  <div class="phline">${ico("image")} Not added yet${f?` – upload <b>${esc(f)}</b>`:""}</div></div>`}
-/* ===== ATLAS ENTRY PAGE (v43 redesign) ===== */
+/* ===== ATLAS ENTRY PAGE (v44 style) ===== */
 let slimOff=null;
-function slimHead(title,sub){const h=$("#hdr"),s=$("#hsub"),t0=h.textContent,s0=s.textContent,el=$("#ahead");if(!el)return;
+function slimHead(title,sub){const h=$("#hdr"),s=$("#hsub"),t0=h.textContent,el=$("#ahead");if(!el)return;
  const th=el.offsetTop+el.offsetHeight-$("header").offsetHeight;let on=false;
  const f=()=>{const y=window.scrollY,want=on?y>th-30:y>th+10;if(want===on)return;on=want;document.body.classList.toggle("slim",on);
-  h.textContent=on?title:t0;s.textContent=on?sub:s0;s.style.display=on&&sub?"block":"none"};
+  if(on)h.innerHTML=`<span class="hname">${esc(title)}</span>${sub?`<span class="hfam">${esc(sub)}</span>`:""}`;else h.textContent=t0};
  window.addEventListener("scroll",f,{passive:true});
- slimOff=()=>{window.removeEventListener("scroll",f);document.body.classList.remove("slim");s.textContent=s0}}
-function ahd(icon,title,right,cls){return `<div class="ah${cls?" "+cls:""}"><h3>${ico(icon)}<span>${esc(title)}</span></h3>${right||""}</div>`}
+ slimOff=()=>{window.removeEventListener("scroll",f);document.body.classList.remove("slim")}}
+function ahd(icon,title,right,amb){return `<div class="ah"><h3><span class="ib${amb?" amb":""}">${ico(icon)}</span><span>${esc(title)}</span></h3>${right||""}</div>`}
+const bl=l=>`<ul class="pc">${l.filter(x=>String(x).trim()).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`;
 function phPane(key,list,cap,title,on){const f=(list||[])[0];
- return `<div class="gal tpane${on?" on":""}" data-pane="${key}"><div class="atlimgs rimgs">${(list||[]).map(x=>`<span class="pimg" role="img" aria-label="${esc(cap)}" data-cap="${esc(cap+" – "+title)}" data-src="${esc(encodeURI(imgSrc(x)))}"></span>`).join("")}</div>
+ return `<div class="gal tpane${on?" on":""}" data-pane="${key}"><div class="atlimgs rimgs phgrid">${(list||[]).map(x=>`<span class="pimg" role="img" aria-label="${esc(cap)}" data-cap="${esc(cap+" – "+title)}" data-src="${esc(encodeURI(imgSrc(x)))}"></span>`).join("")}</div>
  <div class="phline addph">${ico("plus")}<b>Add photo</b><small>Not added yet${f?` – upload <b>${esc(f)}</b>`:""}</small></div></div>`}
 function atlasItem(id){const a=aById(id);if(!a)return atlasHome();const S=asec(a.s);setHeader(S?S.n:"Atlas",true,"a:"+id);navOn("atlas");
  const micro=((S||{}).g||"micro")==="micro",org=!micro&&a.s!=="unorg";
  const users=micro?A.filter(x=>x.id!==a.id&&(x.rel||[]).includes(a.id)):[];
  const has=k=>Array.isArray(a[k])&&a[k].some(x=>String(x).trim());
+ const cn1=has("cn")?String(a.cn.find(x=>String(x).trim())).split(/\s+[–(-]\s*|\s\(/)[0]:"";
  const lat=a.lat?`<p class="alat latin">${esc(a.lat).replace(/\b(spp|var|sp)\./g,"<span class=\"nl\">$1.</span>")}</p>`:"";
- const fam=a.fam?`<button class="famchip" data-go="fam-${esc(a.fam)}">${ico("sprout")}${esc(a.fam)}</button>`:"";
- const facts=[["Family",a.fam],[micro?"Group":"Part used",S&&S.n],["Size",a.sz],["Category",a.cat]].filter(x=>x[1]&&String(x[1]).trim());
- /* photo tabs */
+ const fam=a.fam?`<button class="famchip" data-go="fam-${esc(a.fam)}">${esc(a.fam)}</button>`:"";
+ const facts=[[micro?"Group":"Part used",S&&S.n],["Family",a.fam],["Constituents",cn1],["Category",a.cat]].filter(x=>x[1]&&String(x[1]).trim()).slice(0,3);
  const tabs=micro?[["img","Photos",a.img]]:[["img","Drug",a.img],["ts","T.S.",a.ts],["de","Powder",a.de]].filter(([k,,l])=>k==="img"||org||(l&&l.length));
  const photos=`<div class="card gals ptabs">${tabs.length>1?`<div class="tabs" role="tablist">${tabs.map(([k,t],i)=>`<button class="tab${i?"":" on"}" role="tab" data-tab="${k}">${esc(t)}</button>`).join("")}</div>`:`<div class="galh">${esc(tabs[0][1])}</div>`}
   ${tabs.map(([k,t,l],i)=>phPane(k,l,a.n,t,!i)).join("")}</div>`;
- const tests=a.tst&&String(a.tst).trim();
- app.innerHTML=`<div id="ahead" class="ahead"><h2 class="title">${esc(a.n)}</h2>${lat}${fam}</div>
- ${facts.length?`<div class="facts">${facts.map(([k,v])=>`<div class="fact"><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join("")}</div>`:""}
+ const tests=a.tst&&String(a.tst).trim(),ct=has("cn")&&tests?"Constituents & chemical tests":has("cn")?"Constituents":(micro?"Identification":"Chemical tests");
+ app.innerHTML=`<div id="ahead" class="card ahead"><h2 class="title">${esc(a.n)}</h2>${lat}${fam}</div>
+ ${facts.length?`<div class="facts" style="grid-template-columns:repeat(${facts.length},1fr)">${facts.map(([k,v])=>`<div class="fact"><small>${esc(k)}</small><b>${esc(v)}</b></div>`).join("")}</div>`:""}
  ${photos}
- <div class="card">${ahd(micro?"microscope":"leaf",micro?"Key features":"Macroscopical features",a.sz?`<span class="szchip">${esc(a.sz)}</span>`:"")}<ul class="pc">${(a.f||[]).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
- ${a.ex?`<div class="card">${ahd("book",micro?"Found in":"Source")}${esc(a.ex)}</div>`:""}
- ${org&&has("micro")?`<div class="card">${ahd("microscope","Microscopy")}<ul class="pc">${a.micro.filter(x=>String(x).trim()).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`:""}
- ${has("cn")||tests?`<div class="card">${has("cn")?`${ahd("molecule","Constituents")}<ul class="pc">${a.cn.filter(x=>String(x).trim()).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}
-  ${tests?`<div${has("cn")?' style="margin-top:14px"':""}>${ahd("testtube",micro?"Identification":"Chemical tests")}<div class="res pos">${esc(a.tst)}</div></div>`:""}</div>`:""}
- ${has("ad")?`<div class="card adcard">${ahd("warn","Confused with / adulterants","","amb")}<ul class="pc">${a.ad.filter(x=>String(x).trim()).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`:""}
- ${a.rel&&a.rel.length?`<div class="card">${ahd("rings",micro?"Related":"Diagnostic elements & tests")}<div class="chips">${a.rel.map(linkChip).join("")}</div></div>`:""}
- ${users.length?`<div class="card">${ahd("search","Seen in")}<div class="chips">${users.map(u=>linkChip(u.id)).join("")}</div></div>`:""}`;
+ <div class="card sc">${ahd(micro?"microscope":"leaf",micro?"Key features":"Macroscopic features",a.sz?`<span class="szchip">${esc(a.sz)}</span>`:"")}${bl(a.f||[])}</div>
+ ${a.ex?`<div class="card sc">${ahd("book",micro?"Found in":"Source")}${esc(a.ex)}</div>`:""}
+ ${org&&has("micro")?`<div class="card sc">${ahd("microscope","Microscopy")}${bl(a.micro)}</div>`:""}
+ ${has("cn")||tests?`<div class="card sc">${ahd("flask",ct)}${has("cn")?bl(a.cn):""}${tests?`<div class="res pos tstbox"><b>Test:</b> ${esc(a.tst)}</div>`:""}</div>`:""}
+ ${has("ad")?`<div class="card sc adcard">${ahd("warn","Confused with / adulterants","",1)}${bl(a.ad)}</div>`:""}
+ ${a.rel&&a.rel.length?`<div class="card"><h3 class="ph3">${micro?"Related":"Related tests & elements"}</h3><div class="chips">${a.rel.map(linkChip).join("")}</div></div>`:""}
+ ${users.length?`<div class="card"><h3 class="ph3">Seen in</h3><div class="chips">${users.map(u=>linkChip(u.id)).join("")}</div></div>`:""}`;
  app.querySelectorAll(".ptabs .tab").forEach(b=>b.onclick=()=>{app.querySelectorAll(".ptabs .tab").forEach(x=>x.classList.toggle("on",x===b));
   app.querySelectorAll(".ptabs .tpane").forEach(p=>p.classList.toggle("on",p.dataset.pane===b.dataset.tab))});
- bind();zoomable();chkPh();slimHead(a.n,a.fam||"")}
+ bind();zoomable();chkPh();
+ /* thumbnails: tap swaps into the big photo; big photo opens zoom */
+ app.querySelectorAll(".phgrid").forEach(g=>g.addEventListener("click",e=>{const t=e.target.closest(".pimg"),m=g.querySelector(".pimg");if(!t||t===m||!t.dataset.url||!m.dataset.url)return;
+  e.stopImmediatePropagation();e.preventDefault();[m.style.backgroundImage,t.style.backgroundImage]=[t.style.backgroundImage,m.style.backgroundImage];[m.dataset.url,t.dataset.url]=[t.dataset.url,m.dataset.url]},true));
+ slimHead(a.n,a.fam||"")}
 function chkPh(){document.querySelectorAll(".gal").forEach(g=>{const has=!!g.querySelector(".pimg");g.querySelector(".phline").style.display=has?"none":"flex";g.querySelector(".rimgs").style.display=has?"flex":"none"})}
 
 /* ============ CALCULATORS ============ */

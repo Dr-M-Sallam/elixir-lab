@@ -433,10 +433,7 @@ const T=[
 {"id": "t_tlc", "c": "other", "n": "General TLC procedure & detection", "aim": "Separate and detect constituents; compare with reference standards.", "need": ["anis", "drag", "nppeg", "kohtlc", "h2so4tlc", "iodvap"], "ex": ["Silica gel plate (F254)", "Capillary tubes", "TLC tank with lid", "Filter paper (saturation)", "Pencil & ruler", "Sprayer", "Hot plate / oven", "UV lamp 254 & 366 nm"], "smp": "Concentrated extract (methanol/ethanol) and reference standard solutions (~1 mg/mL).", "pr": ["Pour the mobile phase into the tank (depth ~0.5 cm), line with filter paper, close, and saturate 15–30 min.", "With a soft pencil, draw the start line 1–1.5 cm from the bottom of the plate.", "Apply sample and standard as small spots or bands (2–5 mm), at least 1 cm apart; dry between applications.", "Place the plate in the tank – the start line must be ABOVE the solvent level. Close the lid.", "Develop until the solvent front is ~1 cm from the top; remove and immediately mark the front with pencil.", "Dry the plate completely (fume hood / hair dryer).", "View under UV 254 nm (dark spots) and 366 nm (fluorescent spots); circle spots with pencil.", "Spray evenly with the detection reagent (fine mist – do not wet), heat if required, observe.", "Calculate Rf = distance travelled by spot ÷ distance travelled by solvent front."], "pos": "Spot in the sample with the same Rf and colour as the standard → compound probably present.", "neg": "No spot matching the standard.", "ctl": "Always co-chromatograph a reference standard on the same plate.", "pc": ["Spots too large or overloaded → tailing and poor separation; keep spots small.", "Never spot below the solvent level – sample dissolves into the solvent.", "Remove all solvent (especially acids/ammonia) before spraying.", "Spray in a fume hood; most sprays contain conc. H₂SO₄ or methanol.", "Rf varies with saturation, temperature and plate – compare only with standards on the same plate.", "UV light damages eyes – use protective glasses."]}
 ];
 
-const AGRPS=[
-{"id": "plants", "ic": "sprout", "n": "Medicinal plants", "d": "Leaves, flowers, fruits, seeds, barks, roots, herbs & unorganized drugs"},
-{"id": "micro", "ic": "microscope", "n": "Microscopy", "d": "Diagnostic elements: starch, trichomes, stomata, crystals, pollen, fibres…"}
-,{"id": "inst", "ic": "flask", "n": "Instruments & Equipment", "d": "How each lab instrument works, how to use it and how to care for it"},{"id": "morph", "ic": "leafline", "n": "Plant Morphology", "d": "Terms for describing leaves, flowers & fruits"}];
+const AGRPS=[{"id": "morph", "ic": "leafline", "n": "Plant Morphology", "d": "Terms for describing leaves, flowers & fruits"}, {"id": "micro", "ic": "microscope", "n": "Microscopy", "d": "Diagnostic elements: starch, trichomes, stomata, crystals, pollen, fibres…"}, {"id": "plants", "ic": "sprout", "n": "Medicinal plants", "d": "Leaves, flowers, fruits, seeds, barks, roots, herbs & unorganized drugs"}, {"id": "inst", "ic": "flask", "n": "Instruments & Equipment", "d": "How each lab instrument works, how to use it and how to care for it"}];
 const ASECS=[
 {"id": "leaf", "ic": "plantleaf", "n": "Leaves", "d": "Senna, Digitalis, Solanaceae, Mint, Boldo", "g": "plants"},
 {"id": "flower", "ic": "blossom", "n": "Flowers", "d": "Chamomile, Clove, Saffron, Lavender, Pyrethrum…", "g": "plants"},
@@ -762,7 +759,7 @@ function test(id){const t=tById(id);if(!t)return testsHome();setHeader(tsec(t.c)
  <div class="btnrow"><button class="btn pri" id="copy">Copy procedure</button></div>`;
  bind();tickable();zoomable();$("#copy").onclick=()=>copyText(testText(t))}
 
-const APP_BUILD="v67";
+const APP_BUILD="v68";
 const IMG_EXT=[".jpg",".jpeg",".JPG",".JPEG",".png",".PNG",".webp"];
 function tryLoad(src,ok,fail){const m=src.match(/^(.*?)(\.[A-Za-z]+)?$/),base=m[1],c=[src,...IMG_EXT.filter(x=>x!==(m[2]||"")).map(x=>base+x)];let k=0;
  const next=()=>{if(k>=c.length)return fail();const u=c[k++],im=new Image();im.onload=()=>ok(u,im.naturalWidth/im.naturalHeight||1.33);im.onerror=next;im.src=u};next()}

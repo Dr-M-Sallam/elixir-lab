@@ -242,6 +242,13 @@ body.slim #hdr{font-size:16px;display:flex;align-items:center;gap:8px}body.slim 
 .tile .ic .ico{width:26px!important;height:26px!important}
 .tile b{font-size:15.5px!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .tile small{font-size:13px!important;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.quick{grid-template-columns:1fr 1fr!important;gap:8px!important}
+.qk{flex-direction:row!important;justify-content:flex-start!important;padding:8px 10px!important;gap:10px!important}
+.qk .qi{width:34px!important;height:34px!important;flex:none}
+.qk b{font-size:14px!important;text-align:left}
+.tile small{-webkit-line-clamp:2!important}
+.start b,.start small{overflow-wrap:anywhere}
+@media (max-width:360px){.qk{padding:8px!important;gap:7px!important}.qk .qi{width:28px!important;height:28px!important;border-radius:9px!important}.qk .qi .ico{width:17px!important;height:17px!important}.qk b{font-size:13px!important}}
 </style>
 </head>
 <body>
@@ -295,7 +302,7 @@ const SECTIONS=[
  {id:"carb",ic:"sugar",n:"Carbohydrates",d:"Sugar test reagents"},
  {id:"gly",ic:"pill",n:"Glycosides & Saponins",d:"Glycoside reagents"},
  {id:"phen",ic:"benzene",n:"Phenolics & Tannins",d:"Incl. flavonoids"},
- {id:"terp",ic:"steroid",n:"Terpenoids & Volatile oils",d:"Steroids & oils"},
+ {id:"terp",ic:"steroid",n:"Terpenoids & Oils",d:"Steroids & volatile oils"},
  {id:"prot",ic:"egg",n:"Proteins & Amino acids",d:"Ninhydrin, Biuret"},
  {id:"tlc",ic:"plate",n:"TLC Spray reagents",d:"Spray reagents"},
  {id:"gen",ic:"flask",n:"General bench solutions",d:"Acids & alkalis"}

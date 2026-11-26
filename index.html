@@ -256,9 +256,9 @@ body.slim #hdr{font-size:16px;display:flex;align-items:center;gap:8px}body.slim 
 .newb.in{font-size:10px;padding:2px 7px;margin:0 0 0 4px;vertical-align:2px;white-space:nowrap}
 
 /* ===== results switch + leaf description ===== */
-.seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px;margin:0 0 14px;box-shadow:var(--sh)}
-.seg button{flex:1;min-height:44px;border:0;border-radius:9px;background:none;color:var(--muted);font-size:15px;font-weight:650;cursor:pointer}
-.seg button.on{background:var(--pri);color:#fff}
+.seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:3px;gap:4px;margin:0 0 24px;box-shadow:var(--sh)}
+.seg button{flex:1;min-height:40px;border:1px solid transparent;border-radius:9px;background:none;color:var(--muted);font-size:15px;font-weight:600;cursor:pointer}
+.seg button.on{background:var(--pri2);color:var(--pri);border-color:var(--pri);font-weight:600}
 .lprog{margin:0 0 10px}.lpt{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;color:var(--muted);margin-bottom:4px}.lpt b{color:var(--ink)}.lpt span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-style:italic}
 .lbar{display:flex;gap:3px}.lseg{flex:1;min-width:0;height:26px;border:0;background:none;padding:0;cursor:pointer;display:flex;align-items:center}
 .lseg i{display:block;width:100%;height:7px;border-radius:4px;background:var(--line)}.lseg.done i{background:var(--pri)}.lseg.fill:not(.done):not(.cur) i{background:#9fd1b9}.lseg.cur i{background:var(--gold);height:9px}.lseg.rev{flex:.6}
@@ -288,7 +288,12 @@ body.slim #hdr{font-size:16px;display:flex;align-items:center;gap:8px}body.slim 
 .litem{display:flex;gap:12px;align-items:center}.lth{flex:none;width:58px;height:58px;border-radius:10px;background:var(--pri2) center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:var(--pri)}.lth svg{width:28px;height:28px}
 .lmeta{min-width:0;flex:1}.lmeta small{display:block;color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lwarn{display:flex;gap:10px;align-items:flex-start;background:var(--amberbg);color:var(--amber);border:1.5px solid var(--gold);border-radius:12px;padding:10px 12px;margin:2px 0 12px;font-size:14px;font-weight:600;line-height:1.4}.lwarn svg{flex:none;width:20px;height:20px;margin-top:1px}
-.ldraft{border-color:var(--gold);background:#fffaf0;margin:10px 0 4px}
+.ldraft{border-color:var(--gold);background:#fffaf0;margin:10px 0 4px;cursor:default}
+.ldbar{height:5px;border-radius:3px;background:var(--line);margin:8px 0 10px;overflow:hidden}.ldbar i{display:block;height:100%;background:var(--pri);border-radius:3px}
+.ldbtn{margin:0}.ldbtn #lddis{flex:.6;color:var(--warn)}
+.lnewb{display:flex;align-items:center;justify-content:center;gap:7px}.lic{width:16px;height:16px;flex:none}
+.lhead{margin:18px 0 8px;font-size:13.5px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+.lempty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:22px 16px 8px;color:var(--muted)}.lempty b{color:var(--ink);font-size:16px}.lempty span{font-size:14px}.lic2{width:38px;height:38px;color:var(--pri);opacity:.75;margin-bottom:4px}
 @media(max-width:360px){.lgrid.c3{grid-template-columns:repeat(2,minmax(0,1fr))}}
 #printarea{display:none}
 @media print{
@@ -1466,14 +1471,18 @@ const resSwitch=on=>`<div class="seg" role="tablist"><button class="${on==="l"?"
 /* ---- list ---- */
 function leaves(){setHeader("Results",false);navOn("results");
  const l=[...store.leaves].sort((a,b)=>(b.date||"").localeCompare(a.date||"")),dr=store.leafDraft;
- app.innerHTML=`${resSwitch("l")}<h2 class="ptitle">Leaf descriptions</h2><p class="psub">Describe a leaf step by step; the app writes the description for you.</p>
- <button class="btn pri wide" id="lnew">${ico("plus")} New leaf description</button>
- ${dr?`<div class="item ldraft" data-go="lw-${dr.step||1}"><b>Unfinished: ${esc(dr.plant||(dr.id?"edit in progress":"new description"))}</b><span>Tap to continue</span></div>`:""}
+ const N=LT.STEPS.length,ds=dr?Math.min(N,Math.max(1,dr.step||1)):0;
+ app.innerHTML=`${resSwitch("l")}<p class="psub">Describe a leaf step by step; the app writes the description for you.</p>
+ <button class="btn pri wide lnewb" id="lnew">${ico("leaf","lic")}<span>New leaf description</span></button>
+ ${dr?`<div class="item ldraft"><b>${esc(dr.plant&&dr.plant.trim()?dr.plant.trim():"Untitled leaf")}</b><span>${(dr.step||1)>N?`Review · all ${N} steps done`:`Step ${ds} of ${N}`}${dr.id?" · editing a saved description":""}</span>
+  <div class="ldbar"><i style="width:${Math.round(((dr.step||1)>N?N:ds)/N*100)}%"></i></div>
+  <div class="btnrow ldbtn"><button class="btn" id="lddis">Discard</button><button class="btn pri" id="ldcon">Continue</button></div></div>`:""}
+ <h3 class="lhead">Leaf descriptions</h3>
  ${l.length?`<div class="list">${l.map(r=>`<div class="item litem" data-go="leaf-${r.id}"><span class="lth" data-ph="${r.photo?r.id:""}">${r.photo?"":ico("leaf")}</span><div class="lmeta"><b>${esc(r.plant||"Unnamed plant")}</b><span>${esc((r.date||"").slice(0,10))}</span><small>${esc((r.text||"").split(/[;.]/)[0])}</small></div></div>`).join("")}</div>
  <button class="btn wide" id="lxl" style="margin-top:12px">${ico("chart")} Export leaf descriptions (.xlsx)</button>`
- :`<div class="empty">No leaf descriptions yet.<br>Tap “New leaf description”, choose what you see in 11 short steps, and the app writes a textbook-style description.</div>`}
+ :`<div class="lempty">${ico("leaf","lic2")}<b>No leaf descriptions yet</b><span>Tap New leaf description to start your first one.</span></div>`}
  <p class="disc">Stored on this device only (photos included). Use Copy, Print/PDF or Export to keep a permanent copy.</p>`;
- bind();$("#lnew").onclick=()=>lfStart(null);const x=$("#lxl");if(x)x.onclick=()=>lfExport();
+ bind();$("#lnew").onclick=()=>lfStart(null);if(dr){$("#ldcon").onclick=()=>go("lw-"+(dr.step||1));$("#lddis").onclick=()=>confirmBox("Discard this unfinished description?",()=>{lfDrop();toast("Draft discarded");leaves()})}const x=$("#lxl");if(x)x.onclick=()=>lfExport();
  app.querySelectorAll(".lth[data-ph]").forEach(async e=>{if(!e.dataset.ph)return;const u=await PH.url(e.dataset.ph);if(u)e.style.backgroundImage=`url("${u}")`;else e.innerHTML=ico("leaf")})}
 
 /* ---- drafts ---- */

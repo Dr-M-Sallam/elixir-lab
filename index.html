@@ -229,6 +229,7 @@ body.slim #hdr{font-size:16px;display:flex;align-items:center;gap:8px}body.slim 
 .newb{flex:none;background:#f0b938;color:#3b2a00;font-size:11.5px;font-weight:800;letter-spacing:.06em;border-radius:99px;padding:3px 10px;margin-right:4px}
 .msubh{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:12px 0 2px;border-top:1px solid var(--line)}.mtab .msubh:first-child{border-top:0;padding-top:0}.msubh+.mrowc{border-top:0}
 .appver{text-align:center;color:var(--muted);font-size:12.5px;margin:22px 0 8px;line-height:1.9}.appver button{border:0;background:none;color:var(--pri);font-size:12.5px;font-weight:600;padding:0;cursor:pointer}
+.appver .dev{font-size:12px}
 </style>
 </head>
 <body>
@@ -710,7 +711,7 @@ function more(){setHeader("More",false);navOn("more");
  <div class="mlist">${row("tools","calc","Calculators","Ash, extractive, moisture, swelling, foaming, stomatal index…")}
  ${row("saved","star","Saved",plural(store.fav.length,"saved item"))}
  ${row("about","info","About & content check","Version, credits and spreadsheet check")}</div>
- <div class="appver">Elixir Lab v${esc(APP_VERSION)}<br><button id="vchk">Check for updates</button></div>`;bind();
+ <div class="appver">Elixir Lab v${esc(APP_VERSION)}<br><span class="dev">Developed by Dr. Mahmoud Sallam</span><br><button id="vchk">Check for updates</button></div>`;bind();
  $("#vchk").onclick=async e=>{const b=e.target,say=t=>b.textContent=t;
   if(!navigator.onLine)return say("You're offline – connect and try again");
   try{const r=await navigator.serviceWorker.getRegistration();if(!r)return say("Up to date");say("Checking…");await r.update();

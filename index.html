@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="color-scheme" content="only light">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="version.js"></script>
+<script src="leaf-terms.js"></script>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="theme-color" content="#142b39">
@@ -253,6 +254,52 @@ body.slim #hdr{font-size:16px;display:flex;align-items:center;gap:8px}body.slim 
 .grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}.tile b{overflow-wrap:break-word}@media (max-width:360px){.tile{padding:10px 10px!important}.tile b{font-size:14px!important}.tile small{font-size:12px!important}.cnt{font-size:11.5px}}
 @media (max-width:320px){.tile b{font-size:13px!important}.tile .ic .cic{height:calc(26px * var(--f,1))!important}}
 .newb.in{font-size:10px;padding:2px 7px;margin:0 0 0 4px;vertical-align:2px;white-space:nowrap}
+
+/* ===== results switch + leaf description ===== */
+.seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px;margin:0 0 14px;box-shadow:var(--sh)}
+.seg button{flex:1;min-height:44px;border:0;border-radius:9px;background:none;color:var(--muted);font-size:15px;font-weight:650;cursor:pointer}
+.seg button.on{background:var(--char);color:#fff;box-shadow:inset 0 -3px 0 var(--gold)}
+.lprog{margin:0 0 10px}.lpt{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;color:var(--muted);margin-bottom:4px}.lpt b{color:var(--ink)}.lpt span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-style:italic}
+.lbar{display:flex;gap:3px}.lseg{flex:1;min-width:0;height:26px;border:0;background:none;padding:0;cursor:pointer;display:flex;align-items:center}
+.lseg i{display:block;width:100%;height:7px;border-radius:4px;background:var(--line)}.lseg.done i{background:var(--pri)}.lseg.fill:not(.done):not(.cur) i{background:#9fd1b9}.lseg.cur i{background:var(--gold);height:9px}.lseg.rev{flex:.6}
+.lat{border:1px solid var(--line);background:var(--card);color:var(--pri);border-radius:99px;font-size:13px;font-weight:650;padding:2px 10px 2px 6px;min-height:30px;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;cursor:pointer}.lat svg{width:16px;height:16px}
+.lgrp{margin:4px 0 8px}
+.lgrid{display:grid;gap:8px;align-items:stretch}textarea.inp{font:inherit;resize:vertical}.lgrid.c3{grid-template-columns:repeat(3,minmax(0,1fr))}.lgrid.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.lsub{grid-column:1/-1;font-size:12.5px;font-weight:750;letter-spacing:.04em;text-transform:uppercase;color:var(--pri);margin:6px 0 -2px;align-self:end}
+.lchip{position:relative;min-height:48px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:6px 6px;font-size:13.5px;font-weight:600;line-height:1.2;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;text-align:center;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;overflow-wrap:anywhere}
+.lgrid.pic .lchip{flex-direction:column;justify-content:flex-start;min-height:118px;padding:6px 4px 8px}
+.lart{display:flex;align-items:center;justify-content:center;width:100%;height:66px;pointer-events:none}.lart svg{max-width:100%;max-height:66px}
+.lchip .ll{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lchip.on{border-color:var(--pri);background:var(--pri2);box-shadow:0 0 0 2px var(--pri) inset}.lchip.on::after{content:"✓";position:absolute;top:4px;right:6px;width:18px;height:18px;border-radius:50%;background:var(--pri);color:#fff;font-size:11px;line-height:18px}
+.sw{flex:none;width:18px;height:18px;border-radius:50%;border:1px solid rgba(0,0,0,.2)}
+.lgrid.c2:not(.pic) .lchip{justify-content:flex-start;text-align:left;padding:6px 10px}
+.ltx{margin-top:8px}
+.lrr{display:flex;align-items:center;gap:8px}.lrr .inp{flex:1;min-width:0;min-height:46px}.lrr .u{color:var(--muted);font-weight:600}
+.lhint{font-size:12.5px;color:var(--muted);margin:8px 0 0}
+.lnav{position:sticky;bottom:calc(62px + env(safe-area-inset-bottom));z-index:3;display:flex;gap:8px;margin:12px -14px 0;padding:10px 14px;background:var(--bg);border-top:1px solid var(--line)}
+.lnav .btn{min-height:46px}.lnav #lsk{flex:.7;color:var(--muted)}
+.lphbox{margin:4px 0 10px}.lph{display:block;width:100%;max-height:340px;object-fit:contain;border-radius:12px;background:#f2f4f3;border:1px solid var(--line);margin-bottom:8px}
+.lphadd{min-height:48px;border-style:dashed}
+.ltxt{min-height:150px;line-height:1.5}.ltext{margin:0;line-height:1.6}
+.lnk{border:0;background:none;color:var(--pri);font-weight:650;font-size:14px;padding:6px 0 10px;cursor:pointer;min-height:44px}
+.btn.wide{width:100%}
+.lsumc .lsum{display:flex;width:100%;gap:10px;justify-content:space-between;text-align:left;border:0;border-bottom:1px solid var(--line);background:none;color:var(--ink);padding:9px 0;min-height:44px;font-size:14px;cursor:pointer}
+.lsum:last-child{border-bottom:0}.lsum b{flex:none;width:40%;font-weight:650}.lsum span{flex:1;color:var(--ink)}.lsum span.muted{color:var(--muted)}
+.litem{display:flex;gap:12px;align-items:center}.lth{flex:none;width:58px;height:58px;border-radius:10px;background:var(--pri2) center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:var(--pri)}.lth svg{width:28px;height:28px}
+.lmeta{min-width:0;flex:1}.lmeta small{display:block;color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ldraft{border-color:var(--gold);background:#fffaf0;margin:10px 0 4px}
+@media(max-width:360px){.lgrid.c3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#printarea{display:none}
+@media print{
+ @page{size:A4;margin:16mm}
+ html,body{background:#fff!important}
+ body>*:not(#printarea){display:none!important}
+ #printarea{display:block;color:#000;font:12pt/1.55 Georgia,"Times New Roman",serif}
+ #printarea h1{font:700 20pt/1.2 system-ui,sans-serif;margin:0 0 4pt;border-bottom:2.5pt solid #f0b938;padding-bottom:6pt}
+ #printarea .pd{color:#555;font:10pt system-ui,sans-serif;margin:0 0 12pt}
+ #printarea img{display:block;max-width:100%;max-height:125mm;margin:0 auto 12pt;object-fit:contain}
+ #printarea .pt{margin:0;text-align:justify}
+}
 </style>
 </head>
 <body>
@@ -824,7 +871,7 @@ function confirmBox(msg,ok){modal(`<p style="margin:0 0 14px">${esc(msg)}</p><di
 
 function results(){setHeader("Results",false);navOn("results");
  const l=[...store.sheets].sort((a,b)=>b.date.localeCompare(a.date));
- app.innerHTML=`<h2 class="ptitle">Results sheets</h2><p class="psub">Record +/– results for your samples and export them.</p><button class="btn pri wide" id="new">${ico("plus")} New results sheet</button>
+ app.innerHTML=`${resSwitch("t")}<h2 class="ptitle">Results sheets</h2><p class="psub">Record +/– results for your samples and export them.</p><button class="btn pri wide" id="new">${ico("plus")} New results sheet</button>
  ${l.length?`<div class="list">${l.map(s=>{const done=Object.values(s.v).filter(Boolean).length,tot=s.tests.length*s.samples.length;
   return `<div class="item" data-go="sheet-${s.id}"><b>${esc(s.title)}</b><span>${s.date} · ${s.samples.map(x=>esc(x.n)).join(", ")} · ${done}/${tot} recorded</span></div>`}).join("")}</div>`
  :`<div class="empty">No sheets yet.<br>Create one to record +/– results for one or more drug samples, then copy the table into Word, Excel or WhatsApp.</div>`}
@@ -982,12 +1029,16 @@ function mProf(o){const sh=o.shape;let W=.36,f;
  else if(sh==="linear"){W=.075;f=t=>Math.min(1,t/.06,(1-t)/.14)}
  else if(sh==="oblong"){W=.26;f=t=>Math.pow(Math.min(1,t/.22,(1-t)/.22),.55)}
  else if(sh==="orbicular"){W=.47;f=t=>Math.pow(Math.sin(Math.PI*t),.6)}
+ else if(sh==="spathulate"){W=.32;f=t=>Math.pow(Math.sin(Math.PI*Math.pow(t,2.2)),.75)}
  else {W=.36;f=t=>Math.sin(Math.PI*Math.pow(t,.7))}
  const ap=o.apex,bs=o.base;
  return t=>{let v=f(t);
-  if(ap==="obtuse"||ap==="mucronate"||ap==="emarginate"){if(t>.55)v=Math.pow(v,1-.6*(t-.55)/.45)}
+  if(ap==="obtuse"||ap==="mucronate"||ap==="emarginate"||ap==="cuspidate"){if(t>.55)v=Math.pow(v,1-.6*(t-.55)/.45)}
+  if(ap==="rounded"&&t>.5)v=Math.pow(v,1-.85*(t-.5)/.5)
+  if(ap==="truncate"&&t>.82)v=f(.82)*Math.min(1,(1-t)/.012)
   if(ap==="acuminate"&&t>.55)v=f(.55)*Math.pow((1-t)/.45,2.3);
-  if(bs==="rounded"||bs==="cordate"||bs==="amplexicaul"){if(t<.4)v=Math.pow(v,.45+.55*t/.4)}
+  if(bs==="rounded"||bs==="cordate"||bs==="amplexicaul"||bs==="auriculate"){if(t<.4)v=Math.pow(v,.45+.55*t/.4)}
+  if(bs==="truncate"&&t<.2)v=f(.2)*Math.min(1,t/.012)
   if(bs==="cuneate"&&t<.4){const e=f(.4);v=Math.min(v,e*t/.4)}
   if(bs==="decurrent"&&t<.4)v*=Math.pow(t/.4,1.8);
   return W*v}}
@@ -996,6 +1047,9 @@ function mMarg(o,t,h){const m=o.margin,k=Math.min(1,h*9),P=1/10,p=(t/P)%1;if(t<.
  if(m==="dentate")return -5.5*k*Math.pow(Math.abs(2*p-1),.7);
  if(m==="crenate")return 5*k*Math.pow(Math.abs(Math.sin(Math.PI*p)),.45)-5*k;
  if(m==="sinuate")return 7*k*Math.sin(2*Math.PI*t*3.5);
+ if(m==="serrulate"){const q=(t*20)%1;return -3*k*(q<.8?1-q/.8:(q-.8)/.2)}
+ if(m==="spiny"){const q=(t*7)%1;return 9*k*Math.pow(1-Math.abs(2*q-1),5)-2*k}
+ if(m==="undulate")return 3.2*k*Math.sin(2*Math.PI*t*7);
  return 0}
 function mLeaf(o,L){L=L||100;const pr=mProf(o),N=90,R=[],Lf=[];
  const unq=o.base==="unequal";
@@ -1003,14 +1057,15 @@ function mLeaf(o,L){L=L||100;const pr=mProf(o),N=90,R=[],Lf=[];
   if(unq){const tl=(t-.13)/.87;hl=tl<=0?0:pr(Math.max(0,tl))*L*(1-.0)+mMarg(o,t,h/L)}
   R.push([Math.max(0,hr),-t*L]);Lf.push([-Math.max(0,hl),-t*L])}
  let d;
- if(o.base==="cordate"||o.base==="amplexicaul"){const j=Math.round(N*.32),pj=R[j],lj=Lf[j],dp=o.base==="amplexicaul"?22:17;
+ if(o.base==="cordate"||o.base==="amplexicaul"||o.base==="auriculate"){const j=Math.round(N*.32),pj=R[j],lj=Lf[j],dp=o.base==="amplexicaul"?22:o.base==="auriculate"?26:17;
   d=`M0,${-L*.07} Q${(pj[0]*1.15).toFixed(1)},${dp} ${pj[0].toFixed(1)},${pj[1].toFixed(1)} `+R.slice(j+1).map(p=>`L${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ");
   const top=mTop(o,L);d+=top+Lf.slice(j+1).reverse().map(p=>`L${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ")+` L${lj[0].toFixed(1)},${lj[1].toFixed(1)} Q${(lj[0]*1.15).toFixed(1)},${dp} 0,${-L*.07} Z`}
  else{d="M0,0 "+R.map(p=>`L${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ")+mTop(o,L)+Lf.slice().reverse().map(p=>`L${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ")+" Z"}
  return d}
-function mTop(o,L){if(o.apex==="mucronate")return ` L1.2,${-L-1} L0,${-L-7} L-1.2,${-L-1} `;if(o.apex==="emarginate")return ` L0,${-L+6} `;return " "}
+function mTop(o,L){if(o.apex==="cuspidate")return ` L2.4,${-L+1} L0,${-L-16} L-2.4,${-L+1} `;if(o.apex==="mucronate")return ` L1.2,${-L-1} L0,${-L-7} L-1.2,${-L-1} `;if(o.apex==="emarginate")return ` L0,${-L+6} `;return " "}
 function mVeins(o,L){L=L||100;const pr=mProf(o),v=o.ven;let s=`<path d="M0,${o.base==="decurrent"?8:0} L0,${-L*.96}" stroke="${MS}" stroke-width="1.6" fill="none"/>`;
  if(v==="parallel"){[-.66,-.33,.33,.66].forEach(k=>{let d="";for(let i=1;i<=20;i++){const t=i/21;d+=(i>1?"L":"M")+(k*pr(t)*L).toFixed(1)+","+(-t*L).toFixed(1)+" "}s+=`<path d="${d}" stroke="${MV}" stroke-width="1" fill="none"/>`});return s}
+ if(v==="arcuate"){for(let t=.14;t<.7;t+=.14){[1,-1].forEach(sg=>{const w=pr(t+.12)*L,w2=pr(t+.32)*L;s+=`<path d="M0,${(-t*L).toFixed(1)} Q${(sg*w*.95).toFixed(1)},${(-(t+.1)*L).toFixed(1)} ${(sg*w2*.62).toFixed(1)},${(-(t+.34)*L).toFixed(1)}" stroke="${MV}" stroke-width="1" fill="none"/>`})}return s}
  if(v==="palmate"){s="";[[0,.97],[.55,.62],[-.55,.62],[.85,.3],[-.85,.3]].forEach(([k,t])=>{s+=`<path d="M0,${-L*.12} L${(k*pr(t)*L).toFixed(1)},${(-t*L).toFixed(1)}" stroke="${k?MV:MS}" stroke-width="${k?1.1:1.6}" fill="none"/>`});return s}
  for(let t=.16;t<.82;t+=.13){[1,-1].forEach(sg=>{const t2=t+.13,x=sg*pr(t2)*L*.8;s+=`<path d="M0,${(-t*L).toFixed(1)} Q${(x*.45).toFixed(1)},${(-(t+.04)*L).toFixed(1)} ${x.toFixed(1)},${(-t2*L).toFixed(1)}" stroke="${MV}" stroke-width="1" fill="none"/>`})}
  return s}
@@ -1031,6 +1086,9 @@ function mDraw(spec){const o=mSpec(spec);if(o.inf||o.sym||o.cor||o.ova||o.fr||o.
  if(o.type){const lf={shape:"elliptic",apex:"acute",base:"rounded"},sm=34;let b="";
   if(o.type==="simple")return mSvg(st+mLeafG({shape:"ovate"},100),"-60 -108 120 126");
   if(o.type==="palmate"||o.type==="trifoliate"){const ang=o.type==="trifoliate"?[-50,0,50]:[-84,-42,0,42,84];b=`<path d="M0,40 L0,-10" stroke="${MS}" stroke-width="1.8"/>`;ang.forEach(a=>b+=mLeafG(lf,o.type==="trifoliate"?52:40,`translate(0,-10) rotate(${a})`));return mSvg(b,"-70 -75 140 120")}
+  if(o.type==="pintri"){b=`<path d="M0,20 L0,-62" stroke="${MS}" stroke-width="1.8"/>`;[-62,62].forEach(a=>b+=mLeafG(lf,40,`translate(0,-30) rotate(${a})`));b+=mLeafG(lf,48,"translate(0,-62)");return mSvg(b,"-58 -116 116 142")}
+  if(o.type==="bipinnate"){const pin=(y,a,l)=>{let g=`<path d="M0,0 L0,${-l}" stroke="${MS}" stroke-width="1.3"/>`;for(let k=1;k<=3;k++)[-60,60].forEach(r=>g+=mLeafG(lf,12,`translate(0,${(-l*k/3.6).toFixed(1)}) rotate(${r})`,false));g+=mLeafG(lf,12,`translate(0,${-l})`,false);return `<g transform="translate(0,${y}) rotate(${a})">${g}</g>`};
+   b=`<path d="M0,26 L0,-80" stroke="${MS}" stroke-width="1.8"/>`;[[0,48],[-34,44],[-62,38]].forEach(([y,l])=>[-58,58].forEach(a=>b+=pin(y,a,l)));b+=pin(-80,0,34);return mSvg(b,"-62 -132 124 164")}
   b=`<path d="M0,20 L0,-95" stroke="${MS}" stroke-width="1.8"/>`;[-18,-44,-70].forEach(y=>[-62,62].forEach(a=>b+=mLeafG(lf,sm,`translate(0,${y}) rotate(${a})`)));
   if(o.type==="imparipinnate")b+=mLeafG(lf,sm,"translate(0,-92)");else b+=[-62,62].map(a=>mLeafG(lf,sm,`translate(0,-92) rotate(${a})`)).join("");
   return mSvg(b,"-58 -132 116 158")}
@@ -1040,13 +1098,25 @@ function mDraw(spec){const o=mSpec(spec);if(o.inf||o.sym||o.cor||o.ova||o.fr||o.
   if(o.arr==="decussate"){let t="";[[90,1],[-90,1]].forEach(([a])=>t+=mLeafG(sm,48,`rotate(${a}) translate(0,-8)`));[0,180].forEach(a=>t+=`<g opacity=".55">${mLeafG(sm,48,`rotate(${a}) translate(0,-8)`)}</g>`);return mSvg(t+`<circle r="8" fill="#fff" stroke="${MS}" stroke-width="2"/>`,"-62 -62 124 124")}
   if(o.arr==="whorled")[15,-55].forEach(y=>{[75,-75].forEach(a=>b+=mLeafG(sm,40,`translate(0,${y}) rotate(${a})`));b+=mLeafG(sm,40,`translate(0,${y}) rotate(165) scale(.55,.8)`)});
   return mSvg(b,"-60 -125 120 170")}
+ if(o.pet!==undefined){const P=+o.pet||0,lf={shape:"elliptic"};let b="";
+  if(o.sheath){b=`<rect x="-4" y="-6" width="8" height="62" rx="2" fill="#fff" stroke="${MS}" stroke-width="1.4"/><path d="M-12,56 L-12,10 Q-12,-2 0,-4 Q12,-2 12,10 L12,56" fill="${MF}" fill-opacity=".75" stroke="${MS}" stroke-width="1.6"/>`+mLeafG(lf,92,"translate(0,-4)");return mSvg(b,"-60 -102 120 162")}
+  b=`<path d="M-52,${P} L52,${P}" stroke="${MS}" stroke-width="3" stroke-linecap="round"/>`+(P?`<path d="M0,0 L0,${P}" stroke="${MS}" stroke-width="1.8"/>`:"")+mLeafG(lf,96);
+  if(o.stip)[-1,1].forEach(s=>b+=mLeafG({shape:"ovate"},17,`translate(${s*3},${P-1}) rotate(${s*58})`,false));
+  return mSvg(b,`-60 -104 120 ${112+P}`)}
  let extra="";if(o.surf){const pr=mProf(o);let s="";
   for(let i=0;i<46;i++){const t=.08+.84*((i*37)%46)/46,x=(((i*53)%29)/14-1)*pr(t)*100*.75,y=-t*100;
    if(o.surf==="glandular")s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.5" fill="${MS}" opacity=".55"/>`;
    if(o.surf==="scabrous")s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.1" fill="none" stroke="${MS}" stroke-width=".9"/>`;
    if(o.surf==="pubescent")s+=`<path d="M${x.toFixed(1)},${y.toFixed(1)} l2.5,-3" stroke="${MS}" stroke-width=".8"/>`}
+  if(o.surf==="tomentose"){for(let i=0;i<140;i++){const t=.05+.9*((i*37)%140)/140,x=(((i*53)%61)/30-1)*pr(t)*100*.85,y=-t*100;s+=`<path d="M${x.toFixed(1)},${y.toFixed(1)} l${i%2?2.6:-2.6},-2.2" stroke="${MS}" stroke-width=".7"/>`}
+   for(let t=.04;t<.97;t+=.022){const h=pr(t)*100;s+=`<path d="M${h.toFixed(1)},${(-t*100).toFixed(1)} l4.5,-2 M${(-h).toFixed(1)},${(-t*100).toFixed(1)} l-4.5,-2" stroke="${MS}" stroke-width=".7"/>`}}
+  if(o.surf==="glossy")s+=`<path d="M${(-pr(.3)*55).toFixed(1)},-30 Q${(-pr(.5)*75).toFixed(1)},-52 ${(-pr(.72)*45).toFixed(1)},-76" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity=".95"/><path d="M${(-pr(.3)*55).toFixed(1)},-30 Q${(-pr(.5)*75).toFixed(1)},-52 ${(-pr(.72)*45).toFixed(1)},-76" stroke="${MV}" stroke-width=".8" fill="none" opacity=".6" transform="translate(-4,0)"/>`;
+  if(o.surf==="succulent")s+=`<ellipse cx="44" cy="-14" rx="14" ry="7" fill="${MF}" stroke="${MS}" stroke-width="2.6"/><text x="44" y="6" font-size="8" text-anchor="middle" fill="${MS}">T.S.</text>`;
   if(o.surf==="pubescent")for(let t=.06;t<.95;t+=.035){const h=pr(t)*100;s+=`<path d="M${h.toFixed(1)},${(-t*100).toFixed(1)} l4,-2.5 M${(-h).toFixed(1)},${(-t*100).toFixed(1)} l-4,-2.5" stroke="${MS}" stroke-width=".8"/>`}
   extra=s}
+ if(o.surf==="dull"||o.surf==="coriaceous"||o.surf==="membranous"||o.surf==="succulent"){let g=mLeafG(o,100);const st0=`fill="${MF}" stroke="${MS}" stroke-width="1.6"`;
+  g=g.replace(st0,o.surf==="dull"?`fill="#dde3df" stroke="#7e9a8c" stroke-width="1.6"`:o.surf==="coriaceous"?`fill="#cde6d8" stroke="${MS}" stroke-width="3.6"`:o.surf==="membranous"?`fill="${MF}" fill-opacity=".45" stroke="${MS}" stroke-width=".8" stroke-dasharray="1 0"`:`fill="#d6eedf" stroke="${MS}" stroke-width="4.2"`);
+  return mSvg(st+g+extra,"-62 -110 124 132")}
  const pet=o.base==="amplexicaul"?`<path d="M0,22 L0,-14" stroke="${MS}" stroke-width="2.4"/>`:st;
  return mSvg(pet+mLeafG(o,100)+extra,"-62 -110 124 132")}
 function mSvg(b,vb){return `<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${b}</svg>`}
@@ -1327,8 +1397,204 @@ function contentCard(){const p=CONTENT.problems;
  ${p.length?`<ul class="pc">${p.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:`<div class="res pos" style="margin-top:8px">${ico("check")} No problems found.</div>`}</div>`}
 
 /* ============ ROUTER (hash) ============ */
+/* ===== LEAF DESCRIPTION (Results ▸ Leaf description). Terms live in leaf-terms.js ===== */
+const LT=self.LEAF_TERMS||{STEPS:[],DRAW:{},group:()=>null,opt:()=>null};
+store.leaves=store.leaves||[];
+const goR=h=>{if(location.hash.slice(1)===h)route();else location.replace("#"+h)};
+const nowStamp=()=>{const d=new Date(),p=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`};
+/* photos: IndexedDB (falls back to localStorage if IndexedDB is blocked) */
+const PH={_db:null,db(){return this._db||(this._db=new Promise((ok,no)=>{try{const r=indexedDB.open("elixir",1);r.onupgradeneeded=()=>r.result.createObjectStore("photos");r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)}catch(e){no(e)}}))},
+ async tx(mode,f){const db=await this.db();return new Promise((ok,no)=>{const t=db.transaction("photos",mode),q=f(t.objectStore("photos"));t.oncomplete=()=>ok(q.result);t.onerror=t.onabort=()=>no(t.error)})},
+ async put(k,b){try{await this.tx("readwrite",s=>s.put(b,k))}catch(e){const u=await new Promise(ok=>{const r=new FileReader();r.onload=()=>ok(r.result);r.readAsDataURL(b)});localStorage.setItem("phyto-ph-"+k,u)}delete this.urls[k]},
+ async get(k){try{const b=await this.tx("readonly",s=>s.get(k));if(b)return b}catch(e){}const u=localStorage.getItem("phyto-ph-"+k);return u?await (await fetch(u)).blob():null},
+ async del(k){try{await this.tx("readwrite",s=>s.delete(k))}catch(e){}try{localStorage.removeItem("phyto-ph-"+k)}catch(e){}if(this.urls[k]){URL.revokeObjectURL(this.urls[k]);delete this.urls[k]}},
+ urls:{},async url(k){if(!k)return null;if(this.urls[k])return this.urls[k];const b=await this.get(k);return b?(this.urls[k]=URL.createObjectURL(b)):null}};
+function resizePhoto(file,M=1024,Q=.7){return new Promise((ok,no)=>{const u=URL.createObjectURL(file),im=new Image();
+ im.onload=()=>{const s=Math.min(1,M/Math.max(im.naturalWidth,im.naturalHeight)),c=document.createElement("canvas");c.width=Math.round(im.naturalWidth*s);c.height=Math.round(im.naturalHeight*s);
+  const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);c.toBlob(b=>b?ok(b):no(new Error("encode")),"image/jpeg",Q)};
+ im.onerror=()=>{URL.revokeObjectURL(u);no(new Error("image"))};im.src=u})}
+
+/* ---- description writer: textbook order, empty steps skipped ---- */
+function lfShown(d,g){return !g.show||g.show(d.sel||{})}
+function lfVals(d,gid){const g=LT.group(gid);if(!g||!lfShown(d,g))return [];const v=(d.sel||{})[gid],ids=v==null?[]:Array.isArray(v)?v:[v];
+ const out=ids.map(id=>{const o=LT.opt(gid,id);return o?(o.full||(o.t!=null?o.t:o.l.toLowerCase())):""}).filter(Boolean);
+ const t=((d.txt||{})[gid]||"").trim();if(t)out.push(t);return out}
+function lfJoin(a,w){a=a.filter(Boolean);return a.length<2?a.join(""):a.slice(0,-1).join(", ")+" "+(w||"and")+" "+a[a.length-1]}
+function lfRange(d,gid,unit){const g=LT.group(gid);if(!g||!lfShown(d,g))return "";const r=(d.num||{})[gid]||{};let a=parseFloat(r.min),b=parseFloat(r.max);
+ if(isNaN(a)&&isNaN(b))return "";if(isNaN(a)){a=b;b=NaN}if(!isNaN(b)&&b<a)[a,b]=[b,a];const f=x=>String(+x.toFixed(2));
+ return (isNaN(b)||b===a?f(a):f(a)+"–"+f(b))+(unit?" "+unit:"")}
+function lfNote(d,sid,phrase){const n=((d.note||{})[sid]||"").trim();return n?(phrase?phrase+" ("+n+")":n):phrase}
+function leafText(d){const one=g=>lfVals(d,g)[0]||"",C=[];
+ // 1 leaf type + arrangement
+ const tp=LT.opt("type",(d.sel||{}).type);let ty="";
+ if(tp)ty=tp.cat==="simple"?"simple":tp.cat==="lobed"?"simple, "+one("type"):"compound, "+one("type");
+ const nl=tp&&tp.cat==="compound"?lfRange(d,"leaflets",""):"";if(nl)ty+=`, with ${nl} leaflet${nl==="1"?"":"s"}`;
+ ty=lfNote(d,"type",ty);const ar=lfNote(d,"arr",one("arr"));
+ C.push(ar?"Leaves "+ar+(ty?", "+ty:""):ty?"Leaf "+ty:"");
+ // 2 lamina
+ const subj=tp&&tp.cat==="compound"?"leaflets":"lamina",sh=lfNote(d,"shape",one("shape")),L=[];
+ if(sh)L.push(subj+" "+sh);
+ [["apex","apex"],["base","base"],["margin","margin"]].forEach(([g,w])=>{const v=one(g),p=lfNote(d,g,v?w+" "+v:"");if(p)L.push(p)});
+ if(!sh&&L.length&&subj==="leaflets")L[0]="leaflet "+L[0];
+ C.push(L.join(", "));
+ // 3 venation
+ const vn=one("ven"),pr=one("prom");C.push(lfNote(d,"ven",vn?"venation "+vn+(pr?", "+pr:""):pr?"veins "+pr:""));
+ // 4 surface, texture, colour
+ const S=[...lfVals(d,"hair"),...lfVals(d,"tex")],gl=one("gloss"),up=lfJoin(lfVals(d,"cup"),"to"),lo=lfJoin(lfVals(d,"clo"),"to"),pre=gl?gl+" ":"";
+ if(up&&lo)S.push(up===lo?pre+up+" on both surfaces":pre+up+" above, "+lo+" below");else if(up)S.push(pre+up+" above");else if(lo){if(gl)S.push(gl);S.push(lo+" below")}else if(gl)S.push(gl);
+ C.push(lfNote(d,"surf",S.join(", ")));
+ // 5 size
+ const ln=lfRange(d,"len","cm"),wd=lfRange(d,"wid","cm");C.push(lfNote(d,"size",ln&&wd?ln+" long and "+wd+" wide":ln?ln+" long":wd?wd+" wide":""));
+ // 6 petiole, stipules, sheath
+ const P=[];let pt=one("pet");const pl=lfRange(d,"petlen","cm");if(pt&&pl)pt+=` (petiole ${pl} long)`;else if(!pt&&pl)pt=`petiole ${pl} long`;if(pt)P.push(pt);
+ P.push(...lfVals(d,"stip"),...lfVals(d,"sheath"));C.push(lfNote(d,"pet",P.join(", ")));
+ // 7 odour & taste
+ const O=[],od=lfVals(d,"odour"),ts=lfVals(d,"taste"),full=(g,a)=>{const o=LT.opt(g,[].concat((d.sel||{})[g]||[])[0]);return o&&o.full&&a.length===1};
+ if(od.length)O.push(full("odour",od)?od[0]:"odour "+lfJoin(od));if(ts.length)O.push(full("taste",ts)?ts[0]:"taste "+lfJoin(ts));
+ C.push(lfNote(d,"org",O.join(", ")));
+ let t=C.map(x=>x.trim()).filter(Boolean).join("; ").replace(/\s+/g," ").replace(/(,\s*)+,/g,",").replace(/\s+([,;])/g,"$1").replace(/,\s*;/g,";").replace(/[,;]\s*$/,"").trim();
+ return t?t.charAt(0).toUpperCase()+t.slice(1)+(/[.!?]$/.test(t)?"":"."):""}
+function lfStepSummary(d,st){const p=[];st.groups.forEach(g=>{let v=g.kind==="range"?lfRange(d,g.id,g.unit):lfJoin(lfVals(d,g.id),g.join);if(v&&g.kind==="range")v=g.word?v+" "+g.word:g.label.replace(/ \(.*\)$/,"")+" "+v;if(v)p.push(v)});const n=((d.note||{})[st.id]||"").trim();if(n)p.push(n);return p.join("; ")}
+function lfFilled(d,st){return !!lfStepSummary(d,st)}
+
+/* ---- Results switch ---- */
+const resSwitch=on=>`<div class="seg" role="tablist"><button class="${on==="t"?"on":""}" data-go="results" role="tab" aria-selected="${on==="t"}">Test results</button><button class="${on==="l"?"on":""}" data-go="leaves" role="tab" aria-selected="${on==="l"}">Leaf description</button></div>`;
+
+/* ---- list ---- */
+function leaves(){setHeader("Results",false);navOn("results");
+ const l=[...store.leaves].sort((a,b)=>(b.date||"").localeCompare(a.date||"")),dr=store.leafDraft;
+ app.innerHTML=`${resSwitch("l")}<h2 class="ptitle">Leaf descriptions</h2><p class="psub">Describe a leaf step by step; the app writes the description for you.</p>
+ <button class="btn pri wide" id="lnew">${ico("plus")} New leaf description</button>
+ ${dr?`<div class="item ldraft" data-go="lw-${dr.step||1}"><b>Unfinished: ${esc(dr.plant||(dr.id?"edit in progress":"new description"))}</b><span>Tap to continue</span></div>`:""}
+ ${l.length?`<div class="list">${l.map(r=>`<div class="item litem" data-go="leaf-${r.id}"><span class="lth" data-ph="${r.photo?r.id:""}">${r.photo?"":ico("leaf")}</span><div class="lmeta"><b>${esc(r.plant||"Unnamed plant")}</b><span>${esc((r.date||"").slice(0,10))}</span><small>${esc((r.text||"").split(/[;.]/)[0])}</small></div></div>`).join("")}</div>
+ <button class="btn wide" id="lxl" style="margin-top:12px">${ico("chart")} Export leaf descriptions (.xlsx)</button>`
+ :`<div class="empty">No leaf descriptions yet.<br>Tap “New leaf description”, choose what you see in 11 short steps, and the app writes a textbook-style description.</div>`}
+ <p class="disc">Stored on this device only (photos included). Use Copy, Print/PDF or Export to keep a permanent copy.</p>`;
+ bind();$("#lnew").onclick=()=>lfStart(null);const x=$("#lxl");if(x)x.onclick=()=>lfExport();
+ app.querySelectorAll(".lth[data-ph]").forEach(async e=>{if(!e.dataset.ph)return;const u=await PH.url(e.dataset.ph);if(u)e.style.backgroundImage=`url("${u}")`;else e.innerHTML=ico("leaf")})}
+
+/* ---- drafts ---- */
+function lfBlank(){return {id:"",sel:{},num:{},txt:{},note:{},plant:"",photo:null,text:"",edited:false,step:1}}
+function lfDrop(){const d=store.leafDraft;if(d&&d.photo&&d.photo.startsWith("draft"))PH.del(d.photo);delete store.leafDraft;save()}
+function lfStart(rec){const begin=()=>{lfDrop();if(rec){const c=JSON.parse(JSON.stringify(rec));store.leafDraft={...lfBlank(),...c,photo:rec.photo?rec.id:null,edited:(rec.text||"")!==leafText(c),step:1}}else store.leafDraft=lfBlank();save();go("lw-1")};
+ const d=store.leafDraft;if(!d||(rec&&d.id===rec.id))return d&&rec?go("lw-1"):begin();
+ modal(`<h3 class="mh">Unfinished leaf description</h3><p class="aka" style="margin:0 0 14px">You have an unsaved description${d.plant?" for "+esc(d.plant):""}. Continue it, or discard it and start this one?</p>
+ <div class="btnrow"><button class="btn danger" id="ldis">Discard</button><button class="btn pri" id="lcon">Continue unsaved</button></div>`,(m,close)=>{m.querySelector("#lcon").onclick=()=>{close();go("lw-"+(d.step||1))};m.querySelector("#ldis").onclick=()=>{close();begin()}})}
+
+/* ---- wizard ---- */
+function lfArt(o){const v=o.d&&LT.DRAW[o.d];if(!v)return "";try{return v.trim().charAt(0)==="<"?v:mDraw(v)}catch(e){return ""}}
+const atlasOk=id=>!!id&&A.some(x=>x.id===id);
+function lfChips(g,d,st){const cur=[].concat(d.sel[g.id]==null?[]:d.sel[g.id]);
+ const pic=g.opts.some(o=>o.d),cols=pic?(g.cols||3):Math.max(2,g.cols||3);
+ return `<div class="lgrid c${cols}${pic?" pic":""}">${g.opts.map(o=>o.h?`<div class="lsub">${esc(o.h)}</div>`:(()=>{const on=cur.includes(o.id),art=lfArt(o),at=o.a||st.a;
+  return `<button class="lchip${on?" on":""}" data-g="${g.id}" data-o="${o.id}" aria-pressed="${on}"${atlasOk(at)?` data-at="${at}"`:""}>${art?`<span class="lart">${art}</span>`:""}${o.c?`<span class="sw" style="background:${o.c}"></span>`:""}<span class="ll">${esc(o.l)}</span></button>`})()).join("")}</div>
+  ${g.text?`<input class="inp ltx" data-t="${g.id}" value="${esc(d.txt[g.id]||"")}" placeholder="${esc(g.text)}">`:""}`}
+function lfGroup(g,d,st){if(!lfShown(d,g))return "";
+ if(g.kind==="range"){const r=d.num[g.id]||{};return `<div class="lgrp"><label class="f">${esc(g.label)}</label><div class="lrr"><input class="inp" type="number" inputmode="${g.int?"numeric":"decimal"}" step="${g.int?1:"any"}" min="0" data-n="${g.id}" data-k="min" value="${esc(r.min||"")}" placeholder="${g.int?"e.g. 8":"min"}" aria-label="${esc(g.label)} minimum"><span>–</span><input class="inp" type="number" inputmode="${g.int?"numeric":"decimal"}" step="${g.int?1:"any"}" min="0" data-n="${g.id}" data-k="max" value="${esc(r.max||"")}" placeholder="${g.int?"e.g. 12":"max"}" aria-label="${esc(g.label)} maximum">${g.unit?`<span class="u">${esc(g.unit)}</span>`:""}</div></div>`}
+ return `<div class="lgrp">${g.label?`<label class="f">${esc(g.label)}</label>`:""}${lfChips(g,d,st)}</div>`}
+function lfProg(n,d){const N=LT.STEPS.length;return `<div class="lprog"><div class="lpt"><b>${n>N?"Review":`Step ${n} of ${N}`}</b>${d.plant?`<span>${esc(d.plant)}</span>`:""}</div>
+ <div class="lbar">${LT.STEPS.map((s,i)=>`<button class="lseg${i<n-1?" done":""}${i===n-1?" cur":""}${lfFilled(d,s)?" fill":""}" data-step="${i+1}" aria-label="Step ${i+1}: ${esc(s.title)}"><i></i></button>`).join("")}<button class="lseg rev${n>N?" cur":""}" data-step="${N+1}" aria-label="Review"><i></i></button></div></div>`}
+function leafStep(n){const d=store.leafDraft;if(!d)return goR("leaves");const N=LT.STEPS.length;n=Math.max(1,Math.min(N+1,n|0||1));
+ d.step=n;save();setHeader(d.id?"Edit leaf description":"Leaf description",true);navOn("results");if(n>N)return leafReview();
+ const st=LT.STEPS[n-1];
+ app.innerHTML=`${lfProg(n,d)}<h2 class="ptitle">${esc(st.title)}</h2><p class="psub">${esc(st.hint||"")}${atlasOk(st.a)?` <button class="lat" data-go="a-${st.a}">${ico("info")} Atlas</button>`:""}</p>
+ ${n===1?`<label class="f" for="lpl">Plant name (optional)</label><input class="inp" id="lpl" value="${esc(d.plant)}" placeholder="e.g. Senna – Cassia acutifolia" autocomplete="off">`:""}
+ ${st.groups.map(g=>lfGroup(g,d,st)).join("")}
+ <label class="f" for="lnote">Other / note (optional)</label><textarea class="inp" id="lnote" rows="2" placeholder="Anything not covered above">${esc(d.note[st.id]||"")}</textarea>
+ <p class="lhint">Tip: press and hold a choice to open it in the Atlas.</p>
+ <div class="lnav"><button class="btn" id="lbk">Back</button><button class="btn" id="lsk">Skip</button><button class="btn pri" id="lnx">${n===N?"Finish":"Next"}</button></div>`;
+ bind();lfWire(n,d,st)}
+function lfWire(n,d,st){const N=LT.STEPS.length,redraw=()=>{const y=window.scrollY;leafStep(n);window.scrollTo(0,y)};
+ app.querySelectorAll(".lseg").forEach(b=>b.onclick=()=>goR("lw-"+b.dataset.step));
+ const pl=$("#lpl");if(pl)pl.oninput=e=>{d.plant=e.target.value;save()};
+ $("#lnote").oninput=e=>{const v=e.target.value;if(v.trim())d.note[st.id]=v;else delete d.note[st.id];save()};
+ app.querySelectorAll("[data-t]").forEach(i=>i.oninput=()=>{if(i.value.trim())d.txt[i.dataset.t]=i.value;else delete d.txt[i.dataset.t];save()});
+ app.querySelectorAll("[data-n]").forEach(i=>i.oninput=()=>{const g=i.dataset.n,r=d.num[g]||(d.num[g]={});if(i.value!=="")r[i.dataset.k]=i.value;else delete r[i.dataset.k];if(!r.min&&!r.max)delete d.num[g];save()});
+ app.querySelectorAll(".lchip").forEach(c=>{let tm=0,lp=false;
+  const down=()=>{lp=false;if(!c.dataset.at)return;tm=setTimeout(()=>{lp=true;if(navigator.vibrate)try{navigator.vibrate(15)}catch(e){}go("a-"+c.dataset.at)},550)},up=()=>clearTimeout(tm);
+  c.addEventListener("pointerdown",down);["pointerup","pointerleave","pointercancel"].forEach(ev=>c.addEventListener(ev,up));c.oncontextmenu=e=>e.preventDefault();
+  c.onclick=()=>{if(lp){lp=false;return}const g=LT.group(c.dataset.g),o=LT.opt(g.id,c.dataset.o),cur=d.sel[g.id];
+   if(g.multi){let a=[].concat(cur==null?[]:cur);const i=a.indexOf(o.id);if(i>=0)a.splice(i,1);else{a=o.solo?[]:a.filter(x=>!(LT.opt(g.id,x)||{}).solo);a.push(o.id)}if(a.length)d.sel[g.id]=a;else delete d.sel[g.id]}
+   else if(cur===o.id)delete d.sel[g.id];else d.sel[g.id]=o.id;
+   save();redraw()}});
+ $("#lbk").onclick=()=>n>1?goR("lw-"+(n-1)):goR("leaves");
+ $("#lsk").onclick=()=>{st.groups.forEach(g=>{delete d.sel[g.id];delete d.num[g.id];delete d.txt[g.id]});delete d.note[st.id];if(n===1)d.plant=d.plant||"";save();goR("lw-"+(n+1))};
+ $("#lnx").onclick=()=>goR("lw-"+Math.min(N+1,n+1))}
+
+function lfPhotoBox(d){return `<div class="lphbox" id="lphbox">${d.photo?`<img class="lph" id="lphimg" alt="Leaf photo"><div class="btnrow"><button class="btn" id="lphc">${ico("image")} Change photo</button><button class="btn" id="lphr">Remove</button></div>`
+ :`<button class="btn wide lphadd" id="lphc">${ico("image")} Add photo (camera or gallery)</button>`}<input type="file" accept="image/*" id="lphf" hidden></div>`}
+function lfWirePhoto(d,again){const f=$("#lphf"),c=$("#lphc"),r=$("#lphr"),im=$("#lphimg");
+ if(im)PH.url(d.photo).then(u=>{if(u)im.src=u;else{d.photo=null;save();again()}});
+ c.onclick=()=>f.click();if(r)r.onclick=()=>{if(d.photo&&d.photo.startsWith("draft"))PH.del(d.photo);d.photo=null;save();again()};
+ f.onchange=async()=>{const file=f.files&&f.files[0];if(!file)return;toast("Preparing photo…");
+  try{const b=await resizePhoto(file),k="draft-"+Date.now().toString(36);await PH.put(k,b);if(d.photo&&d.photo.startsWith("draft"))PH.del(d.photo);d.photo=k;save();again()}catch(e){toast("Could not read that image")}}}
+function leafReview(){const d=store.leafDraft,N=LT.STEPS.length,auto=leafText(d);if(!d.edited)d.text=auto;save();
+ app.innerHTML=`${lfProg(N+1,d)}<h2 class="ptitle">${esc(d.plant||"Leaf description")}</h2><p class="psub">Check the text, add a photo, then save.</p>
+ ${lfPhotoBox(d)}
+ <label class="f" for="ltxt">Description (you can edit it)</label><textarea class="inp ltxt" id="ltxt" rows="7" placeholder="Choose at least one character to build the description">${esc(d.text)}</textarea>
+ ${d.edited?`<button class="lnk" id="lrg">↺ Rewrite from my choices</button>`:""}
+ <button class="btn pri wide" id="lsv">${ico("check")} Save to Results</button>
+ <div class="btnrow"><button class="btn" id="led">Edit</button><button class="btn" id="lcp">Copy</button><button class="btn" id="lpr">Print / PDF</button></div>
+ <div class="card lsumc"><h3>Your choices</h3>${LT.STEPS.map((s,i)=>{const v=lfStepSummary(d,s);return `<button class="lsum" data-step="${i+1}"><b>${esc(s.title)}</b><span${v?"":` class="muted"`}>${esc(v||"skipped")}</span></button>`}).join("")}</div>
+ <button class="btn danger wide" id="ldx" style="margin-top:4px">Discard ${d.id?"changes":"this description"}</button>`;
+ bind();const again=()=>{const y=window.scrollY;leafReview();window.scrollTo(0,y)};lfWirePhoto(d,again);
+ app.querySelectorAll(".lseg,.lsum").forEach(b=>b.onclick=()=>goR("lw-"+b.dataset.step));
+ $("#ltxt").oninput=e=>{d.text=e.target.value;d.edited=d.text.trim()!==auto;save()};
+ const rg=$("#lrg");if(rg)rg.onclick=()=>{d.edited=false;d.text=auto;save();again()};
+ $("#led").onclick=()=>goR("lw-1");
+ $("#lcp").onclick=()=>copyText(lfCopyText({plant:d.plant,text:d.text}));
+ $("#lpr").onclick=async()=>lfPrint({plant:d.plant,date:nowStamp(),text:d.text},await PH.url(d.photo));
+ $("#lsv").onclick=()=>lfSave();
+ $("#ldx").onclick=()=>confirmBox(d.id?"Discard your changes? The saved description stays as it was.":"Discard this description?",()=>{const id=d.id;lfDrop();goR(id?"leaf-"+id:"leaves")})}
+async function lfSave(){const d=store.leafDraft;if(!d)return;const text=(d.edited?d.text:leafText(d)).trim();
+ if(!text&&!d.plant.trim()&&!d.photo)return toast("Nothing to save yet");
+ const id=d.id||("lf"+Date.now().toString(36)+uid().slice(0,3)),old=store.leaves.find(x=>x.id===id);
+ try{if(d.photo&&d.photo!==id){const b=await PH.get(d.photo);if(b)await PH.put(id,b);await PH.del(d.photo)}else if(!d.photo&&old&&old.photo)await PH.del(id)}catch(e){toast("Photo could not be stored");return}
+ const rec={id,date:old?old.date:nowStamp(),plant:d.plant.trim(),sel:d.sel,num:d.num,txt:d.txt,note:d.note,text,photo:!!d.photo};if(old)rec.modified=nowStamp();
+ if(old)store.leaves[store.leaves.indexOf(old)]=rec;else store.leaves.push(rec);
+ delete store.leafDraft;save();
+ try{if(localStorage.getItem("phyto")!==JSON.stringify(store))throw 0}catch(e){toast("Storage full – export your descriptions");return}
+ toast("Saved");goR("leaf-"+id)}
+
+/* ---- saved description ---- */
+const lfCopyText=r=>(r.plant?r.plant.trim()+" – leaf\n":"")+(r.text||"").trim();
+function leafView(id){const r=store.leaves.find(x=>x.id===id);if(!r)return goR("leaves");setHeader("Leaf description",true);navOn("results");
+ app.innerHTML=`<h2 class="title">${esc(r.plant||"Unnamed plant")}</h2><p class="aka">${esc(r.date||"")}${r.modified?` · edited ${esc(r.modified)}`:""}</p>
+ ${r.photo?`<div class="lphbox"><img class="lph" id="lvimg" alt="Leaf photo"></div>`:""}
+ <div class="card"><h3>Leaf description</h3><p class="ltext">${esc(r.text||"—")}</p></div>
+ <button class="btn pri wide" id="led">Edit</button>
+ <div class="btnrow"><button class="btn" id="lcp">Copy</button><button class="btn" id="lpr">Print / PDF</button><button class="btn danger" id="ldl">Delete</button></div>
+ <p class="disc">Print / PDF opens your phone's print screen; choose “Save as PDF” to get a file.</p>`;
+ if(r.photo)PH.url(r.id).then(u=>{const i=$("#lvimg");if(i)u?i.src=u:i.parentNode.remove()});
+ $("#led").onclick=()=>lfStart(r);$("#lcp").onclick=()=>copyText(lfCopyText(r));
+ $("#lpr").onclick=async()=>lfPrint(r,r.photo?await PH.url(r.id):null);
+ $("#ldl").onclick=()=>confirmBox(`Delete the leaf description${r.plant?" of “"+r.plant+"”":""}? This cannot be undone.`,async()=>{store.leaves=store.leaves.filter(x=>x.id!==r.id);save();if(r.photo)await PH.del(r.id);toast("Deleted");goR("leaves")})}
+
+/* ---- print (clean A4 page) ---- */
+function lfPrint(r,url){let pa=$("#printarea");if(!pa){pa=document.createElement("div");pa.id="printarea";document.body.appendChild(pa)}
+ pa.innerHTML=`<h1>${esc(r.plant||"Leaf description")}</h1><p class="pd">${esc((r.date||nowStamp()).slice(0,16))} · Leaf description · EliXiR Lab</p>${url?`<img src="${url}" alt="">`:""}<p class="pt">${esc(r.text||"")}</p>`;
+ const im=pa.querySelector("img"),p=()=>setTimeout(()=>window.print(),60);if(im&&!im.complete){im.onload=im.onerror=p}else p()}
+
+/* ---- export all descriptions to .xlsx (one row each) ---- */
+async function lfExport(){
+ try{if(!window.XLSX)await loadScript("xlsx.mini.min.js")}catch(e){toast("Excel export not available here");return}
+ const G=[];LT.STEPS.forEach(s=>s.groups.forEach(g=>G.push([s,g])));
+ const head=["Date","Plant","Description",...G.map(([s,g])=>(g.label||s.title).replace(/ \(.*\)$/,"")+(g.unit?` (${g.unit})`:"")),"Notes","Photo"];
+ const rows=[head,...[...store.leaves].sort((a,b)=>(a.date||"").localeCompare(b.date||"")).map(r=>[r.date||"",r.plant||"",r.text||"",
+  ...G.map(([s,g])=>g.kind==="range"?lfRange(r,g.id,""):lfJoin(lfVals(r,g.id),g.join)),
+  LT.STEPS.map(s=>(r.note||{})[s.id]?s.title+": "+r.note[s.id]:"").filter(Boolean).join(" | "),r.photo?"yes (kept in the app)":""])];
+ const ws=XLSX.utils.aoa_to_sheet(rows);ws["!cols"]=[{wch:17},{wch:24},{wch:70},...G.map(()=>({wch:16})),{wch:30},{wch:12}];
+ const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Leaf descriptions");
+ const name="Leaf descriptions "+today()+".xlsx",mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",blob=new Blob([XLSX.write(wb,{bookType:"xlsx",type:"array"})],{type:mime});
+ let file=null;try{file=new File([blob],name,{type:mime})}catch(e){}const canShare=file&&navigator.canShare&&navigator.canShare({files:[file]});
+ const download=()=>{try{const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);toast("Saved to Downloads")}catch(e){toast("Download blocked here – use the installed app")}};
+ modal(`<h3 class="mh">Excel file ready</h3><p class="aka" style="margin:0 0 14px">${esc(name)} · ${plural(store.leaves.length,"description")}</p>
+  <div class="btnrow">${canShare?`<button class="btn pri" id="xsh">Share…</button>`:""}<button class="btn${canShare?"":" pri"}" id="xdl">Download</button></div>
+  <p class="disc" style="margin-top:4px">One row per description. Photos stay in the app (use Print / PDF to keep a photo with its text).</p>`,
+  (m,close)=>{m.querySelector("#xdl").onclick=()=>{download();close()};const sh=m.querySelector("#xsh");if(sh)sh.onclick=async()=>{try{await navigator.share({files:[file],title:"Leaf descriptions"})}catch(e){}close()}})}
+
 function route(){const h=location.hash.slice(1);window.scrollTo(0,0);
- if(!h||h==="tests")return testsHome();if(h==="reagents")return home();if(h==="search")return search();if(h==="saved")return saved();if(h==="tools")return tools();if(h==="more")return more();if(h==="start")return startHere();if(h==="atlas")return atlasHome();if(h.startsWith("calc-"))return calc(h.slice(5));if(h.startsWith("as-"))return asection(h.slice(3));if(h.startsWith("ag-"))return agroup(h.slice(3));if(h==="families")return families();if(h.startsWith("fam-"))return family(decodeURIComponent(h.slice(4)));if(h.startsWith("a-"))return atlasItem(h.slice(2));if(h==="about")return about();if(h==="results")return results();if(h.startsWith("sheet-"))return sheet(h.slice(6));
+ if(!h||h==="tests")return testsHome();if(h==="reagents")return home();if(h==="search")return search();if(h==="saved")return saved();if(h==="tools")return tools();if(h==="more")return more();if(h==="start")return startHere();if(h==="atlas")return atlasHome();if(h.startsWith("calc-"))return calc(h.slice(5));if(h.startsWith("as-"))return asection(h.slice(3));if(h.startsWith("ag-"))return agroup(h.slice(3));if(h==="families")return families();if(h.startsWith("fam-"))return family(decodeURIComponent(h.slice(4)));if(h.startsWith("a-"))return atlasItem(h.slice(2));if(h==="about")return about();if(h==="results")return results();if(h.startsWith("sheet-"))return sheet(h.slice(6));if(h==="leaves")return leaves();if(h.startsWith("lw-"))return leafStep(+h.slice(3));if(h.startsWith("leaf-"))return leafView(h.slice(5));
  if(h.startsWith("ts-"))return tsection(h.slice(3));if(h.startsWith("s-"))return section(h.slice(2));
  if(h.startsWith("r-"))return reagent(h.slice(2));if(h.startsWith("t-"))return test(h.slice(2));home()}
 function go(h){if(location.hash.slice(1)===h)route();else location.hash=h}

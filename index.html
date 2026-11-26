@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="color-scheme" content="only light">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<script src="version.js"></script>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="theme-color" content="#142b39">
@@ -227,6 +228,7 @@ body.slim #hdr{font-size:16px;display:flex;align-items:center;gap:8px}body.slim 
 .thumb.mthumb{background:var(--pri2)}.thumb.mthumb svg{width:84%;height:84%}
 .newb{flex:none;background:#f0b938;color:#3b2a00;font-size:11.5px;font-weight:800;letter-spacing:.06em;border-radius:99px;padding:3px 10px;margin-right:4px}
 .msubh{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:12px 0 2px;border-top:1px solid var(--line)}.mtab .msubh:first-child{border-top:0;padding-top:0}.msubh+.mrowc{border-top:0}
+.appver{text-align:center;color:var(--muted);font-size:12.5px;margin:22px 0 8px;line-height:1.9}.appver button{border:0;background:none;color:var(--pri);font-size:12.5px;font-weight:600;padding:0;cursor:pointer}
 </style>
 </head>
 <body>
@@ -707,7 +709,12 @@ function more(){setHeader("More",false);navOn("more");
  app.innerHTML=`<h2 class="ptitle">More</h2><p class="psub">Calculators, saved items and app info.</p>
  <div class="mlist">${row("tools","calc","Calculators","Ash, extractive, moisture, swelling, foaming, stomatal index…")}
  ${row("saved","star","Saved",plural(store.fav.length,"saved item"))}
- ${row("about","info","About & content check","Version, credits and spreadsheet check")}</div>`;bind()}
+ ${row("about","info","About & content check","Version, credits and spreadsheet check")}</div>
+ <div class="appver">Elixir Lab v${esc(APP_VERSION)}<br><button id="vchk">Check for updates</button></div>`;bind();
+ $("#vchk").onclick=async e=>{const b=e.target,say=t=>b.textContent=t;
+  if(!navigator.onLine)return say("You're offline – connect and try again");
+  try{const r=await navigator.serviceWorker.getRegistration();if(!r)return say("Up to date");say("Checking…");await r.update();
+   if(r.installing||r.waiting){say("Updating…");navigator.serviceWorker.addEventListener("controllerchange",()=>location.reload())}else say("Up to date ✓")}catch(x){say("Up to date")}}}
 function section(id){const s=sec(id);if(!s)return home();setHeader(s.n,true);navOn("reagents");
  app.innerHTML=`<div class="sechead"><p>${esc(s.d)}</p></div>${wrap(R.filter(r=>r.s===id).map(itemR).join(""))}`;bind()}
 function tsection(id){const s=tsec(id);if(!s)return testsHome();setHeader(s.n,true);navOn("");
@@ -761,7 +768,7 @@ function test(id){const t=tById(id);if(!t)return testsHome();setHeader(tsec(t.c)
  <div class="btnrow"><button class="btn pri" id="copy">Copy procedure</button></div>`;
  bind();tickable();zoomable();$("#copy").onclick=()=>copyText(testText(t))}
 
-const APP_BUILD="v80";
+const APP_VERSION=self.APP_VERSION||"0.0.0",APP_BUILD="v"+APP_VERSION;
 const IMG_EXT=[".jpg",".jpeg",".JPG",".JPEG",".png",".PNG",".webp"];
 function tryLoad(src,ok,fail){const m=src.match(/^(.*?)(\.[A-Za-z]+)?$/),base=m[1],c=[src,...IMG_EXT.filter(x=>x!==(m[2]||"")).map(x=>base+x)];let k=0;
  const next=()=>{if(k>=c.length)return fail();const u=c[k++],im=new Image();im.onload=()=>ok(u,im.naturalWidth/im.naturalHeight||1.33);im.onerror=next;im.src=u};next()}

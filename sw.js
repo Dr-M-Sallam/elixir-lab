@@ -1,6 +1,7 @@
-// Elixir Lab offline cache. Change VERSION (v1 -> v2 ...) every time you upload new files.
-const VERSION="elixir-lab-v80";
-const FILES=["./","index.html","manifest.json","icon-192.png","icon-512.png","icon-maskable-512.png","elixir-lab-content.xlsx","xlsx.mini.min.js"];
+// Elixir Lab offline cache. The version comes from version.js – do not edit it here.
+importScripts("version.js");
+const VERSION="elixir-lab-v"+self.APP_VERSION;
+const FILES=["./","index.html","version.js","manifest.json","icon-192.png","icon-512.png","icon-maskable-512.png","elixir-lab-content.xlsx","xlsx.mini.min.js"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(VERSION).then(c=>c.addAll(FILES)));self.skipWaiting()});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==VERSION).map(x=>caches.delete(x)))));self.clients.claim()});
 self.addEventListener("fetch",e=>{if(e.request.method!=="GET")return;

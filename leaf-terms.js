@@ -3,6 +3,7 @@
 //
 // step   : {id, title, hint, a (Atlas term id), groups:[...]}
 // group  : {id, label, kind:"chips"|"range"|"text", multi, join ("and"|"to"), cols, show(sel) , opts:[...]}
+// group.def : default value(s) for a new description; option.na : "not assessed" (never written into the text)
 // option : {id, l (label), t (word used in the description; default = label in lower case),
 //           d (drawing key in DRAW), a (Atlas id, overrides the step's), c (colour swatch), h (sub-heading row)}
 // DRAW   : key -> either a drawing spec for the built-in engine ("margin=serrate") or a full "<svg …>" string.
@@ -85,9 +86,9 @@ const STEPS=[
   {id:"petlen",kind:"range",label:"Petiole length (optional)",unit:"cm",show:s=>s.pet==="petiolate"||s.pet==="subsessile"},
   {id:"stip",label:"Stipules",cols:2,opts:[{id:"present",l:"Present",t:"stipulate",d:"st_present"},{id:"absent",l:"Absent",t:"exstipulate",d:"st_absent"}]},
   {id:"sheath",label:"Leaf base sheathing",cols:2,opts:[{id:"yes",l:"Yes",t:"leaf base sheathing",d:"sh_yes"},{id:"no",l:"No",t:"",d:"sh_no"}]}]},
- {id:"org",title:"Odour & taste",hint:"Organoleptic characters.",groups:[
-  {id:"odour",label:"Odour",cols:2,text:"Describe another odour (optional)",opts:[{id:"none",l:"None",full:"odourless"},{id:"aromatic",l:"Aromatic"},{id:"camphoraceous",l:"Camphoraceous"},{id:"pungent",l:"Pungent"},{id:"other",l:"Other (write in note)",t:""}]},
-  {id:"taste",label:"Taste (choose one or more)",multi:true,cols:3,text:"Describe another taste (optional)",opts:[{id:"none",l:"None",full:"tasteless",solo:true},{id:"bitter",l:"Bitter"},{id:"sweet",l:"Sweet"},{id:"acrid",l:"Acrid"},{id:"astringent",l:"Astringent"},{id:"mucilaginous",l:"Mucilaginous"},{id:"other",l:"Other (write in note)",t:""}]}]}
+ {id:"org",title:"Odour & taste",hint:"Reference descriptors only.",warn:"Do not taste or directly smell specimens. Record odour/taste only from instructor-approved reference material.",groups:[
+  {id:"odour",label:"Odour",cols:2,def:"notassessed",text:"Describe another odour (optional)",opts:[{id:"notassessed",l:"Not assessed",t:"",na:true},{id:"none",l:"None",full:"odourless"},{id:"aromatic",l:"Aromatic"},{id:"camphoraceous",l:"Camphoraceous"},{id:"pungent",l:"Pungent"},{id:"other",l:"Other (write in note)",t:""}]},
+  {id:"taste",label:"Taste (choose one or more)",multi:true,cols:3,def:["notassessed"],text:"Describe another taste (optional)",opts:[{id:"notassessed",l:"Not assessed",t:"",na:true,solo:true},{id:"none",l:"None",full:"tasteless",solo:true},{id:"bitter",l:"Bitter"},{id:"sweet",l:"Sweet"},{id:"acrid",l:"Acrid"},{id:"astringent",l:"Astringent"},{id:"mucilaginous",l:"Mucilaginous"},{id:"other",l:"Other (write in note)",t:""}]}]}
 ];
 const LT=self.LEAF_TERMS={version:1,DRAW,STEPS,
  group:id=>{for(const s of STEPS)for(const g of s.groups)if(g.id===id)return g},

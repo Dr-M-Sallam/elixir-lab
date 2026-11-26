@@ -287,6 +287,7 @@ body.slim #hdr{font-size:16px;display:flex;align-items:center;gap:8px}body.slim 
 .lsum:last-child{border-bottom:0}.lsum b{flex:none;width:40%;font-weight:650}.lsum span{flex:1;color:var(--ink)}.lsum span.muted{color:var(--muted)}
 .litem{display:flex;gap:12px;align-items:center}.lth{flex:none;width:58px;height:58px;border-radius:10px;background:var(--pri2) center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:var(--pri)}.lth svg{width:28px;height:28px}
 .lmeta{min-width:0;flex:1}.lmeta small{display:block;color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lwarn{display:flex;gap:10px;align-items:flex-start;background:var(--amberbg);color:var(--amber);border:1.5px solid var(--gold);border-radius:12px;padding:10px 12px;margin:2px 0 12px;font-size:14px;font-weight:600;line-height:1.4}.lwarn svg{flex:none;width:20px;height:20px;margin-top:1px}
 .ldraft{border-color:var(--gold);background:#fffaf0;margin:10px 0 4px}
 @media(max-width:360px){.lgrid.c3{grid-template-columns:repeat(2,minmax(0,1fr))}}
 #printarea{display:none}
@@ -1416,7 +1417,9 @@ function resizePhoto(file,M=1024,Q=.7){return new Promise((ok,no)=>{const u=URL.
 
 /* ---- description writer: textbook order, empty steps skipped ---- */
 function lfShown(d,g){return !g.show||g.show(d.sel||{})}
-function lfVals(d,gid){const g=LT.group(gid);if(!g||!lfShown(d,g))return [];const v=(d.sel||{})[gid],ids=v==null?[]:Array.isArray(v)?v:[v];
+function lfNA(d,g){if(!g||g.def==null)return false;const v=(d.sel||{})[g.id],ids=v==null?[]:[].concat(v);return !ids.length||ids.some(id=>(LT.opt(g.id,id)||{}).na)}
+function lfDefaults(sel){LT.STEPS.forEach(s=>s.groups.forEach(g=>{if(g.def!=null&&sel[g.id]==null)sel[g.id]=JSON.parse(JSON.stringify(g.def))}));return sel}
+function lfVals(d,gid){const g=LT.group(gid);if(!g||!lfShown(d,g)||lfNA(d,g))return [];const v=(d.sel||{})[gid],ids=v==null?[]:Array.isArray(v)?v:[v];
  const out=ids.map(id=>{const o=LT.opt(gid,id);return o?(o.full||(o.t!=null?o.t:o.l.toLowerCase())):""}).filter(Boolean);
  const t=((d.txt||{})[gid]||"").trim();if(t)out.push(t);return out}
 function lfJoin(a,w){a=a.filter(Boolean);return a.length<2?a.join(""):a.slice(0,-1).join(", ")+" "+(w||"and")+" "+a[a.length-1]}
@@ -1454,8 +1457,8 @@ function leafText(d){const one=g=>lfVals(d,g)[0]||"",C=[];
  C.push(lfNote(d,"org",O.join(", ")));
  let t=C.map(x=>x.trim()).filter(Boolean).join("; ").replace(/\s+/g," ").replace(/(,\s*)+,/g,",").replace(/\s+([,;])/g,"$1").replace(/,\s*;/g,";").replace(/[,;]\s*$/,"").trim();
  return t?t.charAt(0).toUpperCase()+t.slice(1)+(/[.!?]$/.test(t)?"":"."):""}
-function lfStepSummary(d,st){const p=[];st.groups.forEach(g=>{let v=g.kind==="range"?lfRange(d,g.id,g.unit):lfJoin(lfVals(d,g.id),g.join);if(v&&g.kind==="range")v=g.word?v+" "+g.word:g.label.replace(/ \(.*\)$/,"")+" "+v;if(v)p.push(v)});const n=((d.note||{})[st.id]||"").trim();if(n)p.push(n);return p.join("; ")}
-function lfFilled(d,st){return !!lfStepSummary(d,st)}
+function lfStepSummary(d,st,fill){const p=[];st.groups.forEach(g=>{if(lfNA(d,g)){if(!fill)p.push(g.label.replace(/ \(.*\)$/,"")+" not assessed");return}let v=g.kind==="range"?lfRange(d,g.id,g.unit):lfJoin(lfVals(d,g.id),g.join);if(v&&g.kind==="range")v=g.word?v+" "+g.word:g.label.replace(/ \(.*\)$/,"")+" "+v;if(v)p.push(v)});const n=((d.note||{})[st.id]||"").trim();if(n)p.push(n);return p.join("; ")}
+function lfFilled(d,st){return !!lfStepSummary(d,st,true)}
 
 /* ---- Results switch ---- */
 const resSwitch=on=>`<div class="seg" role="tablist"><button class="${on==="t"?"on":""}" data-go="results" role="tab" aria-selected="${on==="t"}">Test results</button><button class="${on==="l"?"on":""}" data-go="leaves" role="tab" aria-selected="${on==="l"}">Leaf description</button></div>`;
@@ -1474,9 +1477,9 @@ function leaves(){setHeader("Results",false);navOn("results");
  app.querySelectorAll(".lth[data-ph]").forEach(async e=>{if(!e.dataset.ph)return;const u=await PH.url(e.dataset.ph);if(u)e.style.backgroundImage=`url("${u}")`;else e.innerHTML=ico("leaf")})}
 
 /* ---- drafts ---- */
-function lfBlank(){return {id:"",sel:{},num:{},txt:{},note:{},plant:"",photo:null,text:"",edited:false,step:1}}
+function lfBlank(){return {id:"",sel:lfDefaults({}),num:{},txt:{},note:{},plant:"",photo:null,text:"",edited:false,step:1}}
 function lfDrop(){const d=store.leafDraft;if(d&&d.photo&&d.photo.startsWith("draft"))PH.del(d.photo);delete store.leafDraft;save()}
-function lfStart(rec){const begin=()=>{lfDrop();if(rec){const c=JSON.parse(JSON.stringify(rec));store.leafDraft={...lfBlank(),...c,photo:rec.photo?rec.id:null,edited:(rec.text||"")!==leafText(c),step:1}}else store.leafDraft=lfBlank();save();go("lw-1")};
+function lfStart(rec){const begin=()=>{lfDrop();if(rec){const c=JSON.parse(JSON.stringify(rec));lfDefaults(c.sel=c.sel||{});store.leafDraft={...lfBlank(),...c,photo:rec.photo?rec.id:null,edited:(rec.text||"")!==leafText(c),step:1}}else store.leafDraft=lfBlank();save();go("lw-1")};
  const d=store.leafDraft;if(!d||(rec&&d.id===rec.id))return d&&rec?go("lw-1"):begin();
  modal(`<h3 class="mh">Unfinished leaf description</h3><p class="aka" style="margin:0 0 14px">You have an unsaved description${d.plant?" for "+esc(d.plant):""}. Continue it, or discard it and start this one?</p>
  <div class="btnrow"><button class="btn danger" id="ldis">Discard</button><button class="btn pri" id="lcon">Continue unsaved</button></div>`,(m,close)=>{m.querySelector("#lcon").onclick=()=>{close();go("lw-"+(d.step||1))};m.querySelector("#ldis").onclick=()=>{close();begin()}})}
@@ -1497,7 +1500,7 @@ function lfProg(n,d){const N=LT.STEPS.length;return `<div class="lprog"><div cla
 function leafStep(n){const d=store.leafDraft;if(!d)return goR("leaves");const N=LT.STEPS.length;n=Math.max(1,Math.min(N+1,n|0||1));
  d.step=n;save();setHeader(d.id?"Edit leaf description":"Leaf description",true);navOn("results");if(n>N)return leafReview();
  const st=LT.STEPS[n-1];
- app.innerHTML=`${lfProg(n,d)}<h2 class="ptitle">${esc(st.title)}</h2><p class="psub">${esc(st.hint||"")}${atlasOk(st.a)?` <button class="lat" data-go="a-${st.a}">${ico("info")} Atlas</button>`:""}</p>
+ app.innerHTML=`${lfProg(n,d)}${st.warn?`<div class="lwarn" role="note">${ico("warn")}<span>${esc(st.warn)}</span></div>`:""}<h2 class="ptitle">${esc(st.title)}</h2><p class="psub">${esc(st.hint||"")}${atlasOk(st.a)?` <button class="lat" data-go="a-${st.a}">${ico("info")} Atlas</button>`:""}</p>
  ${n===1?`<label class="f" for="lpl">Plant name (optional)</label><input class="inp" id="lpl" value="${esc(d.plant)}" placeholder="e.g. Senna – Cassia acutifolia" autocomplete="off">`:""}
  ${st.groups.map(g=>lfGroup(g,d,st)).join("")}
  <label class="f" for="lnote">Other / note (optional)</label><textarea class="inp" id="lnote" rows="2" placeholder="Anything not covered above">${esc(d.note[st.id]||"")}</textarea>
@@ -1516,9 +1519,10 @@ function lfWire(n,d,st){const N=LT.STEPS.length,redraw=()=>{const y=window.scrol
   c.onclick=()=>{if(lp){lp=false;return}const g=LT.group(c.dataset.g),o=LT.opt(g.id,c.dataset.o),cur=d.sel[g.id];
    if(g.multi){let a=[].concat(cur==null?[]:cur);const i=a.indexOf(o.id);if(i>=0)a.splice(i,1);else{a=o.solo?[]:a.filter(x=>!(LT.opt(g.id,x)||{}).solo);a.push(o.id)}if(a.length)d.sel[g.id]=a;else delete d.sel[g.id]}
    else if(cur===o.id)delete d.sel[g.id];else d.sel[g.id]=o.id;
+   if(g.def!=null&&(d.sel[g.id]==null||!String(d.sel[g.id])))d.sel[g.id]=JSON.parse(JSON.stringify(g.def));
    save();redraw()}});
  $("#lbk").onclick=()=>n>1?goR("lw-"+(n-1)):goR("leaves");
- $("#lsk").onclick=()=>{st.groups.forEach(g=>{delete d.sel[g.id];delete d.num[g.id];delete d.txt[g.id]});delete d.note[st.id];if(n===1)d.plant=d.plant||"";save();goR("lw-"+(n+1))};
+ $("#lsk").onclick=()=>{st.groups.forEach(g=>{delete d.sel[g.id];delete d.num[g.id];delete d.txt[g.id]});lfDefaults(d.sel);delete d.note[st.id];if(n===1)d.plant=d.plant||"";save();goR("lw-"+(n+1))};
  $("#lnx").onclick=()=>goR("lw-"+Math.min(N+1,n+1))}
 
 function lfPhotoBox(d){return `<div class="lphbox" id="lphbox">${d.photo?`<img class="lph" id="lphimg" alt="Leaf photo"><div class="btnrow"><button class="btn" id="lphc">${ico("image")} Change photo</button><button class="btn" id="lphr">Remove</button></div>`
@@ -1581,7 +1585,7 @@ async function lfExport(){
  const G=[];LT.STEPS.forEach(s=>s.groups.forEach(g=>G.push([s,g])));
  const head=["Date","Plant","Description",...G.map(([s,g])=>(g.label||s.title).replace(/ \(.*\)$/,"")+(g.unit?` (${g.unit})`:"")),"Notes","Photo"];
  const rows=[head,...[...store.leaves].sort((a,b)=>(a.date||"").localeCompare(b.date||"")).map(r=>[r.date||"",r.plant||"",r.text||"",
-  ...G.map(([s,g])=>g.kind==="range"?lfRange(r,g.id,""):lfJoin(lfVals(r,g.id),g.join)),
+  ...G.map(([s,g])=>g.kind==="range"?lfRange(r,g.id,""):lfNA(r,g)?"Not assessed":lfJoin(lfVals(r,g.id),g.join)),
   LT.STEPS.map(s=>(r.note||{})[s.id]?s.title+": "+r.note[s.id]:"").filter(Boolean).join(" | "),r.photo?"yes (kept in the app)":""])];
  const ws=XLSX.utils.aoa_to_sheet(rows);ws["!cols"]=[{wch:17},{wch:24},{wch:70},...G.map(()=>({wch:16})),{wch:30},{wch:12}];
  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Leaf descriptions");

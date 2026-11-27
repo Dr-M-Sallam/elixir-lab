@@ -87,7 +87,7 @@ label.f{display:block;font-size:13.5px;color:var(--muted);margin:10px 0 4px}
 .star{background:none;border:0;color:#fff;font-size:22px;cursor:pointer;display:none}
 .item.test{border-left:4px solid var(--pri)}
 .lbl{font-size:12.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:14px 2px 8px}
-.chip.lnk{text-align:left;background:var(--pri2);color:var(--pri);border-color:transparent;font-weight:600}
+.chip.lnk{display:inline-flex;align-items:center;gap:5px;text-align:left;background:var(--pri2);color:var(--pri);border:1px solid #cfe6dc;border-radius:8px;padding:4px 9px;font-size:13.5px;line-height:1.3;font-weight:600}.chip.lnk .ico{width:14px;height:14px;vertical-align:0}
 .mats{margin-top:10px;font-size:14.5px;color:var(--ink)}
 .res.pos{background:var(--pri2)}
 .res.neg{background:var(--bg);border:1px solid var(--line)}
@@ -281,7 +281,7 @@ body.slim #hdr{font-size:16px;display:flex;align-items:center;gap:8px}body.slim 
 .lphbox{margin:4px 0 10px}.lph{display:block;width:100%;max-height:340px;object-fit:contain;border-radius:12px;background:#f2f4f3;border:1px solid var(--line);margin-bottom:8px}
 .lphadd{min-height:48px;border-style:dashed}
 .ltxt{min-height:150px;line-height:1.5}.ltext{margin:0;line-height:1.6}
-.lnk{border:0;background:none;color:var(--pri);font-weight:650;font-size:14px;padding:6px 0 10px;cursor:pointer;min-height:44px}
+.lrw{border:0;background:none;color:var(--pri);font-weight:650;font-size:14px;padding:6px 0 10px;cursor:pointer;min-height:44px}
 .btn.wide{width:100%}
 .lsumc .lsum{display:flex;width:100%;gap:10px;justify-content:space-between;text-align:left;border:0;border-bottom:1px solid var(--line);background:none;color:var(--ink);padding:9px 0;min-height:44px;font-size:14px;cursor:pointer}
 .lsum:last-child{border-bottom:0}.lsum b{flex:none;width:40%;font-weight:650}.lsum span{flex:1;color:var(--ink)}.lsum span.muted{color:var(--muted)}
@@ -1545,7 +1545,7 @@ function leafReview(){const d=store.leafDraft,N=LT.STEPS.length,auto=leafText(d)
  app.innerHTML=`${lfProg(N+1,d)}<h2 class="ptitle">${esc(d.plant||"Leaf description")}</h2><p class="psub">Check the text, add a photo, then save.</p>
  ${lfPhotoBox(d)}
  <label class="f" for="ltxt">Description (you can edit it)</label><textarea class="inp ltxt" id="ltxt" rows="7" placeholder="Choose at least one character to build the description">${esc(d.text)}</textarea>
- ${d.edited?`<button class="lnk" id="lrg">↺ Rewrite from my choices</button>`:""}
+ ${d.edited?`<button class="lrw" id="lrg">↺ Rewrite from my choices</button>`:""}
  <button class="btn pri wide" id="lsv">${ico("check")} Save to Results</button>
  <div class="btnrow"><button class="btn" id="led">Edit</button><button class="btn" id="lcp">Copy</button><button class="btn" id="lpr">Print / PDF</button></div>
  <div class="card lsumc"><h3>Your choices</h3>${LT.STEPS.map((s,i)=>{const v=lfStepSummary(d,s);return `<button class="lsum" data-step="${i+1}"><b>${esc(s.title)}</b><span${v?"":` class="muted"`}>${esc(v||"skipped")}</span></button>`}).join("")}</div>

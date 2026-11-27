@@ -323,7 +323,8 @@ table.rs tr.gh td{padding:0}.ghs{position:sticky;left:0;display:inline-block;pad
 @media(max-width:400px){table.rs td.tn{min-width:108px;max-width:124px;font-size:13.5px}}
 
 /* microscope trainer: full height between header and screen bottom, no page scroll */
-body.trainer nav{display:none}body.trainer main{padding:0;max-width:none}
+body.trainer nav,body.trainer>header{display:none}body.trainer main{padding:env(safe-area-inset-top) 0 0;max-width:none}
+.mtwrap{position:relative}.mtback{position:absolute;top:calc(12px + env(safe-area-inset-top));left:16px;height:27px;min-width:24px;background:none;border:0;color:#fff;font-size:22px;line-height:27px;padding:0 8px 0 0;font-family:Arial,sans-serif;cursor:pointer}
 .mtbtn{display:flex;align-items:center;justify-content:center;gap:8px}.mtbtn .ico{width:20px;height:20px}
 </style>
 </head>
@@ -1633,7 +1634,9 @@ async function lfExport(){
 
 /* ===== Microscope trainer (self-contained page, embedded) ===== */
 function microTrainer(){setHeader("Microscope trainer",true);navOn("atlas");document.body.classList.add("trainer");
- app.innerHTML=`<iframe id="mtf" src="elixir-microscope-prototype.html" title="Microscope trainer" style="width:100%;border:0;display:block;height:calc(100vh - 64px);height:calc(100dvh - 64px)"></iframe>`;
+ app.innerHTML=`<div class="mtwrap"><iframe id="mtf" src="elixir-microscope-prototype.html" title="Microscope trainer" style="width:100%;border:0;display:block;height:100vh;height:100dvh"></iframe><button class="mtback" id="mtback" aria-label="Back">‹</button></div>`;
+ const fr=$("#mtf"),mark=()=>{try{fr.contentDocument.documentElement.classList.add("inapp")}catch(e){}};fr.addEventListener("load",mark);mark();
+ $("#mtback").onclick=()=>{if(history.length>1)history.back();else go("a-i_microscope")};
  const fit=()=>{const f=$("#mtf");if(!f)return removeEventListener("resize",fit);f.style.height=Math.max(320,innerHeight-f.getBoundingClientRect().top-window.scrollY)+"px"};
  window.scrollTo(0,0);fit();addEventListener("resize",fit)}
 function route(){document.body.classList.remove("trainer");const h=location.hash.slice(1);window.scrollTo(0,0);

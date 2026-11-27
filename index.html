@@ -306,6 +306,13 @@ body.slim #hdr{font-size:16px;display:flex;align-items:center;gap:8px}body.slim 
  #printarea img{display:block;max-width:100%;max-height:125mm;margin:0 auto 12pt;object-fit:contain}
  #printarea .pt{margin:0;text-align:justify}
 }
+
+/* results table: keep the test column visible while scrolling */
+table.rs th:first-child,table.rs td.tn{position:sticky;left:0;z-index:2;background:var(--card);box-shadow:1px 0 0 var(--line),4px 0 6px -4px rgba(0,0,0,.18)}
+table.rs th:first-child{z-index:3;background:var(--pri2)}
+table.rs td.tn{min-width:118px;max-width:150px}
+table.rs tr.gh td{padding:0}.ghs{position:sticky;left:0;display:inline-block;padding:6px}
+@media(max-width:400px){table.rs td.tn{min-width:108px;max-width:124px;font-size:13.5px}}
 </style>
 </head>
 <body>
@@ -869,18 +876,20 @@ const VALS=["","+","++","+++","±","–"], RANK={"+++":5,"++":4,"+":3,"±":2,"�
 store.sheets=store.sheets||[];
 const uid=()=>Math.random().toString(36).slice(2,8);
 const shById=id=>store.sheets.find(s=>s.id===id);
-const today=()=>new Date().toISOString().slice(0,10);
+const today=()=>{const d=new Date(),p=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`};
+const liveT=s=>s.tests.filter(t=>tById(t));
 
 function modal(html,onReady){const m=document.createElement("div");m.className="modal";m.innerHTML=`<div class="sheetbox">${html}</div>`;document.body.appendChild(m);
  m.onclick=e=>{if(e.target===m)m.remove()};onReady&&onReady(m,()=>m.remove());return m}
-function confirmBox(msg,ok){modal(`<p style="margin:0 0 14px">${esc(msg)}</p><div class="btnrow"><button class="btn" id="mc">Cancel</button><button class="btn danger" id="mo">Delete</button></div>`,(m,close)=>{m.querySelector("#mc").onclick=close;m.querySelector("#mo").onclick=()=>{close();ok()}})}
+function confirmBox(msg,ok,label){modal(`<p style="margin:0 0 14px">${esc(msg)}</p><div class="btnrow"><button class="btn" id="mc">Cancel</button><button class="btn danger" id="mo">${esc(label||"Delete")}</button></div>`,(m,close)=>{m.querySelector("#mc").onclick=close;m.querySelector("#mo").onclick=()=>{close();ok()}})}
 
 function results(){setHeader("Results",false);navOn("results");
  const l=[...store.sheets].sort((a,b)=>b.date.localeCompare(a.date));
- app.innerHTML=`${resSwitch("t")}<h2 class="ptitle">Results sheets</h2><p class="psub">Record +/– results for your samples and export them.</p><button class="btn pri wide" id="new">${ico("plus")} New results sheet</button>
- ${l.length?`<div class="list">${l.map(s=>{const done=Object.values(s.v).filter(Boolean).length,tot=s.tests.length*s.samples.length;
+ app.innerHTML=`${resSwitch("t")}<p class="psub">Record +/– results for your samples and export them.</p><button class="btn pri wide lnewb" id="new">${ico("chart","lic")}<span>New results sheet</span></button>
+ <h3 class="lhead">Results sheets</h3>
+ ${l.length?`<div class="list">${l.map(s=>{const lt=liveT(s),done=Object.keys(s.v).filter(k=>s.v[k]&&lt.includes(k.split("|")[0])).length,tot=lt.length*s.samples.length;
   return `<div class="item" data-go="sheet-${s.id}"><b>${esc(s.title)}</b><span>${s.date} · ${s.samples.map(x=>esc(x.n)).join(", ")} · ${done}/${tot} recorded</span></div>`}).join("")}</div>`
- :`<div class="empty">No sheets yet.<br>Create one to record +/– results for one or more drug samples, then copy the table into Word, Excel or WhatsApp.</div>`}
+ :`<div class="lempty">${ico("chart","lic2")}<b>No results sheets yet</b><span>Tap New results sheet to record +/– results for your samples.</span></div>`}
  <p class="disc">Sheets are stored on this device only. Use “Copy” on a sheet to keep a permanent copy.</p>`;
  bind();$("#new").onclick=()=>newSheet()}
 
@@ -906,9 +915,9 @@ function newSheet(){
 function cellCls(v){return v==="+++"||v==="++"||v==="+"?"cp":v==="–"?"cn":v==="±"?"cd":""}
 function sheet(id){const s=shById(id);if(!s)return results();setHeader("Results sheet",true);navOn("results");
  const groups=[];TSECS.forEach(g=>{const ts=s.tests.filter(t=>tById(t)&&tById(t).c===g.id);if(ts.length)groups.push([g,ts])});
- app.innerHTML=`<h2 class="title" id="ttl">${esc(s.title)}</h2><p class="aka">${s.date} · tap a cell to cycle: + → ++ → +++ → ± → – → blank</p>
+ app.innerHTML=`<h2 class="title" id="ttl">${esc(s.title)}</h2><p class="aka">${s.date} · tap a cell to cycle: + → ++ → +++ → ± → – → blank</p>${s.tests.length>liveT(s).length?`<p class="disc" style="margin:0 0 8px">${plural(s.tests.length-liveT(s).length,"test")} in this sheet ${s.tests.length-liveT(s).length>1?"are":"is"} no longer in the app content and ${s.tests.length-liveT(s).length>1?"are":"is"} hidden. Its results are kept.</p>`:""}
  <div class="tblwrap"><table class="rs"><thead><tr><th>Test</th>${s.samples.map(x=>`<th class="sc">${esc(x.n)}</th>`).join("")}</tr></thead><tbody>
- ${groups.map(([g,ts])=>`<tr class="gh"><td colspan="${s.samples.length+1}">${sico(g.ic)} ${esc(g.n.replace(" tests",""))}</td></tr>`+ts.map(t=>`<tr><td class="tn" data-go="t-${t}">${esc(tById(t).n.replace(/ \(.*\)$/,""))}<small>${esc(CL[t]||"")}</small></td>${s.samples.map(x=>{const v=s.v[t+"|"+x.id]||"";return `<td class="cell ${cellCls(v)}" data-k="${t}|${x.id}">${v}</td>`}).join("")}</tr>`).join("")).join("")}
+ ${groups.map(([g,ts])=>`<tr class="gh"><td colspan="${s.samples.length+1}"><span class="ghs">${sico(g.ic)} ${esc(g.n.replace(" tests",""))}</span></td></tr>`+ts.map(t=>`<tr><td class="tn" data-go="t-${t}">${esc(tById(t).n.replace(/ \(.*\)$/,""))}<small>${esc(CL[t]||"")}</small></td>${s.samples.map(x=>{const v=s.v[t+"|"+x.id]||"";return `<td class="cell ${cellCls(v)}" data-k="${t}|${x.id}">${v}</td>`}).join("")}</tr>`).join("")).join("")}
  </tbody></table></div>
  <div class="legend"><span class="cp">+ / ++ / +++</span> present (weak→strong) <span class="cd">±</span> doubtful <span class="cn">–</span> absent</div>
  <div class="card"><h3>Summary</h3><div id="sum"></div></div>
@@ -926,7 +935,7 @@ function sheet(id){const s=shById(id);if(!s)return results();setHeader("Results 
  $("#del").onclick=()=>confirmBox(`Delete “${s.title}”? This cannot be undone.`,()=>{store.sheets=store.sheets.filter(x=>x.id!==s.id);save();toast("Deleted");go("results")});
  $("#edit").onclick=()=>editSheet(s)}
 
-function summary(s,x){const best={};s.tests.forEach(t=>{const lab=CL[t]||tById(t).n,v=s.v[t+"|"+x.id]||"";if(!(lab in best)||RANK[v]>RANK[best[lab]])best[lab]=v});
+function summary(s,x){const best={};liveT(s).forEach(t=>{const lab=CL[t]||tById(t).n,v=s.v[t+"|"+x.id]||"";if(!(lab in best)||RANK[v]>RANK[best[lab]])best[lab]=v});
  const pos=[],dbt=[],neg=[];Object.entries(best).forEach(([l,v])=>{if(RANK[v]>=3)pos.push(`${l} (${v})`);else if(v==="±")dbt.push(l);else if(v==="–")neg.push(l)});return {pos,dbt,neg}}
 async function exportXlsx(s){
  try{if(!window.XLSX)await loadScript("xlsx.mini.min.js")}catch(e){try{await loadScript("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.mini.min.js")}catch(e2){toast("Excel export not available here");return}}
@@ -941,7 +950,7 @@ async function exportXlsx(s){
  ws["!merges"]=[{s:{r:0,c:0},e:{r:0,c:Math.max(1,n+1)}}];
  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Results");
  const out=XLSX.write(wb,{bookType:"xlsx",type:"array"}),mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
- const name=(s.title.replace(/[^\w\- ]+/g," ").replace(/\s+/g," ").trim().slice(0,60)||"Results")+" "+s.date+".xlsx";
+ const name=(s.title.replace(/[^\p{L}\p{N}\- ]+/gu," ").replace(/\s+/g," ").trim().slice(0,60)||"Results")+" "+s.date+".xlsx";
  const blob=new Blob([out],{type:mime});let file=null;try{file=new File([blob],name,{type:mime})}catch(e){}
  const canShare=file&&navigator.canShare&&navigator.canShare({files:[file]});
  const download=()=>{try{const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);toast("Saved to Downloads")}catch(e){toast("Download blocked here – use the installed app")}};
@@ -950,8 +959,8 @@ async function exportXlsx(s){
   <p class="disc" style="margin-top:4px">${canShare?"Share sends it straight to WhatsApp, Gmail, Drive… ":""}Download saves it to your phone's Downloads folder.</p>`,
   (m,close)=>{m.querySelector("#xdl").onclick=()=>{download();close()};
    const sh=m.querySelector("#xsh");if(sh)sh.onclick=async()=>{try{await navigator.share({files:[file],title:s.title})}catch(e){}close()}})}
-function sheetTSV(s){return ["Test\tDetects\t"+s.samples.map(x=>x.n).join("\t"),...s.tests.map(t=>`${tById(t).n}\t${CL[t]||""}\t`+s.samples.map(x=>(s.v[t+"|"+x.id]||"").replace("–","-")).join("\t"))].join("\n")}
-function sheetReport(s){return `${s.title}\nDate: ${s.date}\n\n`+s.samples.map(x=>{const r=summary(s,x);return `▸ ${x.n}\n`+s.tests.map(t=>`  • ${tById(t).n}: ${s.v[t+"|"+x.id]||"not recorded"}`).join("\n")+`\n  Present: ${r.pos.join(", ")||"—"}\n  Absent: ${r.neg.join(", ")||"—"}`+(r.dbt.length?`\n  Doubtful: ${r.dbt.join(", ")}`:"")}).join("\n\n")+(s.notes?`\n\nNotes: ${s.notes}`:"")+`\n\nKey: + weak, ++ moderate, +++ strong, ± doubtful, – absent`}
+function sheetTSV(s){return ["Test\tDetects\t"+s.samples.map(x=>x.n).join("\t"),...liveT(s).map(t=>`${tById(t).n}\t${CL[t]||""}\t`+s.samples.map(x=>(s.v[t+"|"+x.id]||"").replace("–","-")).join("\t"))].join("\n")}
+function sheetReport(s){return `${s.title}\nDate: ${s.date}\n\n`+s.samples.map(x=>{const r=summary(s,x);return `▸ ${x.n}\n`+liveT(s).map(t=>`  • ${tById(t).n}: ${s.v[t+"|"+x.id]||"not recorded"}`).join("\n")+`\n  Present: ${r.pos.join(", ")||"—"}\n  Absent: ${r.neg.join(", ")||"—"}`+(r.dbt.length?`\n  Doubtful: ${r.dbt.join(", ")}`:"")}).join("\n\n")+(s.notes?`\n\nNotes: ${s.notes}`:"")+`\n\nKey: + weak, ++ moderate, +++ strong, ± doubtful, – absent`}
 
 function editSheet(s){
  modal(`<h3 class="mh">Edit sheet</h3>
@@ -966,10 +975,13 @@ function editSheet(s){
   q("#ec").onclick=close;
   q("#eok").onclick=()=>{const tests=[...m.querySelectorAll(".pick input:checked")].map(x=>x.value);if(!tests.length){toast("Pick at least one test");return}
    const samples=[...m.querySelectorAll(".srow")].map(r=>({id:r.dataset.id,n:r.querySelector("input").value.trim()})).filter(x=>x.n);if(!samples.length){toast("Add a sample");return}
-   s.title=q("#et").value.trim()||s.title;s.samples=samples;
-   const keep=s.tests.filter(t=>tests.includes(t));s.tests=keep.concat(tests.filter(t=>!keep.includes(t)));
-   Object.keys(s.v).forEach(k=>{const [t,sid]=k.split("|");if(!tests.includes(t)||!samples.some(x=>x.id===sid))delete s.v[k]});
-   save();close();sheet(s.id)}})}
+   const hid=s.tests.filter(t=>!tById(t)),all=tests.concat(hid);
+   const lost=Object.keys(s.v).filter(k=>{const [t,sid]=k.split("|");return s.v[k]&&(!all.includes(t)||!samples.some(x=>x.id===sid))});
+   const apply=()=>{s.title=q("#et").value.trim()||s.title;s.samples=samples;
+    const keep=s.tests.filter(t=>all.includes(t));s.tests=keep.concat(tests.filter(t=>!keep.includes(t)));
+    Object.keys(s.v).forEach(k=>{const [t,sid]=k.split("|");if(!all.includes(t)||!samples.some(x=>x.id===sid))delete s.v[k]});
+    save();close();sheet(s.id)};
+   if(lost.length)confirmBox(`${plural(lost.length,"recorded result")} for the removed samples or tests will be deleted. Save anyway?`,apply,"Save & delete");else apply()}})}
 
 /* ============ ATLAS ============ */
 const aById=id=>A.find(a=>a.id===id), asec=id=>ASECS.find(s=>s.id===id);

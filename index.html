@@ -102,16 +102,24 @@ nav button{padding:4px 6px}
 label.ck{display:flex;gap:10px;align-items:center;padding:7px 0;font-size:14.5px;border-bottom:1px solid var(--line)}
 label.ck input{width:20px;height:20px;accent-color:var(--pri)}
 .srow{display:flex;gap:6px;margin-bottom:6px}.xbtn{border:1px solid var(--line);background:var(--bg);color:var(--warn);border-radius:10px;width:44px;font-size:16px}
-.tblwrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px}
+.tblwrap{overflow:auto;max-height:65vh;background:var(--card);border:1px solid var(--line);border-radius:var(--r);margin-bottom:10px}
 table.rs{font-size:14px;min-width:100%}
 table.rs th{position:sticky;top:0;background:var(--pri2);color:var(--pri);font-size:12.5px;padding:8px 6px;text-align:left}
-table.rs th.sc{text-align:center;min-width:64px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+table.rs th.sc{text-align:center;min-width:64px;max-width:100px;white-space:normal;overflow-wrap:break-word;word-break:normal;line-height:1.2;vertical-align:bottom;overflow:visible;text-overflow:clip;z-index:3}
 table.rs td{padding:8px 6px}
 table.rs td.tn{cursor:pointer;min-width:140px}table.rs td.tn small{display:block;color:var(--muted);font-size:12px}
 table.rs tr.gh td{background:var(--bg);font-weight:700;font-size:12.5px;color:var(--muted);padding:6px}
 td.cell{text-align:center;font-weight:800;font-size:16px;cursor:pointer;border-left:1px solid var(--line);user-select:none}
 .cp{color:#0f7a3d}.cn{color:var(--muted)}.cd{color:var(--amber)}
 td.cell.cp{background:rgba(15,122,61,.10)}td.cell.cd{background:var(--amberbg)}
+td.cell.cn{background:rgba(192,57,43,.10);color:#b03a2e}
+td.cell.cd,td.cell.cn{font-size:18px}
+td.cell:empty{background:#f6f7f6;box-shadow:inset 0 0 0 2px #fff}td.cell:empty::after{content:"\00b7";color:#b5bdb8;font-weight:700}
+.legend.lgd{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:12.5px;margin:0 0 8px}
+.legend .lg{display:inline-block;min-width:22px;padding:1px 7px;border-radius:6px;text-align:center;font-weight:800}
+.lg.cp{background:rgba(15,122,61,.10);color:#0f7a3d}.lg.cd{background:var(--amberbg)}.lg.cn{background:rgba(192,57,43,.10);color:#b03a2e}.lg.ce{background:#f6f7f6;color:#9aa39e}
+p.akas{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.legend.lgd>span{font-weight:500;white-space:nowrap}
 
 .legend{font-size:13px;color:var(--muted);margin:0 2px 12px;display:flex;flex-wrap:wrap;gap:4px 10px}.legend span{font-weight:700}
 .sumrow{padding:6px 0;border-bottom:1px solid var(--line);font-size:14.5px}.sumrow:last-child{border:0}.muted{color:var(--muted)}
@@ -309,7 +317,7 @@ body.slim #hdr{font-size:16px;display:flex;align-items:center;gap:8px}body.slim 
 
 /* results table: keep the test column visible while scrolling */
 table.rs th:first-child,table.rs td.tn{position:sticky;left:0;z-index:2;background:var(--card);box-shadow:1px 0 0 var(--line),4px 0 6px -4px rgba(0,0,0,.18)}
-table.rs th:first-child{z-index:3;background:var(--pri2)}
+table.rs th:first-child{z-index:4;background:var(--pri2)}
 table.rs td.tn{min-width:118px;max-width:150px}
 table.rs tr.gh td{padding:0}.ghs{position:sticky;left:0;display:inline-block;padding:6px}
 @media(max-width:400px){table.rs td.tn{min-width:108px;max-width:124px;font-size:13.5px}}
@@ -915,11 +923,11 @@ function newSheet(){
 function cellCls(v){return v==="+++"||v==="++"||v==="+"?"cp":v==="–"?"cn":v==="±"?"cd":""}
 function sheet(id){const s=shById(id);if(!s)return results();setHeader("Results sheet",true);navOn("results");
  const groups=[];TSECS.forEach(g=>{const ts=s.tests.filter(t=>tById(t)&&tById(t).c===g.id);if(ts.length)groups.push([g,ts])});
- app.innerHTML=`<h2 class="title" id="ttl">${esc(s.title)}</h2><p class="aka">${s.date} · tap a cell to cycle: + → ++ → +++ → ± → – → blank</p>${s.tests.length>liveT(s).length?`<p class="disc" style="margin:0 0 8px">${plural(s.tests.length-liveT(s).length,"test")} in this sheet ${s.tests.length-liveT(s).length>1?"are":"is"} no longer in the app content and ${s.tests.length-liveT(s).length>1?"are":"is"} hidden. Its results are kept.</p>`:""}
+ app.innerHTML=`<h2 class="title" id="ttl">${esc(s.title)}</h2><p class="aka akas">${s.date} · Tap a cell to change its result</p>${s.tests.length>liveT(s).length?`<p class="disc" style="margin:0 0 8px">${plural(s.tests.length-liveT(s).length,"test")} in this sheet ${s.tests.length-liveT(s).length>1?"are":"is"} no longer in the app content and ${s.tests.length-liveT(s).length>1?"are":"is"} hidden. Its results are kept.</p>`:""}
+ <div class="legend lgd"><span><span class="lg cp">+ ++ +++</span> present</span><span><span class="lg cd">±</span> doubtful</span><span><span class="lg cn">–</span> absent</span><span><span class="lg ce">·</span> not recorded</span></div>
  <div class="tblwrap"><table class="rs"><thead><tr><th>Test</th>${s.samples.map(x=>`<th class="sc">${esc(x.n)}</th>`).join("")}</tr></thead><tbody>
  ${groups.map(([g,ts])=>`<tr class="gh"><td colspan="${s.samples.length+1}"><span class="ghs">${sico(g.ic)} ${esc(g.n.replace(" tests",""))}</span></td></tr>`+ts.map(t=>`<tr><td class="tn" data-go="t-${t}">${esc(tById(t).n.replace(/ \(.*\)$/,""))}<small>${esc(CL[t]||"")}</small></td>${s.samples.map(x=>{const v=s.v[t+"|"+x.id]||"";return `<td class="cell ${cellCls(v)}" data-k="${t}|${x.id}">${v}</td>`}).join("")}</tr>`).join("")).join("")}
  </tbody></table></div>
- <div class="legend"><span class="cp">+ / ++ / +++</span> present (weak→strong) <span class="cd">±</span> doubtful <span class="cn">–</span> absent</div>
  <div class="card"><h3>Summary</h3><div id="sum"></div></div>
  <div class="card"><h3>Notes</h3><textarea class="inp" id="notes" rows="3" placeholder="Observations, extract details, deviations…">${esc(s.notes)}</textarea></div>
  <button class="btn pri wide" id="xlsx">${ico("chart")} Export as Excel (.xlsx)</button>

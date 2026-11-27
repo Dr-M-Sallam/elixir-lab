@@ -321,6 +321,10 @@ table.rs th:first-child{z-index:4;background:var(--pri2)}
 table.rs td.tn{min-width:118px;max-width:150px}
 table.rs tr.gh td{padding:0}.ghs{position:sticky;left:0;display:inline-block;padding:6px}
 @media(max-width:400px){table.rs td.tn{min-width:108px;max-width:124px;font-size:13.5px}}
+
+/* microscope trainer: full height between header and screen bottom, no page scroll */
+body.trainer nav{display:none}body.trainer main{padding:0;max-width:none}
+.mtbtn{display:flex;align-items:center;justify-content:center;gap:8px}.mtbtn .ico{width:20px;height:20px}
 </style>
 </head>
 <body>
@@ -1242,6 +1246,7 @@ function instItem(a,S){setHeader(S.n,true,"a:"+a.id);navOn("atlas");
  const steps=L("how").map((x,i)=>`<div class="tst1"><span class="tnum">${i+1}</span><div>${esc(x)}</div></div>`).join("");
  const card=(ic,t,body,cls)=>body?`<div class="card sc${cls?" "+cls:""}">${ahd(ic,t,"",cls==="adcard"?1:0)}${body}</div>`:"";
  app.innerHTML=`<div id="ahead" class="card ahead"><h2 class="title">${esc(a.n)}</h2>${a.ex?`<p class="alat">${esc(a.ex)}</p>`:""}</div>
+ ${a.id==="i_microscope"?`<button class="btn pri mtbtn" data-go="microscope-trainer" style="width:100%;margin:0 0 8px;font-size:16px;padding:12px">${ico("microscope")} Practice – focus the microscope</button>`:""}
  <div class="facts" style="grid-template-columns:1fr"><div class="fact"><small>Section</small><b>${esc(S.n)}</b></div></div>
  <div class="card gals ptabs"><div class="galh">Photo</div>${phPane("img",a.img,a.n,"Photo",1)}</div>
  ${card("info","Description",L("f").length?bl(L("f")):"")}
@@ -1626,8 +1631,13 @@ async function lfExport(){
   <p class="disc" style="margin-top:4px">One row per description. Photos stay in the app (use Print / PDF to keep a photo with its text).</p>`,
   (m,close)=>{m.querySelector("#xdl").onclick=()=>{download();close()};const sh=m.querySelector("#xsh");if(sh)sh.onclick=async()=>{try{await navigator.share({files:[file],title:"Leaf descriptions"})}catch(e){}close()}})}
 
-function route(){const h=location.hash.slice(1);window.scrollTo(0,0);
- if(!h||h==="tests")return testsHome();if(h==="reagents")return home();if(h==="search")return search();if(h==="saved")return saved();if(h==="tools")return tools();if(h==="more")return more();if(h==="start")return startHere();if(h==="atlas")return atlasHome();if(h.startsWith("calc-"))return calc(h.slice(5));if(h.startsWith("as-"))return asection(h.slice(3));if(h.startsWith("ag-"))return agroup(h.slice(3));if(h==="families")return families();if(h.startsWith("fam-"))return family(decodeURIComponent(h.slice(4)));if(h.startsWith("a-"))return atlasItem(h.slice(2));if(h==="about")return about();if(h==="results")return results();if(h.startsWith("sheet-"))return sheet(h.slice(6));if(h==="leaves")return leaves();if(h.startsWith("lw-"))return leafStep(+h.slice(3));if(h.startsWith("leaf-"))return leafView(h.slice(5));
+/* ===== Microscope trainer (self-contained page, embedded) ===== */
+function microTrainer(){setHeader("Microscope trainer",true);navOn("atlas");document.body.classList.add("trainer");
+ app.innerHTML=`<iframe id="mtf" src="elixir-microscope-prototype.html" title="Microscope trainer" style="width:100%;border:0;display:block;height:calc(100vh - 64px);height:calc(100dvh - 64px)"></iframe>`;
+ const fit=()=>{const f=$("#mtf");if(!f)return removeEventListener("resize",fit);f.style.height=Math.max(320,innerHeight-f.getBoundingClientRect().top-window.scrollY)+"px"};
+ window.scrollTo(0,0);fit();addEventListener("resize",fit)}
+function route(){document.body.classList.remove("trainer");const h=location.hash.slice(1);window.scrollTo(0,0);
+ if(!h||h==="tests")return testsHome();if(h==="reagents")return home();if(h==="search")return search();if(h==="saved")return saved();if(h==="tools")return tools();if(h==="more")return more();if(h==="start")return startHere();if(h==="atlas")return atlasHome();if(h.startsWith("calc-"))return calc(h.slice(5));if(h.startsWith("as-"))return asection(h.slice(3));if(h.startsWith("ag-"))return agroup(h.slice(3));if(h==="families")return families();if(h.startsWith("fam-"))return family(decodeURIComponent(h.slice(4)));if(h.startsWith("a-"))return atlasItem(h.slice(2));if(h==="about")return about();if(h==="results")return results();if(h.startsWith("sheet-"))return sheet(h.slice(6));if(h==="leaves")return leaves();if(h==="microscope-trainer")return microTrainer();if(h.startsWith("lw-"))return leafStep(+h.slice(3));if(h.startsWith("leaf-"))return leafView(h.slice(5));
  if(h.startsWith("ts-"))return tsection(h.slice(3));if(h.startsWith("s-"))return section(h.slice(2));
  if(h.startsWith("r-"))return reagent(h.slice(2));if(h.startsWith("t-"))return test(h.slice(2));home()}
 function go(h){if(location.hash.slice(1)===h)route();else location.hash=h}

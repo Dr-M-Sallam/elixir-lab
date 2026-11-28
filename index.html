@@ -341,11 +341,11 @@ body.trainer nav,body.trainer>header{display:none}body.trainer main{padding:env(
 .cact{display:flex;gap:10px;margin-top:14px}.cact .btn{flex:1;min-height:46px}.cact #cclr{flex:.75}
 
 /* one-time welcome */
-#welcome{position:fixed;inset:0;z-index:900;background:var(--bg);display:flex;flex-direction:column;transition:opacity .3s}#welcome.out{opacity:0;pointer-events:none}
-.wtop{background:var(--navy,var(--char));border-bottom:3px solid var(--gold);padding:calc(12px + env(safe-area-inset-top)) 16px 12px;display:flex;align-items:center;justify-content:space-between;min-height:58px}
-.wmark{color:var(--gold);font-size:22px;font-weight:800;letter-spacing:.2px}
-.wskip{background:none;border:0;color:rgba(255,255,255,.85);font-size:15px;font-weight:600;min-height:44px;padding:0 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-.wdots{display:flex;gap:6px;justify-content:center;margin:14px 0 0}.wdots i{width:22px;height:5px;border-radius:3px;background:var(--line)}.wdots i.on{background:var(--pri)}
+#welcome{position:fixed;inset:0;z-index:900;box-shadow:0 -1px 0 var(--gold);background:var(--bg);display:flex;flex-direction:column;transition:opacity .3s}#welcome.out{opacity:0;pointer-events:none}
+body.welcoming #info,body.welcoming #star{visibility:hidden}
+.wbar{display:flex;align-items:center;justify-content:space-between;padding:10px 12px 0 18px;max-width:560px;width:100%;margin:0 auto;box-sizing:border-box}
+.wskip{background:none;border:0;color:var(--muted);font-size:15px;font-weight:650;min-height:44px;padding:0 8px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.wdots{display:flex;gap:6px}.wdots i{width:22px;height:5px;border-radius:3px;background:var(--line)}.wdots i.on{background:var(--pri)}
 .wbody{flex:1;overflow:auto;padding:8px 18px 12px;max-width:560px;width:100%;margin:0 auto;box-sizing:border-box}.wbody h2{font-size:24px;margin:10px 0 2px}.wsub{color:var(--muted);margin:0 0 14px;font-size:14px}
 .wcards{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
 .wcard{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:12px;min-height:118px;cursor:pointer;color:var(--ink);box-shadow:var(--sh)}
@@ -839,7 +839,7 @@ function more(){setHeader("More",false);navOn("more");
  ${row("saved","star","Saved",plural(store.fav.length,"saved item"))}
  ${row("about","info","About & content check","Version, credits and spreadsheet check")}</div>
  <div class="appver">EliXiR Lab v${esc(APP_VERSION)}<br><span class="dev">Developed by Dr. Mahmoud Sallam</span><br><button id="vchk">Check for updates</button></div>
- <p class="disc mpriv"><b>Privacy:</b> the app counts anonymous visits and the two optional welcome answers (role and college). No names, emails, accounts or cookies; nothing else is sent. <a href="privacy.html">Privacy policy</a></p>`;bind();
+ <p class="disc mpriv"><b>Privacy:</b> the app counts anonymous visits, which pages and tools are opened (by name only), and the two optional welcome answers (role and college). Results, notes, photos and anything you type are never sent. No names, emails, accounts or cookies. <a href="privacy.html">Privacy policy</a></p>`;bind();
  $("#vchk").onclick=async e=>{const b=e.target,say=t=>b.textContent=t;
   if(!navigator.onLine)return say("You're offline – connect and try again");
   try{const r=await navigator.serviceWorker.getRegistration();if(!r)return say("Up to date");say("Checking…");await r.update();
@@ -969,7 +969,7 @@ function newSheet(){
    const tests=preset==="custom"?[...m.querySelectorAll("#pick input:checked")].map(x=>x.value):PRESETS.find(p=>p.id===preset).t;
    if(!names.length){toast("Add at least one sample");return}if(!tests.length){toast("Pick at least one test");return}
    const sh={id:uid(),title:q("#nt").value.trim()||PRESETS.find(p=>p.id===preset).n,date:today(),samples:names.map(n=>({id:uid(),n})),tests,v:{},notes:""};
-   store.sheets.push(sh);save();close();go("sheet-"+sh.id)}})}
+   store.sheets.push(sh);save();close();GC.use("results-sheet-created","Results sheet created");go("sheet-"+sh.id)}})}
 
 function cellCls(v){return v==="+++"||v==="++"||v==="+"?"cp":v==="–"?"cn":v==="±"?"cd":""}
 function sheet(id){const s=shById(id);if(!s)return results();setHeader("Results sheet",true);navOn("results");
@@ -998,6 +998,7 @@ function summary(s,x){const best={};liveT(s).forEach(t=>{const lab=CL[t]||tById(
  const pos=[],dbt=[],neg=[];Object.entries(best).forEach(([l,v])=>{if(RANK[v]>=3)pos.push(`${l} (${v})`);else if(v==="±")dbt.push(l);else if(v==="–")neg.push(l)});return {pos,dbt,neg}}
 async function exportXlsx(s){
  try{if(!window.XLSX)await loadScript("xlsx.mini.min.js")}catch(e){try{await loadScript("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.mini.min.js")}catch(e2){toast("Excel export not available here");return}}
+ GC.use("export-results-xlsx","Results sheet exported");
  const n=s.samples.length,rows=[[s.title],["Date: "+s.date],[],["Test","Detects",...s.samples.map(x=>x.n)]];
  TSECS.forEach(g=>{const ts=s.tests.filter(t=>tById(t)&&tById(t).c===g.id);if(!ts.length)return;rows.push([g.n]);
   ts.forEach(t=>rows.push([tById(t).n,CL[t]||"",...s.samples.map(x=>(s.v[t+"|"+x.id]||"").replace("–","-"))]))});
@@ -1641,7 +1642,7 @@ async function lfSave(){const d=store.leafDraft;if(!d)return;const text=(d.edite
  if(old)store.leaves[store.leaves.indexOf(old)]=rec;else store.leaves.push(rec);
  delete store.leafDraft;save();
  try{if(localStorage.getItem("phyto")!==JSON.stringify(store))throw 0}catch(e){toast("Storage full – export your descriptions");return}
- toast("Saved");goR("leaf-"+id)}
+ toast("Saved");if(!old)GC.use("leaf-saved","Leaf description saved");goR("leaf-"+id)}
 
 /* ---- saved description ---- */
 const lfCopyText=r=>(r.plant?r.plant.trim()+" – leaf\n":"")+(r.text||"").trim();
@@ -1665,6 +1666,7 @@ function lfPrint(r,url){let pa=$("#printarea");if(!pa){pa=document.createElement
 /* ---- export all descriptions to .xlsx (one row each) ---- */
 async function lfExport(){
  try{if(!window.XLSX)await loadScript("xlsx.mini.min.js")}catch(e){toast("Excel export not available here");return}
+ GC.use("export-leaf-xlsx","Leaf descriptions exported");
  const G=[];LT.STEPS.forEach(s=>s.groups.forEach(g=>G.push([s,g])));
  const head=["Date","Plant","Description",...G.map(([s,g])=>(g.label||s.title).replace(/ \(.*\)$/,"")+(g.unit?` (${g.unit})`:"")),"Notes","Photo"];
  const rows=[head,...[...store.leaves].sort((a,b)=>(a.date||"").localeCompare(b.date||"")).map(r=>[r.date||"",r.plant||"",r.text||"",
@@ -1688,7 +1690,7 @@ function microTrainer(){setHeader("Microscope trainer",true);navOn("atlas");docu
  const fit=()=>{const f=$("#mtf");if(!f)return removeEventListener("resize",fit);f.style.height=Math.max(320,innerHeight-f.getBoundingClientRect().top-window.scrollY)+"px"};
  window.scrollTo(0,0);fit();addEventListener("resize",fit)}
 /* ===== Anonymous visit counter (GoatCounter: no cookies, no IDs; never blocks the app) =====
-   Page views = main sections only (/tests, /atlas, …). Events = the two optional welcome answers.
+   Page views = main sections (/tests, /atlas, …). Events = the two optional welcome answers, plus which content pages/tools are opened (content ids only, never user records or typed text).
    Owner switch: open the app once with ?nocount=1 (turn back on with ?nocount=0). */
 const GC={off:false,loaded:false,last:"",
  EP:"https://elixirlab.goatcounter.com/count",JS:"https://gc.zgo.at/count.js",
@@ -1702,7 +1704,12 @@ const GC={off:false,loaded:false,last:"",
  sec(h){if(!h||h==="tests"||h==="start"||/^(t|ts)-/.test(h))return "tests";if(h==="reagents"||/^(r|s)-/.test(h))return "reagents";
   if(h==="results"||h==="leaves"||/^(sheet|leaf|lw)-/.test(h))return "results";if(h==="atlas"||h==="families"||h==="microscope-trainer"||/^(a|ag|as|fam)-/.test(h))return "atlas";
   if(h==="tools"||/^calc-/.test(h))return "calculators";if(h==="more"||h==="about"||h==="saved")return "more";return ""},
- page(h){const s=this.sec(h);if(!s||s===this.last)return;this.last=s;this.pend=s;this.flush()},
+ page(h){const s=this.sec(h);this.item(h);if(!s||s===this.last)return;this.last=s;this.pend=s;this.flush()},
+ item(h){const f=(arr,id)=>{try{return arr.find(x=>x.id===id)}catch(e){}},m=/^(t|r|a|calc)-(.+)$/.exec(h||"");
+  if(h==="microscope-trainer")return this.use("trainer-open","Microscope trainer opened");if(!m)return;
+  const k=m[1],id=decodeURIComponent(m[2]),o=k==="t"?f(T,id):k==="r"?f(R,id):k==="a"?f(A,id):f(CALCS,id);if(!o)return;
+  this.use({t:"test",r:"reagent",a:"atlas",calc:"calc"}[k]+"-"+id,o.n)},
+ use(path,title){if(!this.ready())return;try{window.goatcounter.count({path:path.replace(/[^\w.-]/g,"_"),title:String(title||"").slice(0,80),event:true})}catch(e){}},
  event(path,title){if(this.off)return;try{const q=JSON.parse(localStorage.getItem("elx-gcq")||"[]");if(!q.some(x=>x.path===path))q.push({path,title});localStorage.setItem("elx-gcq",JSON.stringify(q.slice(-4)))}catch(e){}this.flush()},
  flush(){if(!this.ready())return;if(this.pend){const s=this.pend;this.pend="";try{window.goatcounter.count({path:"/"+s,title:s.charAt(0).toUpperCase()+s.slice(1)})}catch(e){}}let q=[];try{q=JSON.parse(localStorage.getItem("elx-gcq")||"[]")}catch(e){}
   if(!q.length)return;try{localStorage.removeItem("elx-gcq")}catch(e){}
@@ -1712,12 +1719,13 @@ const GC={off:false,loaded:false,last:"",
 function welcome(){let done=false;try{done=localStorage.getItem("elx-welcome")==="1"}catch(e){done=true}if(done)return;
  const ROLES=[["student","Student","Pharmacy / science undergraduate","cap"],["researcher","Researcher","Postgraduate or lab staff","microscope"],["teacher","Teacher","Teaching the practical course","book"],["other","Other","Just curious","bulb"]];
  const COLS=[["pharmacy","Pharmacy"],["science","Science"],["agriculture","Agriculture"],["medicine","Medicine"],["other","Other"]];
- const A={role:null,college:null},el=document.createElement("div");el.id="welcome";el.setAttribute("role","dialog");el.setAttribute("aria-modal","true");el.setAttribute("aria-label","Welcome");document.body.appendChild(el);
+ const A={role:null,college:null},el=document.createElement("div");el.id="welcome";document.body.classList.add("welcoming");
+ const fit=()=>{const hd=document.querySelector("body>header");el.style.top=(hd?Math.round(hd.getBoundingClientRect().bottom):0)+"px"};addEventListener("resize",fit);el.setAttribute("role","dialog");el.setAttribute("aria-modal","true");el.setAttribute("aria-label","Welcome");document.body.appendChild(el);
  const close=sendRole=>{try{localStorage.setItem("elx-welcome","1")}catch(e){}
   if(sendRole&&A.role){const r=ROLES.find(x=>x[0]===A.role);GC.event("role-"+A.role,"Role: "+r[1])}
   if(sendRole==="both"&&A.college){const c=COLS.find(x=>x[0]===A.college);GC.event("college-"+A.college,"College: "+c[1])}
-  el.classList.add("out");setTimeout(()=>el.remove(),300)};
- const top=n=>`<div class="wtop"><span class="wmark">EliXiR Lab</span><button class="wskip" id="wsk">Skip</button></div><div class="wdots" aria-label="Step ${n} of 2"><i class="${n===1?"on":""}"></i><i class="${n===2?"on":""}"></i></div>`;
+  el.classList.add("out");document.body.classList.remove("welcoming");removeEventListener("resize",fit);setTimeout(()=>el.remove(),300)};
+ const top=n=>`<div class="wbar"><div class="wdots" aria-label="Step ${n} of 2"><i class="${n===1?"on":""}"></i><i class="${n===2?"on":""}"></i></div><button class="wskip" id="wsk">Skip</button></div>`;
  const s1=()=>{el.innerHTML=`${top(1)}<div class="wbody"><h2>I am a...</h2><p class="wsub">Optional – helps show who the app helps.</p>
   <div class="wcards">${ROLES.map(r=>`<button class="wcard${A.role===r[0]?" on":""}" data-r="${r[0]}" aria-pressed="${A.role===r[0]}"><span class="wic">${ico(r[3])}</span><b>${r[1]}</b><small>${r[2]}</small></button>`).join("")}</div></div>
   <div class="wfoot"><button class="btn pri wide" id="wnx">Next</button></div>`;
@@ -1731,7 +1739,7 @@ function welcome(){let done=false;try{done=localStorage.getItem("elx-welcome")==
   el.querySelector("#wcol").onchange=e=>{A.college=e.target.value||null;s2()};
   el.querySelectorAll(".wchips .chip").forEach(b=>b.onclick=()=>{A.college=A.college===b.dataset.c?null:b.dataset.c;s2()});
   el.querySelector("#wsk").onclick=()=>close(true);el.querySelector("#wbk").onclick=s1;el.querySelector("#wgo").onclick=()=>close("both")};
- s1()}
+ s1();fit();requestAnimationFrame(fit)}
 
 function route(){document.body.classList.remove("trainer");const h=location.hash.slice(1);window.scrollTo(0,0);GC.page(h);
  if(!h||h==="tests")return testsHome();if(h==="reagents")return home();if(h==="search")return search();if(h==="saved")return saved();if(h==="tools")return tools();if(h==="more")return more();if(h==="start")return startHere();if(h==="atlas")return atlasHome();if(h.startsWith("calc-"))return calc(h.slice(5));if(h.startsWith("as-"))return asection(h.slice(3));if(h.startsWith("ag-"))return agroup(h.slice(3));if(h==="families")return families();if(h.startsWith("fam-"))return family(decodeURIComponent(h.slice(4)));if(h.startsWith("a-"))return atlasItem(h.slice(2));if(h==="about")return about();if(h==="results")return results();if(h.startsWith("sheet-"))return sheet(h.slice(6));if(h==="leaves")return leaves();if(h==="microscope-trainer")return microTrainer();if(h.startsWith("lw-"))return leafStep(+h.slice(3));if(h.startsWith("leaf-"))return leafView(h.slice(5));
